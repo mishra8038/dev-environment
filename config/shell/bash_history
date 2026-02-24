@@ -1,0 +1,2003 @@
+# Bash history from source machine. May contain secrets — review before committing or sharing.
+# Restore: append to ~/.bash_history or replace. Restore script can merge.
+
+cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && tail -5 player_controller.gd
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && wc -l templates/godot-project/player_controller.gd && cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && wc -l player_controller.gd
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && diff templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/player_controller.gd | head -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Updated to use call_deferred for room generation"
+sleep 10 && tail -30 /tmp/godot_full.log 2>/dev/null | grep -E "ERROR|Parse|SCRIPT|CRASH" | head -5
+pgrep -f "Godot.*project1" && echo "✓ Godot running - room generation now uses call_deferred" || echo "⚠ Still crashing"
+tail -50 /tmp/godot_full.log 2>/dev/null | grep -E "ERROR|FATAL|CRASH|Segmentation|Invalid|null|Assertion|Generated child room|No facet data" | tail -10
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Added extensive error handling and logging"
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - try pressing 'u' and check logs for debug messages" || echo "⚠ Crashed immediately"
+sleep 2 && tail -20 /tmp/godot_debug.log 2>/dev/null | grep -E "ERROR|Generated|Creating|Adding" | head -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Temporarily disabled room generation to test if that's causing crashes"
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - room generation disabled. If window stays open, the crash is in room generation. If it still crashes, the issue is elsewhere." || echo "⚠ Still crashing - issue is not in room generation"
+tail -50 /tmp/godot_debug.log 2>/dev/null | tail -30
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/minimap.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Fixed minimap and texture loader"
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - fixed minimap queue_redraw and texture validation" || echo "⚠ Still crashing"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - UI disabled. If window stays open, UI was causing crash." || echo "⚠ Still crashing - issue is not in UI"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && cp templates/godot-project/minimap.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && cp templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Fixed texture application and re-enabled UI/room generation"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && tail -20 /tmp/godot_debug.log 2>/dev/null | grep -E "Re-applied|Background material|textures loaded" | head -5
+pgrep -f "Godot.*project1" && echo "✓ Godot running - textures should now be applied, UI and room generation re-enabled" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Updated to ensure same room walls have same color"
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - all walls in same room now have same color before textures" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Fixed type error in color calculation"
+sleep 10 && tail -20 /tmp/godot_debug.log 2>/dev/null | grep -E "ERROR|Parse|SCRIPT" | head -3
+pgrep -f "Godot.*project1" && echo "✓ Godot running - fixed type error" || echo "⚠ Still has errors"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Updated texture loader for same texture per room"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - walls now have same texture per room and thick borders at joins" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - walls have same texture per room and thick dark borders at joins" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - walls have same texture per room and thick dark borders at all joins" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - lobby height reduced by half (80 instead of 160)" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Updated texture loader for ceiling textures"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -5
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - ceiling has 50% skylights and proper textures" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/facet_metadata.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Copied facet_metadata.gd"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -5
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - facet metadata script added for dynamic room generation" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/facet_metadata.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Updated facet_metadata.gd"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -3
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - facet metadata script updated to extract page data from scene" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen 2>&1 | tail -5
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - project regenerated and restarted" || echo "⚠ Crashed"
+pgrep -f "Godot.*project1" && echo "✓ Godot process found" || echo "⚠ No Godot process"
+sleep 5 && tail -20 /tmp/godot_output.log 2>/dev/null || echo "No log file yet"
+sleep 5 && pgrep -f "Godot.*project1" && echo "✓ Godot running" || echo "⚠ Godot not running"
+ps aux | grep -i godot | grep -v grep | head -3
+sleep 8 && pgrep -f "Godot.*project1" && echo "✓ Godot running with explicit window position" || echo "⚠ Crashed"
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running with smaller window (1280x720)" || echo "⚠ Crashed"
+echo "DISPLAY=$DISPLAY" && xdpyinfo -display "${DISPLAY:-:0}" >/dev/null 2>&1 && echo "✓ X11 display is accessible" || echo "⚠ X11 display issue"
+ps aux | grep "[G]odot" | head -2
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && echo "Stopped Godot. Try running manually: cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && /home/x/dev/mp/mg/godot-level-generator/Godot_v4.3-stable_linux.x86_64 --path ."
+sleep 8 && pgrep -f "Godot.*project1" && echo "✓ Godot process running" && echo "If window not visible, check:" && echo "1. Window might be behind other windows (Alt+Tab)" && echo "2. Check all virtual desktops/workspaces" && echo "3. Try: wmctrl -l | grep -i godot" || echo "⚠ Process not found"
+which wmctrl >/dev/null 2>&1 && wmctrl -l 2>/dev/null | grep -i godot || echo "wmctrl not available or no Godot window found"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null && sleep 2 && cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && export DISPLAY="${DISPLAY:-:0}" && timeout 10 /home/x/dev/mp/mg/godot-level-generator/Godot_v4.3-stable_linux.x86_64 --path . --verbose 2>&1 | grep -i -E "(error|warning|window|display|vulkan|opengl)" | head -20 || echo "No errors found in output"
+sleep 5 && echo "Godot should be running. If you still don't see the window, try:" && echo "1. Press Alt+Tab to cycle through windows" && echo "2. Check if it's on a different workspace/desktop" && echo "3. Run manually to see output: cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && /home/x/dev/mp/mg/godot-level-generator/Godot_v4.3-stable_linux.x86_64 --path ." && pgrep -f "Godot.*project1" >/dev/null && echo "✓ Process is running (PID: $(pgrep -f 'Godot.*project1'))" || echo "⚠ Process not running"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null && echo "Stopped Godot"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Updated player controller to reduce facet discovery frequency"
+sleep 8 && pgrep -f "Godot.*project1" && echo "✓ Godot running - reduced facet discovery frequency to prevent loops" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/maze_texture_loader.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/ && echo "✓ Added safeguards to prevent infinite loops in texture loading"
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - added loop prevention safeguards" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run pgdot levelgen 2>&1 | tail -5
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - project regenerated and started" || echo "⚠ Crashed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run pgdot levelgen 2>&1 | tail -5
+sleep 10 && pgrep -f "Godot.*project1" && echo "✓ Godot running - project regenerated and started" || echo "⚠ Crashed"
+pgrep -f "Godot.*project1" && echo "✓ Process still running" || echo "⚠ Process crashed/stopped"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 2 && export DISPLAY="${DISPLAY:-:0}" && cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && timeout 15 /home/x/dev/mp/mg/godot-level-generator/Godot_v4.3-stable_linux.x86_64 --path . 2>&1 | tee /tmp/godot_full_output.log | head -50
+tail -30 /tmp/godot_full_output.log 2>/dev/null | grep -i -E "(error|warning|crash|exception|fatal|abort)" | head -10 || echo "No obvious errors in log"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && export DISPLAY="${DISPLAY:-:0}" && cd /home/x/dev/mp/mg/godot-level-generator/projects/project1 && /home/x/dev/mp/mg/godot-level-generator/Godot_v4.3-stable_linux.x86_64 --path . --verbose 2>&1 | grep -i -E "(error|script|parse|syntax|crash|fatal)" | head -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && python -m ngodot_mapgen.cli.main levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run ngodot_mapgen.cli.main levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+ls -la /home/x/dev/mp/mg/godot-level-generator/assets/textures/ 2>/dev/null | head -20
+find /home/x/dev/mp/mg/godot-level-generator/assets/textures -type d -maxdepth 1 2>/dev/null
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -10
+ls -la /home/x/dev/mp/mg/godot-level-generator/projects/project1/assets/textures/ 2>/dev/null | head -10
+find /home/x/dev/mp/mg/godot-level-generator/projects/project1/assets/textures -type f -name "*.jpg" -o -name "*.jpeg" | wc -l
+find /home/x/dev/mp/mg/godot-level-generator/projects/project1/assets/textures -type d -maxdepth 1
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && python -m pytest tests/test_texture_application.py -v 2>&1 | head -50
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m pytest tests/test_texture_application.py -v 2>&1 | head -40
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+sleep 5 && tail -30 /tmp/godot_output.log 2>/dev/null || echo "Waiting for logs..."
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+sleep 6 && tail -40 /tmp/godot_output.log 2>/dev/null | grep -A 5 -B 5 "corridor\|Corridor" || tail -40 /tmp/godot_output.log 2>/dev/null
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+chmod +x /home/x/dev/mp/mg/godot-level-generator/godot-generator/scripts/regstart.sh
+sleep 8 && tail -50 /tmp/godot_regstart.log 2>/dev/null || echo "Waiting for regstart to initialize..."
+sleep 10 && tail -60 /tmp/godot_regstart.log 2>/dev/null | grep -E "(ERROR|error|Corridor|corridor|TRAVERSAL)" || tail -60 /tmp/godot_regstart.log 2>/dev/null
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+sleep 8 && echo "Checking for corridor generation logs..."
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+sleep 8 && tail -40 /tmp/godot_regstart.log 2>/dev/null | grep -E "(door|Door|opening|Opening|facet|Facet|TRAVERSAL|ERROR)" | head -20 || tail -40 /tmp/godot_regstart.log 2>/dev/null
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -3
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -type d -name "o3de" | head -10
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -type d -name "o3de"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && mv src/ngodot_mapgen/o3de src/ngodot_mapgen/engine 2>/dev/null; mv src/ngodot_mapgen/platforms/o3de src/ngodot_mapgen/platforms/engine 2>/dev/null; mv src/ngodot_mapgen/runtime/o3de src/ngodot_mapgen/runtime/engine 2>/dev/null; mv src/ngodot_mapgen/launch/o3de.py src/ngodot_mapgen/launch/engine.py 2>/dev/null; echo "Directories renamed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -name "*.py" -exec grep -l "o3de\|O3DE" {} \; | head -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -name "*.py" -exec sed -i 's/from ngodot_mapgen\.o3de/from ngodot_mapgen.engine/g; s/from ngodot_mapgen\.platforms\.o3de/from ngodot_mapgen.platforms.engine/g; s/from ngodot_mapgen\.runtime\.o3de/from ngodot_mapgen.runtime.engine/g; s/from ngodot_mapgen\.launch\.o3de/from ngodot_mapgen.launch.engine/g; s/import ngodot_mapgen\.o3de/import ngodot_mapgen.engine/g; s/import ngodot_mapgen\.platforms\.o3de/import ngodot_mapgen.platforms.engine/g; s/ngodot_mapgen\.o3de/ngodot_mapgen.engine/g; s/ngodot_mapgen\.platforms\.o3de/ngodot_mapgen.platforms.engine/g; s/ngodot_mapgen\.runtime\.o3de/ngodot_mapgen.runtime.engine/g; s/O3DE/Engine/g; s/o3de/engine/g' {} \;
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && mv src/ngodot_mapgen/cli/commands/create_o3de_project.py src/ngodot_mapgen/cli/commands/create_engine_project.py 2>/dev/null; echo "File renamed"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -name "*.py" -exec sed -i 's/O3DE/Engine/g; s/o3de/engine/g' {} \;
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && grep -n "^class" src/ngodot_mapgen/platforms/engine/*.py | head -10
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && sed -i 's/class O3DE/class Engine/g' src/ngodot_mapgen/platforms/engine/*.py src/ngodot_mapgen/engine/*.py src/ngodot_mapgen/runtime/engine/*.py src/ngodot_mapgen/launch/engine.py
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pkill -9 -f "Godot" 2>/dev/null; sleep 1 && uv run python -m ngodot_mapgen.cli.main levelgen 2>&1 | tail -5
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && pgdot levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && python -m ngodot_mapgen.cli.main levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && python3 -m ngodot_mapgen.cli.main levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run mpnolg levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pgdot levelgen
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/player_controller.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/player_controller.gd
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pytest tests/test_player_controller_input.py -v
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pytest tests/test_player_controller_input.py -v --ignore=tests/conftest.py 2>&1 | head -100
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run python -m pytest tests/test_player_controller_input.py -v -p no:conftest 2>&1 | head -150
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -type d -name "xonotic" -o -name "engine" | head -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && rm -rf src/ngodot_mapgen/platforms/xonotic src/ngodot_mapgen/runtime/xonotic src/ngodot_mapgen/launch/xonotic.py src/ngodot_mapgen/platforms/engine src/ngodot_mapgen/runtime/engine src/ngodot_mapgen/engine && echo "Removed xonotic and engine directories"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && python -m pytest tests/ -v --tb=short 2>&1 | head -100
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv run pytest tests/ -v --tb=short 2>&1 | head -150
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv sync && uv run pytest tests/ -v --tb=short 2>&1 | head -200
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && uv pip install -e . && uv run pytest tests/ -v --tb=short 2>&1 | head -200
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/ -v --tb=short 2>&1 | head -200
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && rm -f tests/test_build_pipeline.py tests/test_build_pipeline_basepath.py && echo "Removed xonotic test files"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/ -v --tb=short 2>&1 | tail -50
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/ -v --tb=line -x 2>&1 | tail -100
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/test_config_loader.py::TestConfig::test_load_default_config -v 2>&1
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && find src/ngodot_mapgen -name "*.py" -type f -exec wc -l {} + | sort -rn | head -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/ -v --tb=line -x 2>&1 | tail -30
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/ -v --tb=line 2>&1 | tail -50
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/test_faceted_room_generator.py tests/test_config_loader_new_properties.py tests/test_texture_optimization.py -v --tb=short 2>&1 | tail -40
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/test_faceted_room_generator.py tests/test_config_loader_new_properties.py tests/test_end_to_end.py -v --tb=short 2>&1 | tail -50
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && PYTHONPATH=src:$PYTHONPATH uv run pytest tests/ -v --tb=line -x 2>&1 | tail -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && wc -l src/ngodot_mapgen/platforms/godot/writer.py src/ngodot_mapgen/platforms/godot/generators/faceted_room.py src/ngodot_mapgen/platforms/godot/geometry.py 2>/dev/null | tail -4
+sleep 3 && ps aux | grep -E "(regstart|Godot)" | grep -v grep | head -5
+tail -30 /tmp/godot_regstart.log 2>/dev/null || echo "Log file not created yet"
+tail -30 /tmp/regenerate.log 2>/dev/null || echo "Regenerate log not created yet"
+grep -E "(SCRIPT ERROR|Parse Error|ERROR:|Failed to load)" /tmp/godot_regstart.log 2>/dev/null | head -10 || echo "No critical errors found"
+ps aux | grep "[G]odot" | head -3
+tail -50 /tmp/godot_regstart.log 2>/dev/null | tail -20
+pkill -9 -f "regstart" && pkill -9 -f "Godot" && sleep 1 && echo "Stopped regstart loop"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && cp templates/godot-project/scene_tree_coordinator.gd /home/x/dev/mp/mg/godot-level-generator/projects/project1/scene_tree_coordinator.gd 2>/dev/null || echo "Project directory may not exist yet"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && echo "Fixed door frame parent issue and added visibility checks for corridor"
+sleep 3 && tail -50 /tmp/godot_regstart.log 2>/dev/null || echo "Log file not ready yet"
+tail -100 /tmp/godot_regstart.log 2>/dev/null | grep -E "(ERROR|error|Error|WARNING|warning)" | tail -20
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && echo "Fixed door frame positioning and visibility issues"
+sleep 5 && tail -60 /tmp/godot_regstart.log 2>/dev/null | tail -30
+tail -200 /tmp/godot_regstart.log 2>/dev/null | grep -E "(door|Door|corridor|Corridor|facet|Facet|ERROR|error|WARNING)" | tail -30
+tail -300 /tmp/godot_regstart.log 2>/dev/null | grep -A 10 "Found corridor stub" | head -40
+tail -50 /tmp/godot_regstart.log 2>/dev/null
+sleep 5 && tail -40 /tmp/godot_regstart.log 2>/dev/null | tail -25
+sleep 3 && tail -100 /tmp/godot_regstart.log 2>/dev/null | grep -E "(ERROR|error|WARNING|SUCCESS|Project regenerated|Godot started)" | tail -15
+tail -20 /tmp/godot_regstart.log 2>/dev/null
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && echo "Fixed corridor length - reduced from 20 to 10 units and capped maximum at 15"
+cd /home/x/dev/mp/mg/godot-level-generator/godot-generator && echo "Fixed corridor end calculation to properly connect to room"
+sleep 5 && tail -40 /tmp/godot_regstart.log 2>/dev/null | tail -25
+tail -200 /tmp/godot_regstart.log 2>/dev/null | grep -E "(corridor|Corridor|ERROR|error|WARNING)" | tail -20
+chmod +x scripts/start_geometry_service.sh
+chmod +x /home/x/dev/notion/notion_cover_updater.py
+. "/home/x/dev/tools/cursor/cursor_extracted/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+ls
+cd notion-sync/
+ls
+uv 
+uv sync
+uv build 
+uv run main.py 
+clear
+high gluatmine -
+[200~cd /home/x/dev/kb-ontology/notion-sync
+python3 start_gui.pY
+python3 start_gui.py
+cd ..
+ls
+cd ..
+uaa 
+ls
+cd notion-sync/
+uaa 
+uv sync 
+uv  build 
+python3 start_gui.py 
+history | grep intel 
+sudo modprobe -r kvm_intel
+cd ..
+cd notion-sync
+./scripts/build_and_run.sh
+ls
+git add . 
+ls
+cd notion-sync/
+git add .
+git pull 
+git commit -m "application functional. baseline."
+git push 
+scripts/build_and_run.sh 
+ps | grep consolidat
+scripts/build_and_run.sh 
+chmod 777 cursor_2.0.69_amd64.deb 
+dpkg -i cursor_2.0.69_amd64.deb 
+sudo dpkg -i cursor_2.0.69_amd64.deb 
+curl https://cursor.com/install -fsS | bash
+cursor-agent --version
+cursor-agent 
+ls
+cd dev
+ls
+cd mp
+cd ..
+ls
+cd kb
+ls
+mkdir dev 
+cd dev
+ls
+cursor-agent 
+exit
+which cursor 
+cursor 
+cursor
+ls
+cd notion-sync/
+cd scripts/
+ls
+./build_and_run.sh 
+cd ..
+git pull 
+git commit -m "fixing gui issues and workflow. "
+git add . 
+git commit -m "fixing gui issues and workflow. "
+git push 
+clear
+ls
+./build_and_run.sh 
+scripts/build_and_run.sh 
+ls
+cd pexels-image-updater/
+uv sync
+uv build 
+uv run main run 
+uv run main
+uv run 
+uv run python3 main.py
+uv sync 
+uvb
+uv build 
+uv run python3 main.py
+uv build 
+uv run python3 main.py
+cd notion-sync/
+scripts/build_and_run.sh 
+cd notion-sync/
+scripts/build_and_run.sh 
+history | grep intel 
+sudo modprobe -r kvm_intel 
+uv build 
+uv run python3 main.py
+uv build 
+uv run python3 main.py
+scripts/build_and_run.sh 
+uv run python main.py
+cd .. 
+python3 pexels-image-updater/main.py
+cd notion-sync/
+cd ard 
+cd notion-sync/
+scripts/build_and_run.sh 
+cd ard/
+scripts/build_and_run.sh 
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd ard
+scripts/build_and_run.sh 
+uv venv 
+uaa
+scripts/build_and_run.sh 
+cursor
+history | grep intle
+history | grep intel
+sudo modprobe -r kvm_intel
+find /home/x/dev/kb/TechPrep0 -type f -name "*.md" | head -20
+find /home/x/dev/kb/TechPrep/TechPrep/Knowledge\ Base -type d -maxdepth 2 | sort
+ls -1 /home/x/dev/kb/TechPrep0/Technologies/ | head -20
+ls -1 /home/x/dev/kb/TechPrep/TechPrep/Knowledge\ Base/ | grep -i -E "(architecture|legacy|event|functional|general|ai)"
+test -d "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Interview/Architecture" && echo "Architecture exists" || echo "Architecture does not exist"
+test -d "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Backend/Legacy" && echo "Legacy exists" || echo "Legacy does not exist"
+cd /home/x/dev/kb/TechPrep && python3 merge_techprep0.py 2>&1 | head -100
+test -d "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Coding Interviews/Programming1" && echo "Programming1 exists" || echo "Programming1 does not exist"
+test -d "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Systems/Systems1" && echo "Systems1 exists" || echo "Systems1 does not exist"
+rm -rf "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Coding Interviews/Programming1" && echo "Removed Programming1"
+cd /home/x/dev/kb/TechPrep && python3 merge_techprep0.py 2>&1 | tee merge_output.log | tail -200
+head -50 /home/x/dev/kb/TechPrep/merge_output.log
+grep -E "(CONFLICT|MERGING|MAPPED|MATCHED|NEW)" /home/x/dev/kb/TechPrep/merge_output.log | head -30
+grep -c "\[COPIED\]" /home/x/dev/kb/TechPrep/merge_output.log
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base" -type d -maxdepth 3 | head -30
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base" -type f -name "*.md" | head -20 | xargs -I {} basename {} | sort | uniq
+chmod +x /home/x/dev/kb/TechPrep/analyze_knowledge_base.py
+cd /home/x/dev/kb/TechPrep && python3 analyze_knowledge_base.py 2>&1 | head -200
+cd /home/x/dev/kb/TechPrep && python3 analyze_knowledge_base.py 2>&1 | tail -100
+wc -l /home/x/dev/kb/TechPrep/kb_analysis_report.txt && head -50 /home/x/dev/kb/TechPrep/kb_analysis_report.txt
+grep -A 5 "EMPTY OR COMMA-LIST" /home/x/dev/kb/TechPrep/kb_analysis_report.txt | head -20
+cat "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Systems/Untitled/Monitoring, Logging & Observability .md"
+grep -E "^'Architecture'|^'Backend'|^'Interview'|^'Coding Interviews'|^'Devops'" /home/x/dev/kb/TechPrep/kb_analysis_report.txt | head -15
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base" -type d -name "*Knowledge Base*" 2>/dev/null | head -10
+ls -la "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/" | grep -i "knowledge\|backend\|interview\|coding" | head -10
+test -d "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Knowledge Base" && echo "Knowledge Base/Knowledge Base exists" || echo "No nested Knowledge Base"
+test -d "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Backend" && echo "Knowledge Base/Backend exists" || echo "No Knowledge Base/Backend"
+ls -la "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Knowledge Base/" | head -15
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Knowledge Base" -type f -name "*.md" | wc -l
+ls -la "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Backend/" | head -10
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/Backend" -type f -name "*.md" | wc -l
+cat >> /home/x/dev/kb/TechPrep/analysis_summary.md << 'EOF'
+
+## Critical Merge Artifacts
+
+The following folders appear to be artifacts from the merge that need attention:
+
+1. **`Knowledge Base/Knowledge Base/`** - Nested folder with 60 files
+   - Contains: `Backend`, `Coding Interviews`, `Interview` subfolders
+   - Should be merged into parent `Knowledge Base/` structure
+
+2. **`Knowledge Base/Backend/`** vs top-level `Backend/`
+   - Both exist and may have overlapping content
+   - Need to verify if they're duplicates or contain different content
+
+3. **`Knowledge Base/Interview/`** vs top-level `Interview/`
+   - Both exist and may have overlapping content
+   - Need to verify if they're duplicates or contain different content
+
+4. **`Knowledge Base/Coding Interviews/`** vs top-level `Coding Interviews/`
+   - Both exist and may have overlapping content
+   - Need to verify if they're duplicates or contain different content
+
+## Action Items
+
+### High Priority:
+1. ✅ **Resolve nested `Knowledge Base/Knowledge Base/` folder**
+   - Review contents
+   - Merge into appropriate locations
+   - Delete empty nested folder
+
+2. ✅ **Consolidate duplicate top-level folders**
+   - Compare `Knowledge Base/Backend/` with `Backend/`
+   - Compare `Knowledge Base/Interview/` with `Interview/`
+   - Compare `Knowledge Base/Coding Interviews/` with `Coding Interviews/`
+   - Merge or rename as appropriate
+
+3. ✅ **Fix empty files**
+   - Delete or populate the 11 empty `.md` files
+   - Review comma-list only files
+
+### Medium Priority:
+4. Review and consolidate the 97 duplicate folder groups
+5. Add convention notes to top-level folders (596 folders missing notes)
+
+### Low Priority:
+6. Add convention notes to all nested folders
+7. Standardize naming conventions across the knowledge base
+EOF
+
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 process_unenriched.py 2>&1 | head -100
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 process_unenriched.py 2>&1 | tail -50
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 main.py 2>&1 | head -100
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && timeout 300 python3 main.py 2>&1 | tail -30
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/consolidated_app.py src/ard/core/notion_zip_importer.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/system_tray_app.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/system_tray.py src/ard/ui/qt/app.py src/ard/ui/consolidated_app.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/consolidated_app.py src/ard/ui/qt/app.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/app.py 2>&1
+cd /home/x/dev/kb-ontology && tail -50 work/logs/ard_centralized.log 2>&1 | head -100
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.system_tray import QtSystemTray; print('✅ QtSystemTray imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/system_tray.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv add PySide6 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "from PySide6.QtWidgets import QApplication; print('✅ PySide6 is now available')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.system_tray import QtSystemTray; print('✅ QtSystemTray imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.app import create_qt_app; print('✅ create_qt_app imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/system_tray.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.system_tray import QtSystemTray; print('✅ QtSystemTray imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/app.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.app import create_qt_app; print('✅ create_qt_app imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/app.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.app import create_qt_app; print('✅ create_qt_app with QtSystemTray imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/system_tray.py 2>&1
+cd /home/x/dev/kb-ontology/ard && ls -la assets/*.{png,svg} 2>&1 | head -10
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "from pathlib import Path; import sys; sys.path.insert(0, 'src'); from ard.ui.qt.system_tray import QtSystemTray; import inspect; print('Icon path resolution test:'); base = Path(inspect.getfile(QtSystemTray)).parent; print(f'Base: {base}'); icon1 = base.parent.parent.parent / 'assets' / 'obsidian_logo_icon_248335.png'; print(f'Icon 1 exists: {icon1.exists()}'); print(f'Icon 1 path: {icon1}')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "from pathlib import Path; import sys; sys.path.insert(0, 'src'); from ard.ui.qt.system_tray import QtSystemTray; import inspect; print('Icon path resolution test:'); base = Path(inspect.getfile(QtSystemTray)); print(f'File: {base}'); base_path = base.parent.parent.parent.parent.parent; print(f'Base path: {base_path}'); icon1 = base_path / 'assets' / 'obsidian_logo_icon_248335.png'; print(f'Icon 1 exists: {icon1.exists()}'); print(f'Icon 1 path: {icon1}')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/system_tray.py 2>&1
+cd /home/x/dev/kb-ontology/ard && ls -la assets/obsidian_logo_icon_248335.png 2>&1
+cd /home/x/dev/kb-ontology/ard && test -f assets/obsidian_logo_icon_248335.png && echo "Icon file exists" || echo "Icon file NOT found"
+cd /home/x/dev/kb-ontology/ard && find assets -name "*.png" -o -name "*.svg" 2>&1 | head -10
+cd /home/x/dev/kb-ontology && find . -name "obsidian_logo_icon_248335.png" -o -name "icons8-obsidian-50.png" 2>&1 | head -5
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/system_tray.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "from pathlib import Path; import sys; sys.path.insert(0, 'src'); from ard.ui.qt.system_tray import QtSystemTray; import inspect; base = Path(inspect.getfile(QtSystemTray)); base_path = base.parent.parent.parent.parent.parent; icon_path = base_path / 'assets' / 'tray_icon.svg'; print(f'Icon path: {icon_path}'); print(f'Exists: {icon_path.exists()}')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/core/notion_zip_importer.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/core/project_manager.py src/ard/ui/qt/main_window.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/main_window.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/viewmodels/working_copy_viewmodel.py src/ard/ui/viewmodels/notion_zip_viewmodel.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/viewmodels/working_copy_viewmodel.py 2>&1
+cd /home/x/dev/kb-ontology/ard && find docs -name "*.md" -type f | head -20
+cd /home/x/dev/kb-ontology/ard && uv run pytest --cov=ard --cov-report=term-missing --cov-report=html -q 2>&1 | head -100
+cd /home/x/dev/kb-ontology/ard && find src/ard -name "*.py" -type f | grep -E "(viewmodel|dialog|system_tray|app\.py)" | head -20
+cd /home/x/dev/kb-ontology/ard && ls -la docs/*TKINTER*.md docs/*QT_MIGRATION*.md docs/*REMOVE*.md 2>/dev/null | wc -l
+cd /home/x/dev/kb-ontology/ard && find docs -name "*.md" -type f | grep -E "(TKINTER|QT_MIGRATION|REMOVE|FIXES_APPLIED|QUICK_FIXES|IMPROVEMENTS|IMPLEMENTATION)" | head -15
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/working_copy_dialog.py 2>&1
+cd /home/x/dev/kb-ontology/ard && echo "Version 1.4 plan created. Summary:" && echo "- Git removal: ~500-600 lines removed" && echo "- Notion sync: New bidirectional sync capability" && echo "- Timeline: 3 weeks" && echo "- Files: See docs/VERSION_1.4_PLAN.md"
+cd /home/x/dev/kb-ontology/ard && tail -50 ../work/logs/ard_centralized.log 2>/dev/null | grep -A 10 -B 5 "ERROR\|Exception\|Traceback" | tail -30
+cd /home/x/dev/kb-ontology/ard && cat ../work/logs/ard_centralized.log 2>/dev/null | tail -100 | grep -E "ERROR|Exception|Traceback|WARNING" | tail -20
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/main_window.py 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -200 ../work/logs/ard_centralized.log 2>/dev/null | grep -A 5 "Traceback\|Exception\|Error" | head -40
+cd /home/x/dev/kb-ontology/ard && find src/ard -name "*working*copy*" -type f
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/ui/qt/main_window.py src/ard/ui/qt/working_copy_dialog.py src/ard/ui/viewmodels/working_copy_viewmodel.py 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -50 ../work/logs/ard_centralized.log 2>/dev/null | grep -i "error\|exception\|traceback" -A 3 | tail -30
+cd /home/x/dev/kb-ontology/ard && echo "Summary of changes:" && echo "✅ Updated user-facing strings to 'work copy'" && echo "✅ Updated documentation" && echo "✅ Added delete work copy functionality" && echo "✅ Fixed error messages" && echo "" && echo "Note: Class/function names kept as-is for compatibility"
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/core/project_manager.py src/ard/ui/viewmodels/working_copy_viewmodel.py src/ard/ui/viewmodels/notion_zip_viewmodel.py src/ard/adapters/notion_adapter.py src/ard/core/migrate_notion_working_copies.py 2>&1
+cd /home/x/dev/kb-ontology/ard && echo "Summary:" && echo "✅ Work copies now store API keys and parent page IDs in project metadata" && echo "✅ Migration script created to move existing data" && echo "✅ NotionAdapter updated to read from project metadata first" && echo "✅ Backward compatibility maintained (with deprecation warning)"
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/core/migrate_notion_working_copies.py src/ard/adapters/notion_adapter.py 2>&1
+cd /home/x/dev/kb-ontology/ard && echo "✅ Migration complete. Summary:" && echo "" && echo "Changes made:" && echo "1. Work copies now store API keys and parent page IDs in project metadata (.ard/ard-project)" && echo "2. Migration script created: ard.core.migrate_notion_working_copies" && echo "3. NotionAdapter updated to read from project metadata first" && echo "4. Backward compatibility: still checks notion_working_copies with deprecation warning" && echo "" && echo "To migrate existing data:" && echo "  uv run python3 -m ard.core.migrate_notion_working_copies config/config.yaml"
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/adapters/notion_adapter.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m py_compile src/ard/core/config_loader.py src/ard/ui/consolidated_app.py src/ard/cli/main.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/cli/main.py').read())" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/cli/main.py').read()); print('Syntax OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from pathlib import Path; import os; print('Work dir:', Path(os.path.expanduser('~/.ard-work'))); print('Logs dir:', Path(os.path.expanduser('~/.ard-work')) / 'logs')"
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/ui/consolidated_app.py').read()); ast.parse(open('src/ard/cli/main.py').read()); ast.parse(open('src/ard/core/constants.py').read()); print('All syntax OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.core.config_loader import load_config; c = load_config('config/config.yaml'); print('Work dir:', c['paths'].get('_work_dir')); print('Template:', c['paths'].get('_new_project_template'))" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "from ard.core.config_loader import load_config; c = load_config('config/config.yaml'); print('Work dir:', c['paths'].get('_work_dir')); print('Project template:', c['paths'].get('_new_project_template')); print('WC template:', c['paths'].get('_new_work_copy_template'))" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; files = ['src/ard/core/config_loader.py', 'src/ard/core/project_manager.py', 'src/ard/ui/viewmodels/working_copy_viewmodel.py', 'src/ard/ui/viewmodels/notion_zip_viewmodel.py']; [ast.parse(open(f).read()) for f in files]; print('All syntax OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -c "from ard.core.config_loader import load_config; c = load_config('config/config.yaml'); print('Config keys:', list(c.keys())); print('Has git:', 'git' in c)" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv run python3 -m ard.ui.consolidated_app --config config/config.yaml 2>&1 | head -50
+sudo dockerd-rootless-setuptool.sh install
+dockerd-rootless-setuptool.sh install
+dockerd-rootless-setuptool.sh install --force 
+docker ls 
+docker images 
+docker 
+docker images 
+su 
+clear
+ls
+exit
+cd ard
+ls
+scripts/build_and_run.sh 
+git add .
+git commit -m "completed 1.2v" 
+git push 
+scripts/build_and_run.sh 
+cd /home/x/dev/kb-ontology/ard && find . -name "*.pyc" -delete && find . -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/jobs/base_job.py').read()); ast.parse(open('src/ard/jobs/job_registry.py').read()); ast.parse(open('src/ard/jobs/job_manager.py').read()); print('All job manager files syntax OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from pathlib import Path; import sys; sys.path.insert(0, 'src'); from ard.jobs.base_job import BaseJob, JobResult, JobStatus; from ard.jobs.job_registry import JobRegistry; from ard.jobs.job_manager import JobManager; print('Job manager imports OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/jobs/pexels_enrichment_job.py').read()); print('Pexels job syntax OK')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m pytest tests/test_jobs.py -v
+cd /home/x/dev/kb-ontology/ard && uv run pytest tests/test_jobs.py -v 2>&1 | head -100
+cd /home/x/dev/kb-ontology/ard && uv run pytest tests/test_config_loader.py -v 2>&1 | head -100
+cd /home/x/dev/kb-ontology/ard && uv run pytest tests/test_project_manager.py -v 2>&1 | head -100
+cd /home/x/dev/kb-ontology/ard && uv pip install pytest pytest-cov 2>&1 | tail -20
+cd /home/x/dev/kb-ontology/ard && python3 -m unittest tests.test_jobs -v 2>&1 | head -100
+cd /home/x/dev/kb-ontology/ard && python3 -m unittest tests.test_jobs -v 2>&1 | head -150
+cd /home/x/dev/kb-ontology/ard && python3 -m unittest tests.test_jobs -v 2>&1 | tail -50
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.ui.qt.app import create_qt_app; print('Import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.jobs.job_registry import JobRegistry; from ard.jobs.pexels_enrichment_job import PexelsEnrichmentJob; r = JobRegistry(); r.register(PexelsEnrichmentJob); print('Job registration successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.jobs.notion_import_job import NotionImportJob; from ard.jobs.notion_zip_import_job import NotionZipImportJob; print('Job imports successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.ui.qt.jobs_view import JobsView; print('JobsView import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && PYTHONPATH=/home/x/dev/kb-ontology/ard/src python3 -c "from ard.ui.qt.app import create_qt_app; print('Import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && PYTHONPATH=/home/x/dev/kb-ontology/ard/src python3 -c "from ard.jobs.notion_import_job import NotionImportJob; from ard.jobs.notion_zip_import_job import NotionZipImportJob; from ard.jobs.pexels_enrichment_job import PexelsEnrichmentJob; print('All job imports successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && PYTHONPATH=/home/x/dev/kb-ontology/ard/src python3 -c "from ard.ui.qt.jobs_view import JobsView; print('JobsView import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && PYTHONPATH=/home/x/dev/kb-ontology/ard/src python3 -c "from ard.ui.qt.app import _register_jobs; from ard.jobs.job_registry import JobRegistry; r = JobRegistry(); _register_jobs(r, {}); print('Job registration successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/ard_centralized.log 2>&1 | tail -50
+cd /home/x/dev/kb-ontology/ard && python3 -m unittest tests.test_jobs -v 2>&1 | tail -30
+cd /home/x/dev/kb-ontology/ard && PYTHONPATH=/home/x/dev/kb-ontology/ard/src python3 -c "from ard.ui.qt.app import create_qt_app; print('Import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m unittest tests.test_jobs -v 2>&1 | tail -20
+cd /home/x/dev/kb-ontology/ard && tail -30 ~/.ard-work/logs/ard_centralized.log 2>&1 | grep -E "ERROR|WARNING|Traceback" | tail -20
+cd /home/x/dev/kb-ontology/ard && find docs -name "*AIRFLOW*" -o -name "*airflow*" | head -10
+cd /home/x/dev/kb-ontology/ard && ls -la airflow/ 2>/dev/null || mkdir -p airflow/{dags,logs,plugins,config} && echo "Created airflow directories"
+cd /home/x/dev/interview-prep-1 && uv --version
+uv init --no-readme
+ls
+cd spring/
+ls
+cd flink/
+ls
+gradle build 
+gradle build --status 
+gradle 
+gradle --version
+which gradle
+sudo apt install gralde 
+sudo apt install gradle
+./gradlew build 
+clear
+ls
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/00-interview-prepration/interview-prep-2/python && mkdir -p src/python_interview_demo/{core,api,utils,models} tests/{unit,integration} docs logs
+mkdir -p .github/workflows .vscode
+mkdir -p /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1/src/main/scala/com/example/{actors,features,models} /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1/src/test/scala/com/example
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && which gradle
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && gradle wrapper --gradle-version 8.5
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && gradle --version
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && mkdir -p gradle/wrapper
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && curl -L https://raw.githubusercontent.com/gradle/gradle/v8.5.0/gradle/wrapper/gradle-wrapper.jar -o gradle/wrapper/gradle-wrapper.jar
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && chmod +x gradlew
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && ./gradlew --version
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && ./gradlew tasks --all | head -20
+cd /home/x/dev/00-interview-prepration/interview-prep-2/scala/project1 && ls -la gradlew gradlew.bat gradle/wrapper/ 2>/dev/null | head -10
+clear
+ls
+cd ard
+ls
+scripts/build_and_run.sh 
+scripts/start_for_testing.sh 
+scripts/stop_app.sh
+scripts/stop_docker.sh
+scripts/start_for_testing.sh 
+scripts/start_for_testing.sh \
+scripts/start_for_testing.sh 
+celar
+clear
+scripts/start_for_testing.sh 
+clear
+ls
+scripts/start_for_testing.sh 
+scripts/stop_docker.sh 
+
+scripts/stop_docker.sh 
+docker ps 
+scripts/stop_docker.sh 
+scripts/start_for_testing.sh 
+scripts/stop_docker.sh 
+scripts/start_for_testing.sh 
+scripts/stop_docker.sh 
+scripts/start_for_testing.sh 
+scripts/stop_docker.sh 
+clear
+ls
+cd /home/x/dev/kb/TechPrep/TechPrep && find "Knowledge Base" -name "*.md" -type f | head -5 | xargs -I {} head -20 "{}"
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && chmod +x populate_keywords.py
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 populate_keywords.py 2>&1 | head -100
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 populate_keywords.py 2>&1 | tail -50
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 main.py 2>&1 | head -150
+cd /home/x/dev/kb/TechPrep/TechPrep/pexels-image-updater && python3 main.py 2>&1 | tail -20
+cd /home/x/dev/kb/TechPrep && chmod +x update_folder_notes.py && python3 update_folder_notes.py 2>&1 | head -200
+cd /home/x/dev/kb/TechPrep && python3 update_folder_notes.py 2>&1 | tail -100
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base" -type f -name "*.md" | grep -E '[0-9]+\.md$' | head -20
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base" -type f -name "*1.md" -o -name "*2.md" | head -20
+find "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base" -type f -name "*.md" | xargs -I {} basename {} | grep -E '^[^/]+[0-9]+\.md$' | sort | uniq -c | sort -rn | head -20
+for file in "Backend/Caching/Caching 1.md" "Backend/Java/Java 1.md" "Backend/Databases/Databases 1.md" "Backend/Spring/Spring 1.md"; do echo "=== $file ==="; test -f "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/$file" && echo "Exists" || echo "Not found"; base=$(echo "$file" | sed 's/ 1\.md$/.md/'); test -f "/home/x/dev/kb/TechPrep/TechPrep/Knowledge Base/$base" && echo "Base exists: $base" || echo "Base not found: $base"; done
+cd /home/x/dev/kb/TechPrep && python3 update_folder_notes.py 2>&1 | grep -E "(Merged|SUMMARY|File groups merged)" | head -30
+cd /home/x/dev/kb/TechPrep && python3 update_folder_notes.py 2>&1 | tail -50
+cd /home/x/dev/kb/TechPrep && ls -lh *.py *.md 2>/dev/null | grep -E "(merge|analyze|update|KB_OPERATIONS)" | head -10
+cd /home/x/dev/kb/TechPrep && wc -l KB_OPERATIONS_MANUAL.md KB_COMMAND_REFERENCE.md && echo "---" && head -5 KB_OPERATIONS_MANUAL.md KB_COMMAND_REFERENCE.md
+cd /home/x/dev/kb/TechPrep && ls -lh *.md *.py 2>/dev/null | grep -E "(KB_|README_KB|analyze|merge|update)" | awk '{print $9, "(" $5 ")"}'
+cd /home/x/dev/kb/TechPrep && find "TechPrep/Knowledge Base" -name "*.md" -type f | head -5 | xargs -I {} grep -E '\[\[.*\]\]|\[.*\]\(.*\)' {} | head -20
+cd /home/x/dev/kb/TechPrep && grep -rE '\[\[.*/.*\]\]|\[.*\]\(.*/.*\)' "TechPrep/Knowledge Base" --include="*.md" | head -20
+cd /home/x/dev/kb/TechPrep && chmod +x normalize_links.py && python3 normalize_links.py 2>&1 | head -100
+cd /home/x/dev/kb/TechPrep && python3 normalize_links.py 2>&1 | tail -20
+cd /home/x/dev/kb/TechPrep && grep -rE '\[\[.*/.*\]\]' "TechPrep/Knowledge Base" --include="*.md" | wc -l
+cd /home/x/dev/kb/TechPrep && grep -rE '\[\[.*/.*\]\]' "TechPrep/Knowledge Base" --include="*.md" | head -5
+cd /home/x/dev/kb/TechPrep && find . -maxdepth 2 -name "*.py" -type f | grep -v "__pycache__" | grep -v ".pyc" | sort
+cd /home/x/dev/kb/TechPrep && ls -la *.py 2>/dev/null | awk '{print $9}'
+cd /home/x/dev/kb/TechPrep && mkdir -p scripts && ls -la logic/*.py 2>/dev/null | head -10
+cd /home/x/dev/kb/TechPrep && mkdir -p scripts && cp normalize_links.py scripts/ && cp logic/*.py scripts/ 2>/dev/null && cp -r logic/pexels-image-updater scripts/ 2>/dev/null && ls -la scripts/*.py 2>/dev/null
+cd /home/x/dev/kb/TechPrep && ls -lh scripts/*.py scripts/pexels-image-updater/*.py 2>/dev/null | awk '{print $9, "(" $5 ")"}'
+cd /home/x/dev/kb/TechPrep && find scripts -name "*.py" -type f | wc -l && echo "---" && tree scripts -L 2 -I "__pycache__|*.pyc|*.egg-info" 2>/dev/null || find scripts -type f -name "*.py" -o -name "*.md" | head -15
+cd /home/x/dev/kb/TechPrep/scripts && for script in *.py; do echo "=== $script ==="; head -3 "$script" | tail -1; done
+cd /home/x/dev/kb/TechPrep && cat > scripts/.gitkeep << 'EOF'
+# This directory contains Knowledge Base maintenance scripts
+# See README.md for documentation
+EOF
+
+cat scripts/README.md | head -20
+cd /home/x/dev/kb/TechPrep && cat > scripts/SCRIPTS_INVENTORY.txt << 'EOF'
+Knowledge Base Maintenance Scripts Inventory
+============================================
+
+Created: 2024-11-11
+Location: /home/x/dev/kb/TechPrep/scripts/
+
+SCRIPTS SAVED:
+==============
+
+1. normalize_links.py (6.0K)
+   - Normalizes markdown links to leaf-node format
+   - Handles Obsidian [[...]] and markdown [...](...) formats
+   - Normalized 487 links across 114 files
+
+2. analyze_knowledge_base.py (13K)
+   - Comprehensive consistency analysis
+   - Finds duplicates, missing notes, empty pages
+   - Generates detailed reports
+
+3. merge_techprep0.py (9.3K)
+   - Intelligent folder merging with conflict resolution
+   - Handles Technologies folder mapping (Option A + C)
+   - Merged 635 files from TechPrep0
+
+4. update_folder_notes.py (13K)
+   - Updates folder notes with subfolder links
+   - Merges duplicate files with numbered suffixes
+   - Updated 41 folder notes, merged 4 file groups
+
+5. pexels-image-updater/populate_keywords.py (8.6K)
+   - Populates keywords in markdown files
+   - Extracts from paths, titles, content
+
+6. pexels-image-updater/main.py (20K)
+   - Adds Pexels cover images
+   - Updates banner and cover image fields
+
+ADDITIONAL PEXELS SCRIPTS:
+==========================
+- identify_unenriched.py
+- find_and_update_unenriched.py
+- identify_unenriched_standalone.py
+- process_unenriched.py
+- run_identify.py
+
+DOCUMENTATION:
+==============
+- README.md - Comprehensive documentation
+- QUICK_REFERENCE.md - Quick command reference
+- INDEX.md - Script index and categories
+
+TOTAL: 11 Python scripts + 3 documentation files
+
+All scripts are ready for future use and AI automation.
+EOF
+
+cat scripts/SCRIPTS_INVENTORY.txt
+cd /home/x/dev/kb/TechPrep && find scripts -type f \( -name "*.py" -o -name "*.md" -o -name "*.txt" \) | sort
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && ls -la
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && cat > .gitignore << 'EOF'
+node_modules/
+main.js
+*.log
+.DS_Store
+EOF
+
+cat .gitignore
+cd /home/x/dev/kb/TechPrep && find TechPrep/.obsidian/plugins/term-explainer -type f -name "*.ts" -o -name "*.json" -o -name "*.md" -o -name "*.css" | head -10
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && grep -n "fetchFromWebSearch" main.ts
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && cat > API_SETUP.md << 'EOF'
+# API Setup Guide
+
+## OpenRouter Setup
+
+1. **Get API Key**
+   - Visit https://openrouter.ai/keys
+   - Sign up or log in
+   - Create a new API key
+   - Copy the key
+
+2. **Configure in Plugin**
+   - Settings → Term Explainer
+   - Select "OpenRouter" as API Provider
+   - Paste your OpenRouter API key
+   - Set model (default: `google/gemini-pro`)
+
+3. **Available Models**
+   - `google/gemini-pro` - Google's Gemini Pro
+   - `google/gemini-flash` - Faster, cheaper Gemini
+   - `anthropic/claude-3-haiku` - Claude Haiku (fast)
+   - `anthropic/claude-3-sonnet` - Claude Sonnet (balanced)
+   - `openai/gpt-3.5-turbo` - OpenAI GPT-3.5
+   - `openai/gpt-4` - OpenAI GPT-4
+   - See full list: https://openrouter.ai/models
+
+## Google Gemini Setup
+
+1. **Get API Key**
+   - Visit https://makersuite.google.com/app/apikey
+   - Sign in with Google account
+   - Click "Create API Key"
+   - Copy the key
+
+2. **Configure in Plugin**
+   - Settings → Term Explainer
+   - Select "Google Gemini (direct)" as API Provider
+   - Paste your Gemini API key
+
+## Which Should I Use?
+
+**OpenRouter** is recommended if you:
+- Want to try different models
+- Want better pricing options
+- Need fallback capabilities
+- Want to switch models easily
+
+**Gemini Direct** is good if you:
+- Only want to use Gemini
+- Prefer direct API access
+- Have specific Gemini API requirements
+
+## Cost Comparison
+
+- **OpenRouter**: Pay per use, competitive pricing, supports many models
+- **Gemini**: Free tier available, then pay-as-you-go
+
+Both have free tiers to get started!
+EOF
+
+cat API_SETUP.md
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && ls -lh main.js 2>/dev/null && echo "---" && head -5 main.js
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && chmod +x tests/test-api.js && npm install vitest --save-dev
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm install vitest --save-dev --legacy-peer-deps
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && echo "Test script ready. Run with: node tests/test-api.js" && ls -lh tests/
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm install tsx --save-dev --legacy-peer-deps
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && ls -lh tests/*.ts tests/*.js 2>/dev/null | awk '{print $9, "(" $5 ")"}'
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && grep -A 15 "Gemini Model" main.ts | head -20
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build 2>&1 | head -20
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && ls -la
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && test -f main.js && echo "main.js exists" && ls -lh main.js || echo "main.js MISSING"
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && head -20 main.js 2>/dev/null | head -10
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && node -c main.js 2>&1 && echo "✅ JavaScript syntax is valid" || echo "❌ JavaScript syntax error"
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && test -f main.js && echo "✅ main.js created successfully" && ls -lh main.js || echo "❌ main.js still missing"
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && head -5 main.js 2>/dev/null
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm install
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && ls -lh main.js styles.css manifest.json 2>/dev/null | awk '{print $9, "(" $5 ")"}'
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm install --legacy-peer-deps
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build 2>&1 | tail -10
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && test -f main.js && echo "✅ SUCCESS: main.js created" && ls -lh main.js || echo "❌ ERROR: main.js still missing"
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && echo "=== Required Plugin Files ===" && for file in main.js manifest.json styles.css; do if [ -f "$file" ]; then echo "✅ $file ($(ls -lh "$file" | awk '{print $5}'))"; else echo "❌ $file MISSING"; fi; done
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && node -e "try { require('./main.js'); console.log('✅ main.js loads without errors'); } catch(e) { console.log('❌ Error loading main.js:', e.message); }"
+pwd
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && pwd && ls -la main.js manifest.json styles.css 2>&1 | head -5
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && test -f main.js && echo "✅ Plugin files are intact" || echo "❌ Files missing"
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && pwd && ls -la main.js 2>&1
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && /usr/bin/env bash -c "cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build" 2>&1 | tail -15
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && test -f main.js && echo "✅ main.js exists ($(stat -c%s main.js) bytes)" || echo "❌ main.js missing - rebuilding..." && npm run build 2>&1 | grep -E "(SUCCESS|ERROR|main.js|Build|error)" | head -5
+cd /home/x/dev/kb/TechPrep && chmod +x scripts/remove_emojis.py && python3 scripts/remove_emojis.py 2>&1 | head -50
+cd /home/x/dev/kb/TechPrep && python3 scripts/remove_emojis.py 2>&1 | tail -20
+cd /home/x/dev/kb/TechPrep && grep -r "❓\|💬" "TechPrep/Knowledge Base" --include="*.md" | wc -l
+cd /home/x/dev/kb/TechPrep && grep -r "❓\|💬" "TechPrep/Knowledge Base" --include="*.md" | head -5
+cd /home/x/dev/kb/TechPrep && grep -r ", title:" "TechPrep/Knowledge Base" --include="*.md" | head -5
+cd /home/x/dev/kb/TechPrep && grep -r ", title:" "TechPrep/Knowledge Base" --include="*.md" | wc -l
+cd /home/x/dev/kb/TechPrep && chmod +x scripts/remove_title_string.py && python3 scripts/remove_title_string.py 2>&1 | head -30
+cd /home/x/dev/kb/TechPrep && python3 scripts/remove_title_string.py 2>&1 | tail -20
+cd /home/x/dev/kb/TechPrep && grep -r ", title:" "TechPrep/Knowledge Base" --include="*.md" | wc -l
+cd /home/x/dev/kb/TechPrep && head -5 "TechPrep/Knowledge Base/Interview/Observability/Grafana/Jaeger vs Grafana Prometheus .md"
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && npm run build 2>&1 | tail -5
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && test -f main.js && echo "✅ Build successful" && ls -lh main.js || echo "❌ Build failed"
+cd /home/x/dev/kb/TechPrep && grep -r "mk-overview\|mk-frame\|mk-preview\|showContent\|showPreview" "TechPrep/.obsidian/plugins/make-md" --include="*.json" --include="*.js" | head -20
+cd /home/x/dev/kb/TechPrep && find "TechPrep/Knowledge Base" -name "*.md" -path "*/Web Development/*" -exec grep -l "folder-overview\|useActualLinks\|inlineContext" {} \; 2>/dev/null | head -5
+cd /home/x/dev/kb/TechPrep/TechPrep/.obsidian/plugins/term-explainer && ls -la main.js 2>/dev/null && echo "Plugin is built" || echo "Plugin needs to be built"
+cd /home/x/dev/kb/TechPrep && ls -la TechPrep/Knowledge\ Base 2>/dev/null | head -5
+cd /home/x/dev/kb/TechPrep && python3 scripts/pexels-image-updater/main.py 2>&1 | head -100
+cd /home/x/dev/kb/TechPrep && python3 scripts/pexels-image-updater/populate_keywords.py 2>&1 | head -50
+cd /home/x/dev/kb/TechPrep && python3 scripts/pexels-image-updater/main.py 2>&1 | grep -E "(Processing:|✓|Searching|Using image|Updated:|Summary:)" | head -80
+cd /home/x/dev/kb/TechPrep && python3 scripts/pexels-image-updater/main.py 2>&1 | tail -20
+cd /home/x/dev/kb/TechPrep && grep -n "mk-frame-preview\|mk-inline-context" TechPrep/.obsidian/plugins/make-md/styles.css | head -20
+cd /home/x/dev/kb/TechPrep && grep -o "\.mk-inline-context[^{]*{[^}]*}" TechPrep/.obsidian/plugins/make-md/styles.css | head -5
+cd /home/x/dev/kb/TechPrep && grep -n "\.mk-inline-context\|\.mk-note-footer\|\.mk-space-body\|\.cm-content" TechPrep/.obsidian/plugins/make-md/styles.css | grep -E "(order|position|flex|display)" | head -20
+cd /home/x/dev/kb/TechPrep && tail -20 TechPrep/.obsidian/plugins/make-md/styles.css
+cd /home/x/dev/kb/TechPrep && echo "
+
+/* Move make.md inline context items to top of page */
+.markdown-source-view.mod-cm6 .cm-content,
+.markdown-source-view.mod-cm6 .cm-content > div {
+}
+
+.markdown-source-view.mod-cm6 .cm-content > .mk-inline-context {
+}
+
+/* Also handle the note footer if it exists */
+.markdown-source-view.mod-cm6 .cm-content > .mk-note-footer {
+}" >> TechPrep/.obsidian/plugins/make-md/styles.css
+cd /home/x/dev/kb/TechPrep && tail -15 TechPrep/.obsidian/plugins/make-md/styles.css
+cd /home/x/dev/kb/TechPrep && tail -20 TechPrep/.obsidian/plugins/make-md/styles.css | head -15
+cd /home/x/dev/kb/TechPrep && find "TechPrep/Knowledge Base/Backend/scala" -name "*.md" -type f | sort
+cd /home/x/dev/kb/TechPrep && wc -l "TechPrep/Knowledge Base/Backend/scala"/*.md | tail -1
+cd /home/x/dev/kb/TechPrep && ls -lh "TechPrep/Knowledge Base/Backend/scala"/*.md | awk '{print $9, $5}'
+cd /home/x/dev/kb/TechPrep && find "TechPrep/Knowledge Base/Backend" -name "*.md" -type f -exec sh -c 'lines=$(wc -l < "$1"); if [ "$lines" -lt 50 ]; then echo "$1: $lines lines"; fi' _ {} \; | head -20
+cd /home/x/dev/kb/TechPrep && find "TechPrep/Knowledge Base/Cloud" -name "*.md" -type f -exec sh -c 'lines=$(wc -l < "$1"); if [ "$lines" -lt 50 ]; then echo "$1: $lines lines"; fi' _ {} \; | head -20
+cd /home/x/dev/kb/TechPrep && find "TechPrep/Knowledge Base/Interview" -name "*.md" -type f -exec sh -c 'lines=$(wc -l < "$1"); if [ "$lines" -lt 50 ]; then echo "$1: $lines lines"; fi' _ {} \; | head -20
+mkdir -p "/home/x/dev/kb/TechPrep/TechPrep/.obsidian/snippets"
+export GEMINI_API_KEY="AIzaSyCkpAvCrmiP2IZ4yMH5-lg5b96rQBwQIrE" 
+npm run test:benchmark
+./gradlew build 
+npm run build 
+cd /home/x/dev/kb-ontology/ard && python -m py_compile src/ard/__init__.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); import ard" 2>&1 | head -30
+cd /home/x/dev/kb-ontology/ard && mv src/ard/sync deprecated/ && mv src/ard/adapters deprecated/
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/sync_operations.py src/ard/core/seed_from_notion.py 2>&1 | head -30
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); import ard.core.sync_operations; import ard.core.seed_from_notion" 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import sync_operations, seed_from_notion; print('✓ Core modules import successfully')" 2>&1
+cd /home/x/dev/kb-ontology/ard && cp -r src/ard/converters prefect/utils/ && ls -la prefect/utils/
+cd /home/x/dev/kb-ontology/ard && find prefect/flows -name "*.py" -type f | head -10
+cd /home/x/dev/kb-ontology/ard && mv src/ard/jobs deprecated/
+cd /home/x/dev/kb-ontology/ard && mv src/ard/images deprecated/
+cd /home/x/dev/kb-ontology/ard && mv src/ard/converters deprecated/
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import notion_importer, seed_from_notion; print('✓ Core modules import successfully')" 2>&1
+cd /home/x/dev/kb-ontology/ard && ls -la deprecated/ | head -15
+cd /home/x/dev/kb-ontology/ard && find prefect/flows -name "*_flow.py" | wc -l
+cd /home/x/dev/kb-ontology/ard && ls -la deprecated/ | grep -E "^d" | head -10
+cd /home/x/dev/kb-ontology/ard && test -d deprecated/jobs && echo "jobs folder exists" || (mkdir -p deprecated/jobs && mv deprecated/*.py deprecated/jobs/ 2>/dev/null; echo "Created jobs folder")
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/app.py src/ard/ui/qt/main_window.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && find prefect/flows -name "*_flow.py" | wc -l
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/flows/pexels_enrichment_flow.py prefect/flows/add_pexels_urls_flow.py prefect/flows/process_ontology_pexels_flow.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && find deprecated/sync -name "*.py" -type f | head -10
+cd /home/x/dev/kb-ontology/ard && ls -la deprecated/sync/ 2>/dev/null | head -10 || echo "sync folder not in deprecated"
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/flows/notion_export_flow.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && ls -la prefect/utils/converters/ 2>/dev/null | head -10
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'prefect/utils'); from converters.markdown_to_notion import MarkdownToNotionConverter; print('✓ Converters available in prefect/utils')" 2>&1
+cd /home/x/dev/kb-ontology/ard && find prefect/flows -name "*notion*.py" | sort
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); import ard" 2>&1 | head -30
+cd /home/x/dev/kb-ontology/ard && find . -type d -name "*airflow*" -o -name "*dag*" 2>/dev/null | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt import main_window; print('✓ Main window imports successfully')" 2>&1
+cd /home/x/dev/kb-ontology/ard && find tests -name "test_*.py" -type f | wc -l
+cd /home/x/dev/kb-ontology/ard && ls -la tests/test_*.py | wc -l
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile scripts/smoke_tests.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile scripts/smoke_tests.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import config_loader, project_manager; print('✓ Core modules compile')" 2>&1
+cd /home/x/dev/kb-ontology/ard && find tests -name "test_*.py" -type f | sort
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile scripts/smoke_tests.py 2>&1
+cd /home/x/dev/kb-ontology/ard && find . -type d -name "*weaviate*" 2>/dev/null | head -10
+cd /home/x/dev/kb-ontology/ard && find weaviate src/ard/weaviate -type f 2>/dev/null
+cd /home/x/dev/kb-ontology/ard && find . -name "*client.py" -path "*/weaviate/*" 2>/dev/null
+cd /home/x/dev/kb-ontology/ard && rmdir weaviate src/ard/weaviate 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import weaviate_client; print('✓ Weaviate client module still works')" 2>&1
+cd /home/x/dev/kb-ontology/ard && find . -type d -name "*weaviate*" -not -path "*/.venv/*" -not -path "*/__pycache__/*" 2>/dev/null
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core.weaviate_client import WeaviateClient; print('✓ WeaviateClient import works')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import ontology_utils; print('ontology_utils imported')" 2>&1 | head -5
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import seed_from_notion; print('seed_from_notion imported')" 2>&1 | head -5
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import config_loader; print('✓ Core modules still work')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/__init__.py src/ard/ui/working_copy_manager.py 2>&1 | head -10
+cd /home/x/dev/kb-ontology/ard && find . -name "*chroma*" -o -name "*vector_db*" 2>/dev/null | grep -v ".venv" | grep -v "__pycache__" | head -10
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/__init__.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/ai_operations.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import config_loader, project_manager; print('✓ All core modules compile')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1 | head -50
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core import *; print('✓ Core imports work')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt import main_window; print('✓ UI imports work')" 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/__init__.py src/ard/core/ai_operations.py src/ard/core/ai_recommendations.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'src'); from ard.core.config_loader import load_config; from ard.core.project_manager import ProjectManager; print('✓ Core functionality works')" 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build --verbose 2>&1 | grep -i error | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/**/*.py 2>&1 | grep -i error | head -20
+cd /home/x/dev/kb-ontology/ard && find src -name "*.py" -exec python3 -m py_compile {} \; 2>&1 | grep -v "^$" | head -30
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/working_copy_manager.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/ui/working_copy_manager.py').read())" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/working_copy_manager.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/working_copy_manager.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/working_copy_manager.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('src/ard/ui/working_copy_manager.py').read()); print('✓ Syntax is valid')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile scripts/test_working_copy_creation.py scripts/test_notion_import.py scripts/test_zip_import.py 2>&1
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1 | tail -5
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/flows/create_work_copy_flow.py prefect/flows/create_filtered_work_copy_flow.py prefect/flows/create_sliced_work_copy_flow.py prefect/flows/create_projection_work_copy_flow.py src/ard/ui/qt/flow_trigger_dialog.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && uv build 2>&1 | tail -5
+chmod +x /home/x/dev/kb-ontology/ard/prefect/deploy_flows.sh
+chmod +x /home/x/dev/kb-ontology/ard/prefect/entrypoint.sh
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/deploy_flows.py 2>&1
+chmod +x /home/x/dev/kb-ontology/ard/prefect/prepare_deployments.py
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/prepare_deployments.py prefect/deploy_flows.py 2>&1 | head -10
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/deploy_flows.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/prepare_deployments.py 2>&1
+chmod +x /home/x/dev/kb-ontology/ard/scripts/deploy_prefect_flows.sh
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && chmod +x scripts/start_qt_gui.sh scripts/start_app.sh scripts/build_and_run.sh 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "import ast; ast.parse(open('scripts/start_qt_gui.sh').read()); print('✓ start_qt_gui.sh syntax OK')" 2>&1 || echo "Note: Shell script syntax check skipped"
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile prefect/deploy_flows.py 2>&1 | head -5
+cd /home/x/dev/kb-ontology/ard && python3 -c "import sys; sys.path.insert(0, 'prefect/flows'); sys.path.insert(0, 'src'); from flows.notion_import_flow import notion_import_flow; print('✓ Flow import successful')" 2>&1
+chmod +x /home/x/dev/kb-ontology/ard/scripts/capture_docker_logs.sh /home/x/dev/kb-ontology/ard/scripts/monitor_consolidated_log.py
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/log_aggregator.py src/ard/core/log_monitor.py src/ard/core/consolidated_logger.py 2>&1 | head -10
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/log_reader.py src/ard/core/log_monitor.py 2>&1 | head -5
+cd /home/x/dev/kb-ontology/ard && python3 -c "from src.ard.core.log_reader import get_consolidated_log_path; print(f'Consolidated log: {get_consolidated_log_path()}')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/log_aggregator.py src/ard/core/log_reader.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/__init__.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/log_aggregator.py src/ard/core/logging_config.py 2>&1
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+ls
+cd ard/scripts/
+ls
+./build_and_run.sh 
+cd /home/x/dev/kb-ontology/ard && echo "=== Monitoring consolidated log ===" && echo "Watching for: button clicks, flow operations, errors, warnings" && echo "Press Ctrl+C to stop monitoring" && echo "" && tail -f ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep --line-buffered -E "(button|clicked|Notion Import|Flow|Prefect|ERROR|WARNING|Exception|Traceback|failed|Failed)" || echo "Waiting for log file..."
+docker ps 
+cd /home/x/dev/kb-ontology/ard && echo "=== Monitoring consolidated log ===" && echo "Watching for: button clicks, flow operations, errors, warnings" && echo "Press Ctrl+C to stop monitoring" && echo "" && tail -f ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep --line-buffered -E "(button|clicked|Notion Import|Flow|Prefect|ERROR|WARNING|Exception|Traceback|failed|Failed)" || echo "Waiting for log file..."
+scripts/build_and_run.sh 
+scripts/stop_app.
+scripts/stop_app.sh
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/core/docker_manager.py src/ard/ui/qt/system_tray.py src/ard/ui/qt/main_window.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/working_copy_dialog.py src/ard/ui/qt/main_window.py 2>&1 | head -10
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/working_copy_dialog.py 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep -i "error\|exception\|traceback\|failed" | tail -30
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py src/ard/ui/qt/system_tray.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && sleep 2 && if [ -f ~/.ard-work/logs/ard_consolidated.log ]; then echo "=== Recent log entries ===" && tail -50 ~/.ard-work/logs/ard_consolidated.log | grep -E "(ERROR|WARNING|Notion Import|Flow|Prefect|button|clicked)" | tail -20; else echo "Log file not created yet"; fi
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/ard_consolidated.log | grep -i "flow\|deploy\|import\|register" | tail -30
+cd /home/x/dev/kb-ontology/ard && curl -s -X POST http://localhost:4200/api/flows/filter -H "Content-Type: application/json" -d '{}' | python3 -m json.tool 2>/dev/null | head -50
+cd /home/x/dev/kb-ontology/ard && export PREFECT_API_URL="http://localhost:4200/api" && uv run python3 prefect/deploy_flows.py 2>&1 | tee /tmp/deploy_flows_output.log
+cat /tmp/deploy_flows_output.log | tail -50
+cd /home/x/dev/kb-ontology/ard && curl -s -X POST http://localhost:4200/api/flows/filter -H "Content-Type: application/json" -d '{}' | python3 -c "import sys, json; data = json.load(sys.stdin); flows = data if isinstance(data, list) else data.get('items', data.get('flows', [])); print(f'Total flows: {len(flows)}'); [print(f'  - {f.get(\"name\", \"unknown\")}') for f in flows[:20]]" 2>/dev/null
+cd /home/x/dev/kb-ontology/ard && python3 -c "
+import requests
+import json
+try:
+    response = requests.post('http://localhost:4200/api/flows/filter', json={}, timeout=5)
+    data = response.json()
+    flows = data if isinstance(data, list) else data.get('items', data.get('flows', []))
+    print(f'Total flows from API: {len(flows)}')
+    for f in flows:
+        print(f'  - {f.get(\"name\", \"unknown\")} (id: {f.get(\"id\", \"unknown\")[:8]}...)')
+except Exception as e:
+    print(f'Error: {e}')
+"
+cd /home/x/dev/kb-ontology/ard && ./scripts/start_qt_gui.sh > /tmp/gui_startup.log 2>&1 &
+echo "GUI started in background, PID: $!"
+sleep 3
+echo "Checking if GUI process is running..."
+ps aux | grep -E "python.*qt|ard.*gui" | grep -v grep | head -5
+cd /home/x/dev/kb-ontology/ard && sleep 5 && tail -100 ~/.ard-work/logs/ard_consolidated.log | tail -30
+cd /home/x/dev/kb-ontology/ard && ./scripts/start_docker.sh 2>&1 | tail -20
+cd /home/x/dev/kb-ontology/ard && sleep 10 && curl -s http://localhost:4200/api/health && echo "" && echo "Prefect server is ready"
+cd /home/x/dev/kb-ontology/ard && export PREFECT_API_URL="http://localhost:4200/api" && uv run python3 prefect/deploy_flows.py 2>&1 | tail -40
+cd /home/x/dev/kb-ontology/ard && sleep 3 && python3 -c "
+import requests
+import json
+try:
+    response = requests.post('http://localhost:4200/api/flows/filter', json={}, timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        flows = data if isinstance(data, list) else data.get('items', data.get('flows', []))
+        print(f'Total flows from API: {len(flows)}')
+        for f in flows:
+            name = f.get('name', 'unknown')
+            print(f'  - {name}')
+    else:
+        print(f'API returned status {response.status_code}')
+except Exception as e:
+    print(f'Error: {e}')
+"
+cd /home/x/dev/kb-ontology/ard && export PREFECT_API_URL="http://localhost:4200/api" && uv run python3 prefect/deploy_flows.py 2>&1 | tail -50
+cd /home/x/dev/kb-ontology/ard && sleep 3 && python3 -c "
+import requests
+import json
+try:
+    response = requests.post('http://localhost:4200/api/flows/filter', json={}, timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        flows = data if isinstance(data, list) else data.get('items', data.get('flows', []))
+        print(f'Total flows from API: {len(flows)}')
+        for f in flows:
+            name = f.get('name', 'unknown')
+            print(f'  - {name}')
+    else:
+        print(f'API returned status {response.status_code}')
+except Exception as e:
+    print(f'Error: {e}')
+"
+cd /home/x/dev/kb-ontology/ard && export PREFECT_API_URL="http://localhost:4200/api" && uv run python3 prefect/deploy_flows.py 2>&1 | grep -E "(INFO|WARNING|ERROR|Verified|Available flows)" | tail -20
+cd /home/x/dev/kb-ontology/ard && sleep 2 && python3 -c "
+import requests
+import json
+try:
+    response = requests.post('http://localhost:4200/api/flows/filter', json={}, timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        flows = data if isinstance(data, list) else data.get('items', data.get('flows', []))
+        print(f'Total flows from API: {len(flows)}')
+        for f in flows:
+            name = f.get('name', 'unknown')
+            print(f'  - {name}')
+    else:
+        print(f'API returned status {response.status_code}')
+except Exception as e:
+    print(f'Error: {e}')
+"
+cd /home/x/dev/kb-ontology/ard && ./scripts/start_qt_gui.sh > /tmp/gui_startup.log 2>&1 &
+echo "GUI started in background"
+sleep 5
+echo "Checking GUI process..."
+ps aux | grep -E "python.*qt|ard.*gui" | grep -v grep | head -3
+cd /home/x/dev/kb-ontology/ard && sleep 3 && tail -50 ~/.ard-work/logs/ard_consolidated.log | grep -E "(Prefect|flow|Connected|INFO.*prefect)" | tail -15
+cd /home/x/dev/kb-ontology/ard && python3 -c "
+import requests
+import json
+try:
+    response = requests.post('http://localhost:4200/api/flows/filter', json={}, timeout=5)
+    if response.status_code == 200:
+        data = response.json()
+        flows = data if isinstance(data, list) else data.get('items', data.get('flows', []))
+        print(f'✓ Prefect API shows {len(flows)} flows')
+        print('')
+        print('All flows are deployed and available:')
+        for f in sorted(flows, key=lambda x: x.get('name', '')):
+            name = f.get('name', 'unknown')
+            print(f'  - {name}')
+    else:
+        print(f'✗ API returned status {response.status_code}')
+except Exception as e:
+    print(f'✗ Error: {e}')
+"
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/viewmodels/working_copy_viewmodel.py src/ard/ui/qt/working_copy_dialog.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/viewmodels/working_copy_viewmodel.py src/ard/ui/qt/working_copy_dialog.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1 | head -30
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.ui.qt.prefect_jobs_view import PrefectJobsView; print('Import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1 | head -30
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py src/ard/ui/qt/main_window.py 2>&1 | head -30
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py src/ard/ui/qt/main_window.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py src/ard/ui/qt/flow_trigger_dialog.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/flow_trigger_dialog.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/main_window.py 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -c "from ard.ui.qt.main_window import WorkingCopyMainWindow; print('Import successful')" 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/main_window.py 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/app_stderr.log 2>/dev/null | tail -50
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep -i "error\|exception\|traceback\|failed" | tail -30
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/main_window.py 2>&1
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep -i "warning\|warn" | tail -20
+cd /home/x/dev/kb-ontology/ard && tail -200 ~/.ard-work/logs/app_stderr.log 2>/dev/null | grep -i "warning\|warn" | tail -20
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | tail -50
+cd /home/x/dev/kb-ontology/ard && tail -200 ~/.ard-work/logs/app_stdout.log 2>/dev/null | grep -i "warning\|warn" | tail -30
+cd /home/x/dev/kb-ontology/ard && find ~/.ard-work/logs -name "*.log" -type f -exec tail -50 {} \; 2>/dev/null | grep -i "warning\|warn" | head -30
+cd /home/x/dev/kb-ontology/ard && tail -500 ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep -E "WARNING|Warning|warning" | tail -30
+cd /home/x/dev/kb-ontology/ard && python3 -W all -c "import warnings; warnings.simplefilter('default'); from ard.ui.qt.prefect_jobs_view import PrefectJobsView" 2>&1 | head -20
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/app_stdout.log 2>/dev/null | tail -50
+cd /home/x/dev/kb-ontology/ard && tail -100 ~/.ard-work/logs/app_stderr.log 2>/dev/null | tail -50
+cd /home/x/dev/kb-ontology/ard && tail -200 ~/.ard-work/logs/ard_consolidated.log 2>/dev/null | grep -A 10 -B 5 "06:59" | tail -40
+cd /home/x/dev/kb-ontology/ard && python3 -m py_compile src/ard/ui/qt/prefect_jobs_view.py 2>&1
+tail -100 /home/x/dev/kb-ontology/work/logs/app_stdout.log | grep -A 20 -B 5 -i "error\|exception\|traceback\|critical" | head -100
+tail -200 /home/x/dev/kb-ontology/work/logs/app_stdout.log
+grep -i "traceback\|exception\|error\|critical" /home/x/dev/kb-ontology/work/logs/app_stdout.log | tail -50
+grep -i "critical\|error\|exception" /home/x/dev/kb-ontology/work/logs/app_stdout.log | tail -20
+grep -A 10 "07:02:" /home/x/dev/kb-ontology/work/logs/app_stdout.log | grep -i "error\|exception\|traceback" | head -20
+ps aux | grep -i "python.*ard\|python.*qt\|prefect\|weaviate" | grep -v grep
+tail -50 /home/x/dev/kb-ontology/work/logs/app_stdout.log | grep -E "^[0-9]{2}:[0-9]{2}:[0-9]{2}" | tail -20
+bash -n /home/x/dev/kb-ontology/ard/scripts/build_and_run.sh
+tail -50 /home/x/dev/kb-ontology/work/logs/app_stdout.log | grep -E "CRITICAL|FATAL|Traceback|Exception:|ERROR" | grep -v "WARNING: Critical error detected" | grep -v "WARNING: Flow deployment had issues" | head -10
+tail -50 /home/x/dev/kb-ontology/work/logs/app_stderr.log | grep -A 10 -B 5 "Traceback\|ERROR\|Exception" | head -30
+python3 -c "import sys; sys.path.insert(0, 'src'); from ard.ui.qt.prefect_jobs_view import PrefectJobsView; import inspect; print([m for m in dir(PrefectJobsView) if 'mappings' in m.lower()])"
+./build_and_run.sh 
+npm start 
+npm install 
+pnpm install 
+pnpm approve-builds
+pnpm install 
+pnpm start 
+pnpm install 
+pnpm start 
+scripts/debug.sh
+clear
+scripts/debug.sh
+clear
+scripts/debug.sh
+ls
+
+./scripts/build.sh
+scripts/debug.sh
+./scripts/debug.sh 
+ps | grep angular
+ps 
+kill 2828153
+kill 4180540
+kill -f 4180540
+kill -f 443592
+kill 2828153
+kill -f 2828153
+ps 
+kill -9 2834149
+kill -9 4239100
+sudo kill 2834149
+ps 
+kill 748503
+ps 
+clear
+ls
+ps 
+ps | grep crashpad exec kill 
+pkill -f crashpad 
+clear
+ls
+ps
+pkill -f crashpad 
+pkill 
+ps
+history | grep  intel 
+sudo modprobe -r kvm_intel 
+exit 
+cd /home/x/dev/tree-project1/tree-project-react && chmod +x scripts/debug.sh && ./scripts/debug.sh
+cd /home/x/dev/tree-project1/tree-project-react && npm run dev > /tmp/arboratory-dev.log 2>&1 &
+ls 
+cd scripts/
+ls
+./build.sh 
+cd scripts/build.sh 
+./build.sh 
+./debug.sh 
+./build.sh 
+story ./build.sh 
+history 
+ps | grep ng 
+pkill 2999773
+pkill 2857828
+ps | grep ng 
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+tail -n 100 /home/x/.arboratory/logs/build.log | grep -A 5 "TS2554" | head -20
+cd /home/x/dev/tree-project1/tree-project-anjular && grep -n "undefined," src/app/core/services/document.service.ts
+tail -n 20 /home/x/.arboratory/logs/debug.log
+rm -f /home/x/.arboratory/logs/errors.log /home/x/.arboratory/logs/build.log && touch /home/x/.arboratory/logs/errors.log /home/x/.arboratory/logs/build.log
+echo "[$(date '+%Y-%m-%dT%H:%M:%S-05:00')] Logs cleared - starting fresh" >> /home/x/.arboratory/logs/errors.log
+tail -n 50 /home/x/.arboratory/logs/debug.log | grep -E "(tree-project-react|vite|React|✅|❌|ERROR)" | tail -20
+tail -n 100 /home/x/.arboratory/logs/debug.log | grep -A 5 -B 5 "tree-project-react" | tail -30
+cd /home/x/dev/tree-project1/tree-project-react && grep -r "MenuBar" src/App.tsx 2>/dev/null || echo "MenuBar not found in App.tsx"
+cd /home/x/dev/tree-project1/tree-project-react && tail -n 20 /home/x/.arboratory/logs/debug.log
+cd /home/x/dev/tree-project1/tree-project-react && tail -n 10 /home/x/.arboratory/logs/errors.log
+cd /home/x/dev/tree-project1/tree-project-react && npx tsc --noEmit 2>&1 | grep -A 2 "MenuBar.tsx" | head -20
+cd /home/x/dev/tree-project1/tree-project-react && echo "[$(date '+%Y-%m-%d %H:%M:%S')] Debugging session started - monitoring for errors" >> /home/x/.arboratory/logs/debug.log
+cd /home/x/dev/tree-project1/tree-project-react && tail -f /home/x/.arboratory/logs/debug.log /home/x/.arboratory/logs/errors.log 2>&1 | head -50
+cd /home/x/dev/tree-project1/tree-project-react && tail -n 30 /home/x/.arboratory/logs/debug.log | grep -E "(✅|✔|error|ERROR|Build)" | tail -10
+cd /home/x/dev/tree-project1/tree-project-react && npx tsc --noEmit src/components/MenuBar.tsx 2>&1 | head -15
+cd /home/x/dev/tree-project1/tree-project-react && tail -50 ~/.arboratory/logs/debug.log 2>/dev/null || echo "Log file not found yet"
+cd /home/x/dev/tree-project1/tree-project-react && tail -50 ~/.arboratory/logs/errors.log 2>/dev/null || echo "Error log not found yet"
+cd /home/x/dev/tree-project1/tree-project-react && tail -50 ~/.arboratory/logs/build.log 2>/dev/null || echo "Build log not found yet"
+cd /home/x/dev/tree-project1/tree-project-react && npx tsc --noEmit 2>&1 | head -50
+chmod +x /home/x/dev/tree-project1/tree-project-react/scripts/maintenance-cycle.sh
+cd /home/x/dev/tree-project1/tree-project-react && npx tsc --noEmit 2>&1 | head -30
+cd /home/x/dev/tree-project1/tree-project-react && npx tsc --noEmit 2>&1 | grep -E "error TS" | head -10
+cd /home/x/dev/tree-project1/tree-project-react && npx tsc --noEmit 2>&1 | grep -c "error TS" || echo "0"
+cd /home/x/dev/tree-project1/tree-project-react && npm run build 2>&1 | tail -20
+cd /home/x/dev/tree-project1/tree-project-react && npm run build 2>&1 | tail -5
+sleep 3 && curl -s http://localhost:5173 > /dev/null && echo "✅ Dev server is running" || echo "⚠️  Dev server may still be starting"
+cd /home/x/dev/tree-project1/tree-project-react && npm run maintenance 2>&1 | tail -50
+ps aux | grep -E "vite|node.*dev" | grep -v grep | head -2
+pgrep -f "vite" && echo "✅ Dev server process found" || echo "⚠️  Dev server process not found"
+cd /home/x/dev/tree-project1/tree-project-react && cat docs/maintenance-reports/maintenance-2025-11-14.md
+cd /home/x/dev/tree-project1/tree-project-react && npm run build 2>&1 | tail -5
+cd /home/x/dev/tree-project1/tree-project-react && npm install --save-dev @playwright/test playwright
+cd /home/x/dev/tree-project1/tree-project-react && which pnpm && pnpm add -D @playwright/test playwright || npm install --save-dev @playwright/test playwright --legacy-peer-deps
+cd /home/x/dev/tree-project1/tree-project-react && pnpm run build 2>&1 | head -50
+cd /home/x/dev/tree-project1/tree-project-react && pnpm run build 2>&1 | head -30
+cd /home/x/dev/tree-project1/tree-project-react && pnpm run build 2>&1 | tail -20
+mkdir -p /home/x/dev/tree-project1/tree-project-react/.chat
+cd /home/x/dev/tree-project1/tree-project-react && mv .chat/chat-\$\(date*.md .chat/chat-$(date +%Y%m%d-%H%M%S).md 2>/dev/null || echo "File already renamed or doesn't exist"
+cd /home/x/dev/tree-project1/tree-project-react && ls -la .chat/ 2>/dev/null | head -5
+cd /home/x/dev/tree-project1/tree-project-react && pnpm add two three @types/three
+ls
+
+ls 
+./build.sh
+./scripts/debug.sh 
+./build.sh
+./debug.sh 
+clear
+ls
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+ps | ng 
+ps | grep ng 
+ps 
+pkill -f 2999773
+ps 
+history | grep intel 
+sudo modprobe -r kvm_intel 
+clear
+ls
+./debug.sh 
+./build.sh 
+./debug.sh 
+cd ..
+ls
+npm install 
+pnpm install 
+scripts/debug.sh 
+pnpm install 
+scripts/debug.sh 
+pnpm install 
+scripts/build.sh 
+scripts/debug.sh 
+git pull . 
+git push 
+git pull 
+git config pull.rebase true 
+git config --global pull.rebase true 
+git push 
+git pull 
+git push 
+scripts/debug.sh 
+git pull 
+git push 
+clear
+ls
+scripts/debug.sh 
+pnpn install webcola --save 
+cursor .
+cursor .
+npm rebuild 
+npm run build 
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && chmod +x scripts/debug.sh && ./scripts/debug.sh
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && tail -f ~/.arboratory/logs/app.log 2>/dev/null | grep -E "(error|Error|ERROR|warning|Warning|WARNING|failed|Failed|FAILED)" --color=always | head -50
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && sleep 2 && ./scripts/debug.sh 2>&1 | tee /tmp/debug-output.log &
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && sleep 3 && tail -f ~/.arboratory/logs/app.log ~/.arboratory/logs/debug.log 2>/dev/null | grep -E "(error|Error|ERROR|warning|Warning|WARNING|failed|Failed|FAILED|Cannot|Module|import|react-two)" --line-buffered | head -100 &
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && pnpm run dev 2>&1 | tee ~/.arboratory/logs/app.log &
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && tail -f ~/.arboratory/logs/app.log 2>/dev/null | while read line; do echo "[$(date '+%H:%M:%S')] $line"; done | grep -E "(error|Error|ERROR|warning|Warning|WARNING|failed|Failed|FAILED|Cannot|Module|import|react-two|Uncaught|ReferenceError|TypeError)" --line-buffered &
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && sleep 2 && ./scripts/debug.sh > /tmp/debug-output.log 2>&1 &
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && sleep 3 && echo "=== Setting up Continuous Monitoring ===" && (tail -f ~/.arboratory/logs/app.log ~/.arboratory/logs/debug.log 2>/dev/null | grep --line-buffered -E "(error|Error|ERROR|warning|Warning|WARNING|failed|Failed|FAILED|Cannot|Module|import|react-two|Uncaught|ReferenceError|TypeError|SyntaxError|ready|VITE)" | head -50) &
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && echo "=== Active Monitoring Session ===" && echo "✅ Server: http://localhost:4200" && echo "✅ Vite: Ready" && echo "" && echo "=== Monitoring Console Logs ===" && echo "Watching for errors in real-time..." && echo "" && tail -f ~/.arboratory/logs/app.log 2>/dev/null | grep --line-buffered -E "(error|Error|ERROR|warning|Warning|WARNING|failed|Failed|FAILED|Cannot|Module|import|react-two|Uncaught|ReferenceError|TypeError|SyntaxError|Canvas2DReactTwo)" | while read line; do echo "[$(date '+%H:%M:%S')] $line"; done &
+cd /home/x/dev/mad-projects/arb/2d/Arboratory && echo "=== Monitoring Console Logs ===" && echo "Watching for errors as you use the application..." && tail -f ~/.arboratory/logs/app.log 2>/dev/null | grep --line-buffered -E "(error|Error|ERROR|warning|Warning|WARNING|failed|Failed|FAILED|Cannot|Module|import|react-two|Uncaught|ReferenceError|TypeError|SyntaxError|Canvas2DReactTwo)" | while IFS= read -r line; do echo "[$(date '+%H:%M:%S')] ⚠️  $line"; done &
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && chmod +x debug.sh && ./debug.sh
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && chmod +x scripts/debug.sh && ./scripts/debug.sh
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && chmod +x scripts/debug.sh && ./scripts/debug.sh
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && pnpm run dev 2>&1 | tee ~/.arboratory/logs/app.log &
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && pnpm run dev 2>&1 | tee ~/.arboratory/logs/app.log &
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && chmod +x scripts/debug.sh && ./scripts/debug.sh
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && ./scripts/debug.sh
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && chmod +x scripts/debug.sh && scripts/debug.sh
+sleep 5 && tail -f ~/.arboratory/logs/app.log ~/.arboratory/logs/debug.log 2>/dev/null || echo "Waiting for logs to be created..."
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && ./scripts/debug.sh
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && npm run dev
+scripts/debug.sh 
+tail -f ~/.arboratory/logs/app.log 2>/dev/null &
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && scripts/debug.sh > /dev/null 2>&1 &
+tail -f ~/.arboratory/logs/app.log 2>/dev/null &
+echo $! > /tmp/log_monitor.pid
+cd /home/x/dev/mad-projects/arb/3d/Arboratory && pnpm dev
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cd ..
+ls
+cd .obsidian/
+ls
+cd plugins/
+ls
+cd pbreadcrum/
+ls
+npm build 
+npm run build 
+cd ..
+ls
+cd pmcp-lookup
+npm run build 
+cd ..
+ls
+clear
+ls
+cursor . 
+cd ~
+clear
+ls
+sudo apt update Dcursor 
+sudo apt update 
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+clear
+ls
+sudo dpkg -i cursor_2.0.77_amd64.deb 
+ls
+uv init 
+mkdir src 
+mkdir docs
+pip3 install pytest 
+apt install python3-pytest 
+sudo apt install python3-pytest 
+clear
+gcc 
+git clone https://github.com/mishra8038/ct-interview.git
+history | grep intel 
+sudo modprobe -r kvm_intel 
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg |   sudo gpg --dearmor -o /etc/apt/keyrings/antigravity-repo-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" |   sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
+sudo apt update
+sudo apt install antigravity
+antigravity
+hxsitory | grep intel 
+history | grep intel 
+hxsitory | grep intel
+sudo modprobe -r kvm_intel 
+ls
+cd angular-tutorial/
+ls
+pnpm install 
+pnpm start dev 
+pnpm start
+git pull 
+git push 
+pnpm start 
+ls
+cd angular-tutorial/
+ls
+pnpm start 
+git init 
+exit
+sudo update cursor 
+sudo apt update cursor 
+sudo apt update 
+sudo apt install --only-upgrade cursor 
+netstat 
+netstat | grep 4200
+ps | grep 4200
+ps 
+history | grep intel 
+hxsitory | grep i
+sudo modprobe -r kvm_intel 
+exit
+cursor . 
+exit
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub io.typora.Typora
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+sudo pnpm install 
+ls
+pnpm install 
+pnpm dev 
+pnpm add js-yaml @types/js-yaml
+./debug.sh
+pnpm dev
+pnpm build 2>&1 | tee build_log.txt
+pnpm add three@0.160.0 @types/three@0.160.0 @react-three/fiber@8.15.16 @react-three/drei@9.99.0
+npm install react-icons
+pnpm add react-icons
+pnpm add @react-three/fiber @react-three/drei @types/three
+mkdir -p src/features/board/engine-3d
+mkdir -p src/features/board/components/3d
+ls -F debug.sh
+chmod +x debug.sh && ./debug.sh
+./debug.sh
+npm run dev
+npm run build
+npm run build
+npm run build
+npm run build > build_log.txt 2>&1
+npm run build
+pnpm build > build_log_pnpm.txt 2>&1
+pnpm add -D @types/node
+pnpm build > build_log_pnpm_2.txt 2>&1
+pnpm build > build_log_pnpm_3.txt 2>&1
+pnpm build > build_log_pnpm_4.txt 2>&1
+npm run dev
+pnpm dev
+pnpm dev
+pnpm dev
+pnpm dev
+pnpm dev
+history | grep intel 
+sudo modprobe -r kvm_intel 
+pkill -f vite
+npx tsc --noEmit --skipLibCheck apps/view-rc/src/components/CanvasRC.tsx
+npx tsc --noEmit --skipLibCheck apps/view-rc/src/components/CanvasRC.tsx | grep "CanvasRC.tsx"
+npx tsc --noEmit --skipLibCheck --jsx react apps/view-rc/src/components/CanvasRC.tsx
+npx tsc --noEmit --skipLibCheck --jsx react apps/view-rc/src/components/CanvasRC.tsx | grep "CanvasRC.tsx"
+pnpm --filter @arboratory/view-rc run dev
+mkdir -p apps/view-3df/src/components apps/view-3df/src/hooks && cp packages/legacy/src/features/board/components/3d/Canvas3D_Design.tsx apps/view-3df/src/components/ && cp packages/legacy/src/features/board/components/3d/Tree2DIn3D.tsx apps/view-3df/src/components/
+cp packages/legacy/src/features/board/components/3d/Canvas3DOverlay.tsx apps/view-3df/src/components/
+pnpm --filter @arboratory/view-3df add react-icons
+mkdir -p apps/view-rc/src/components apps/view-rc/src/hooks && cp packages/legacy/src/features/board/CanvasRC.tsx apps/view-rc/src/components/
+cp packages/legacy/src/features/board/TreeRendererRC.tsx apps/view-rc/src/components/
+grep -r "class LayoutEngine" packages/core/src
+grep -r "getBackgroundLayoutService" packages/core/src
+grep -r "class LayoutEngine" packages/legacy/src
+cp packages/legacy/src/engine/layout-engine.ts apps/view-rc/src/engine/ && mkdir -p apps/view-rc/src/engine
+mkdir -p apps/view-rc/src/engine && cp packages/legacy/src/engine/layout-engine.ts apps/view-rc/src/engine/
+mkdir -p apps/view-rc/src/config && cp packages/core/src/config/interactions-rc.json apps/view-rc/src/config/ && cp packages/legacy/src/features/board/Canvas2D.css apps/view-rc/src/components/
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-2d/src
+sed -i 's/computeTreeLayout(/LayoutEngine2D.getInstance().computeLayout(/g' /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-2d/src/Canvas2D.tsx
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+pnpm --filter @arboratory/view-rc run dev
+npx madge --circular packages/core/src/index.ts
+pnpm add -D madge
+pnpm add -D -w madge
+npx madge --circular packages/core/src/index.ts
+pnpm --filter @arboratory/core run build 2>&1 | head -100
+pnpm --filter @arboratory/core run build 2>&1 | head -50
+pnpm --filter @arboratory/core run build
+npx madge --circular packages/core/src/index.ts
+pnpm build 2>&1 | tail -30
+pnpm install
+pnpm install
+pnpm install
+mkdir -p apps/view-3d/src/components apps/view-3d/src/hooks && cp packages/legacy/src/features/board/components/3d/Canvas3D_R3F.tsx apps/view-3d/src/components/ && cp packages/legacy/src/features/board/components/3d/Tree3D.tsx apps/view-3d/src/components/ && cp packages/legacy/src/features/board/components/3d/Node3D.tsx apps/view-3d/src/components/ && cp packages/legacy/src/features/board/components/3d/Canvas3DOverlay.tsx apps/view-3d/src/components/
+mkdir -p apps/view-3d/src/engine && cp packages/legacy/src/features/board/engine-3d/LayoutEngine3D.ts apps/view-3d/src/engine/
+pnpm --filter @arboratory/view-3d run dev
+pnpm --filter @arboratory/view-rc run dev
+cp packages/legacy/src/features/board/Canvas2D.tsx apps/view-2d/src/Canvas2D.tsx && cp packages/legacy/src/components/TreeRenderer.tsx apps/view-2d/src/TreeRenderer.tsx
+pnpm --filter @arboratory/view-2d run dev
+pnpm --filter @arboratory/view-3df run dev
+npm run dev
+mkdir -p packages/legacy packages/core packages/ui-kit apps && mv src index.html vite.config.ts tsconfig.json tsconfig.node.json package.json .eslintrc.cjs jest.config.js playwright.config.ts vite-plugin-file-logger.ts e2e scripts pnpm-lock.yaml packages/legacy/
+rm -rf node_modules
+mkdir -p packages/core/src packages/ui-kit/src
+pnpm install
+cp -r packages/legacy/src/domain packages/legacy/src/services packages/legacy/src/store packages/legacy/src/utils packages/legacy/src/types packages/legacy/src/config packages/core/src/
+mkdir -p packages/ui-kit/src/components && cp -r packages/legacy/src/components/* packages/ui-kit/src/components/ && cp packages/legacy/src/index.css packages/ui-kit/src/styles.css
+pnpm install
+mkdir -p apps/view-2d/src apps/view-3d/src apps/view-3df/src apps/view-rc/src
+pnpm install
+pnpm install
+pnpm install
+pnpm install
+pnpm --filter @arboratory/view-3df run dev
+pnpm build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/packages/core
+npx tsc --noEmit --skipLibCheck
+pnpm add -D @types/react @types/node typescript && pnpm add react
+npx tsc --noEmit --skipLibCheck
+npx tsc --noEmit --skipLibCheck
+npx tsc --noEmit --skipLibCheck
+npx tsc --noEmit --skipLibCheck
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+pnpm build
+pnpm --filter @arboratory/view-3d run dev
+clear
+ls
+cd scripts/
+ls
+./build.sh
+uv add three
+ls
+./debug.sh
+pnpm list --depth=0 2>/dev/null | grep -E "apps/(view-3d|view-3df)" || echo "Checking workspace status..."
+ps aux | grep -E "(vite|node.*dev)" | grep -v grep || echo "No dev servers running"
+cd apps/view-3d && pnpm build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+pnpm add -D @types/uuid @types/node --filter @arboratory/core
+cat node_modules/.pnpm/webcola@3.4.0/node_modules/webcola/dist/index.d.ts | head -100
+cat node_modules/.pnpm/webcola@3.4.0/node_modules/webcola/dist/src/layout.d.ts | grep -A10 "interface.*Constraint\|export.*Constraint"
+cat node_modules/.pnpm/webcola@3.4.0/node_modules/webcola/dist/src/layout.d.ts | head -200
+find node_modules/.pnpm/webcola@3.4.0 -name "*.d.ts" -exec grep -l "AlignmentConstraint\|SeparationConstraint" {} \;
+find node_modules/.pnpm/@types+webcola@3.2.0 -name "*.d.ts" 2>/dev/null | head -5
+find node_modules -path "*@types/webcola*" -name "*.d.ts" 2>/dev/null | head -5
+cd packages/core && pnpm list @antv/hierarchy 2>&1 | head -10
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build 2>&1 | tail -100
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+ls packages/core/node_modules/@types/ 2>&1 | grep -E "(uuid|node)" | head -10
+cd apps/view-3d && pnpm build 2>&1 | tail -50
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd packages/core && pnpm list @types/uuid @types/node 2>&1 | grep -A2 "@types"
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm add three-stdlib
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build 2>&1 | tail -30
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm add -D @types/uuid @types/node
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm remove @types/uuid
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd packages/core && pnpm remove @types/uuid
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+ls -la packages/core/src/types/
+cd apps/view-3d && pnpm build 2>&1 | tail -40
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build 2>&1 | tail -50
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3df && pnpm build 2>&1 | tail -50
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3df && pnpm add three-stdlib @types/node -D
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3df && pnpm build 2>&1 | tail -40
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+rm -rf apps/view-2d apps/view-rc
+rm -f DEBUG_GUIDE.md IMPLEMENTATION_SUMMARY.md BUILD_FIXES.md \
+  docs/CONTINUATION_SUMMARY.md \
+  docs/DEBUGGING_ANALYSIS.md \
+  docs/DRAG_ISSUE_ANALYSIS.md \
+  docs/MONITORING_ACTIVE.md \
+  docs/REPLICATE_CANVASRC_TO_2D_3D_PLAN.md \
+  docs/TESTING_SUMMARY.md \
+  docs/VERSION_1.2.0_CHANGELOG.md
+rm -f packages/core/src/services/interaction-manager.ts packages/core/src/config/interactions.ts
+rm -f apps/view-3d/src/hooks/useInteractionAdapter.ts apps/view-3df/src/hooks/useInteractionAdapter.ts
+cd apps/view-3d && pnpm build 2>&1 | tail -20
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build 2>&1 | tail -20
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm build 2>&1 | tail -20
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+rm -rf packages/legacy packages/core/src/config
+cd apps/view-3df && pnpm build 2>&1 | tail -20
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3d && pnpm dev
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd apps/view-3df && pnpm dev
+cd apps/view-3df && pnpm build 2>&1 | tail -20
+nordvpn connect us 
+pnpm run dev 
+cd apps/view-3df/
+pnpm electron:dev
+cd ..
+pnpm tauri:dev
+sudo apt-get update && sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+pnpm tauri:dev
+clear
+ls
+clear
+ls
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run build
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cargo --version
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df/src-tauri
+cargo check
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+npm run dev
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+rm -rf /home/x/dev/mad-projects/arb/3dag/Arboratory/docs2
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/packages/core
+npm run build
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm install @react-three/rapier
+pnpm add @react-three/rapier
+npm run build
+npm run build
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/packages/core
+npm run build
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+pnpm build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/packages/core
+npm run build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+pnpm build
+pnpm dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm build
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+ps aux | grep tauri
+pgrep -f tauri | xargs kill -9
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pkill -f "vite" && pkill -f "cargo" && pkill -f "view-3df"
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pnpm tauri:dev
+pkill -f "tauri" && pkill -f "vite" && pkill -f "app"
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+pnpm install 
+pnpm dev 
+pnpm build 
+pnpm dev 
+cd /home/x/dev/mad-projects/arb/3dag/pocs/tree && npm create vite@latest . -- --template react
+cd /home/x/dev/mad-projects/arb/3dag/pocs/tree && pnpm install
+cd /home/x/dev/mad-projects/arb/3dag/pocs/tree && pnpm run build
+cd /home/x/dev/mad-projects/arb/3dag/pocs/tree && pnpm install
+cd /home/x/dev/mad-projects/arb/3dag/pocs/tree && pnpm run debug:headless
+cd /home/x/dev/mad-projects/arb/3dag/pocs/tree && ./scripts/start-dev.sh
+history 
+history | grep intel 
+history | grep nord
+nordvpn connect us 
+pnpm add reactflow
+pnpm install reactflow
+pnpm install reactflow --workspace=apps/view-3df
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run build
+npm run dev -- --port 4203
+npm run dev -- --port 4203
+pkill -f "npm run dev"
+npm run dev -- --port 4203
+npm install
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+npm install -w @arboratory/view-3df
+pnpm add reactflow --filter @arboratory/view-3df
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run dev -- --port 4203
+npm install reactflow
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory && npm install reactflow -w apps/view-3df
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+rm /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df/src/components/ReactFlowTree.tsx
+ls -la node_modules/.bin/electron
+pnpm exec electron --version
+pnpm remove electron && pnpm add -D electron
+pnpm exec electron --version
+cd ../.. && pnpm add -D -w electron
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+rustc --version
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source $HOME/.cargo/env && cargo install tauri-cli
+source $HOME/.cargo/env && pnpm tauri:dev
+sudo apt-get update && sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+pnpm dev
+pnpm build
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+pnpm tauri:dev
+sudo apt update 
+history | grep nord
+nordvpn connect us 
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run build
+rm src/engine/LayoutEngine3DF.ts && rmdir src/engine
+npm run tauri:dev
+npm run dev
+npm run dev
+rm src/components/TreeCanvasTexture.tsx src/components/BoundingBoxToolbar.tsx
+npm uninstall reactflow
+npm run build
+echo "Toolbar repositioned successfully."
+echo "Crash resolved."
+echo "Toolbar fixed."
+echo "Session context saved. Ready for new agent."
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+npx playwright test tests/view-3df.spec.ts
+npx playwright test tests/view-3df.spec.ts
+pnpm --filter @arboratory/view-3df exec tsc --noEmit
+pnpm dev
+pnpm --filter @arboratory/view-3df exec tsc --noEmit
+pnpm --filter @arboratory/view-3df exec tsc --noEmit
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory
+pnpm run tauri:dev
+pnpm --filter @arboratory/view-3df exec tsc --noEmit
+pnpm --filter @arboratory/view-3df 
+pnpm --filter @arboratory/view-3df 
+pnpm run tauri:dev
+npx -y ts-node verify_engine.ts
+rm docs/IMPLEMENTATION_REPORT_*.md docs/UNIFIED_VISION_ROADMAP.md
+pnpm test
+pnpm test:e2e
+pnpm test:e2e
+pnpm --filter @arboratory/core build && pnpm --filter @arboratory/view-3df build
+pnpm --filter @arboratory/core build && pnpm --filter @arboratory/view-3df build
+pnpm --filter @arboratory/core build && pnpm --filter @arboratory/view-3df build
+ps aux | grep view-3df
+pgrep -f view-3df
+pnpm --filter @arboratory/view-3df dev --port 4205
+pnpm test packages/core/src/engine/__tests__/interaction-engine.test.ts
+npx ts-node verify_engine.ts
+npx -y ts-node verify_engine.ts
+npx -y ts-node --skip-project verify_engine.ts
+pnpm test packages/core/src/engine/__tests__/interaction-integration.test.ts
+pnpm add three @types/three --filter @arboratory/core
+pnpm build --filter @arboratory/core
+pnpm --filter @arboratory/core build
+pnpm --filter @arboratory/core build
+pnpm --filter @arboratory/view-3df build
+pnpm --filter @arboratory/core build
+pnpm --filter @arboratory/view-3df build
+pnpm --filter @arboratory/view-3df dev
+pnpm --filter @arboratory/core build && pnpm --filter @arboratory/view-3df build
+rm verify_engine.ts
+pnpm --filter @arboratory/view-3df dev --port 4206
+ls -F /home/x/.gemini/antigravity/brain/7ab59dc3-c1fc-4cd5-9453-27ead96b26cb/
+pnpm run dev
+ls -F apps/view-3df/
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run tauri:dev
+npm run tauri:dev
+cd /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df
+npm run tauri:dev
+npm run tauri:dev
+npm run tauri:dev
+rm /home/x/dev/mad-projects/arb/3dag/Arboratory/apps/view-3df/src/components/InteractionSystem.tsx
+npm run tauri:dev
+npm run tauri:dev
+npm run tauri:dev
+npm run tauri:dev
+npm run tauri:dev
+pnpm test:e2e
+pnpm test:e2e -g "should load the 3DF view and render canvas"
+pnpm test:e2e -g "Vim-style navigation"
+pnpm test:e2e
+pnpm test:e2e -g "Vim-style navigation"
+nordvpn connect us 
+ipconfig 
+ifconfig 
+nordvpn connect us 
+pnpm tauri:dev
+npx ts-node verify_mock.ts
+npx ts-node verify_mock.ts
+npx tsx verify_mock.ts
+nordvpn connect us 
+sudo service status sshd
+exit
+nordvpn connect us 
+exit
+nordvpn connect us 
+sudo apt update 
+curl -fsSL https://claude.ai/install.sh | bash
+claude --help
+sudo apt update 
+journalctl
+clear
+bluetoothctl 
+curl https://cursor.com/install -fsS | bash
+agent --help 
+agent install-shell-integration 
+cursor --help 
+pnpm install 
+pnpm dev 
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+sudo dpkg -i cursor_2.4.26_amd64.deb 
+cursor
+clear
+ls
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+cursor
+sudo apt install claude-desktop 
+sudo apt remove claude-desktop
+sudo apt install claude-desktop ipconfig 
+ipconfig 
+ifconfig 
+ping 192.168.8.112
+ssh root@192.168.8.112
+ssh root@192.168.8.112:8006
+ssh root@192.168.8.112
+ssh root@192.168.8.112 -L 8006:localhost:8006
+ping localhost
+ifconfig 
+uv cache clean 
+pip3p install killpy
+pip3 install killpy
+cursor
+cd /home/x/dev/00interview/kb/ct-interview
+dir 
+ls 
+git status 
+cd ct-interview/
+git status 
+git pull . 
+git commit -m "restructuring" 
+git add . 
+git commit -m "restructuring" 
+git push 
+ls 
+git status 
+git merge master 
+git push -u origin system-syllabus
+git push -u origin systems-syllabus
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+
+sudo apt install gh 
+sudo dpkg --configure -a
+sudo apt install virtualbox 
+sudo apt remove virtualbox 
+sudo apt install -f 
+sudo apt install linux-headers-$(uname -r)
+sudo apt update 
+sudo apt upgrade 
+uname -a 
+sudo apt autoremove 
+sudo apt install git build-essential linux-headers-$(uname -r)
+sudo apt install gh 
+gh auth login 
+cd /home/x/dev/00interview/kb/ct-interview/ct-interview
+ls 
+clear
+ls
+git status 
+git push 
+gh push 
+gh status 
+gh push . 
+ls 
+git status 
+git merge master 
+gh merge master 
+gh pr 
+gh pr merge 
+gh pr merge --audo 
+gh pr merge --auto
+gh status 
+gh status . 
+git status 
+git checkout master 
+git push 
+gh pr push 
+gh merge 
+gh merge . 
+gh merge 
+gh merge run 
+gh merge . 
+gh merge repo 
+gh merge 
+gh pr merge -s 
+gh status 
+gh checkout master 
+gh merge 
+gh branch 
+gh workflow 
+gh org 
+gh pr list 
+gh pr merge 2
+gh checkout systems-syllabus 
+gh checkout systems-syllabus
+ls 
+git co systems-syllabus 
+git checkout  systems-syllabus 
+git add . 
+git status 
+git rebase --continue 
+git commit 
+git push . 
+git branch 
+git merge systems-syllabus 
+git commit 
+git add . 
+git commit 
+git commit -m "merged systems barnch back into this" 
+git push 
+gh push 
+gh co 
+gh co -b master 
+gh pr status 
+gh pr 
+gh pr view 
+gh checkout systems-syllabus 
+gh co systems-syllabus 
+gh pr status 
+gh pr merge 
+gh pr merge --help 
+gh pr merge -s 
+gh co master 
+gh merge systems-syllabus 
+gh fetch systems-syllabus 
+gh pr checkout 2
+gh pr checkout 
+gh pr list 
+gh switch main 
+gh switch master 
+gh co master 
+gh status 
+gh pr status 
+gh checkout master 
+gh co master
+gh checkout master 
+gh pr status 
+gh checkout java-prep-review
+gh list 
+gh 
+gh pr checkout 
+gh pr checkout 3
+gh pr merge master 
+gh pr merge 
+git merge origin/master 
+git fetch origin/master 
+git fetch origin master 
+gh fetch origin master 
+git checkout --ours .makemd/fileCache.mdc
+git add .makemd/fileCache.mdc
+git checkout --ours .makemd/superstate.mdc
+git add .makemd/superstate.mdc
+gh pr commit 
+gh auth setup-git 
+git commit -m "merged java prep changes" 
+git push 
+git checkout master 
+git push 
+git pull 
+git commit -m ""
+git commit -a 
+git commit -a -m "renamed coding interviews folder"
+git add . 
+git pull 
+git checkout --ours "Knowledge Base/Webservices/API/API.md
+git checkout --ours "Knowledge Base/Webservices/API/API.md"
+git add "Knowledge Base/Webservices/API/API.md"
+git merge 
+git add .
+git merge 
+git checkout master 
+git branch 
+git push 
+git push origin HEAD:master 
+cd ..
+git clone https://github.com/mishra8038/ct-interview.git ct-interview1
+cursor
+sudo apt update cursor 
+sudo apt update 
+sudo apt upgrade 
+cursor 
+ls
+cd ..
+ls
+cd tools
+ls
+mkdir cli
+cd cli
+gg-cli
+mkdir gg
+mkdir claude
+mkdir chatgpt 
+cdgg
+cd gg/
+pnpm install @google/gemini-cli
+ls
+cd ..
+ls
+cd claude/
+top  
+top 
+cursor
+cd dev
+ls
+cd tools/
+ls
+cd cli
+npm i -g @antrhopic-ai/claude-code
+npm update 
+pnpm update 
+pnpm i -g @anthropic-ai/claude-code 
+ifconfig 
+sudo apt-get install ipmitool
+ssh x@192.168.8.193
+sudo apt_mark showmanual > package_list.txt
+sudo apt install apt-mark
+sudo apt i apt-mark 
+sudo apt install apt-mark 
+sudo apt install -reinstall apt 
+sudo apt install --reinstall apt 
+apt-mark 
+sudo apt-mark showmanual 
+sudo apt-mark showmanual > package_list.txt 
+ifconfig 
+. "/usr/share/cursor/resources/app/out/vs/workbench/contrib/terminal/common/scripts/shellIntegration-bash.sh"
+

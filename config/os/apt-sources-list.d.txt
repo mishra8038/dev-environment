@@ -1,0 +1,13 @@
+antigravity.list
+archive_uri-https_packages_microsoft_com_repos_vscode-noble.list
+cursor.sources
+docker.list
+google-chrome.list
+google.list
+kubernetes.list
+nordvpn-app.list
+sublime-text.list
+ubuntuhandbook1-ubuntu-open-fprintd-noble.sources
+ubuntu.sources
+uunicorn-ubuntu-open-fprintd-noble.sources
+warpdotdev.list

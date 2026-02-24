@@ -1,0 +1,8 @@
+{
+    "redhat.telemetry.enabled": true,
+    "jdk.telemetry.enabled": true,
+    "files.watcherExclude": {
+        "**/.bloop": true,
+        "**/.metals": true
+    }
+}

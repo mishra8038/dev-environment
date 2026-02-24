@@ -1,0 +1,15 @@
+[Default Applications]
+x-scheme-handler/jetbrains=jetbrains-toolbox.desktop
+audio/vnd.wave=audacious.desktop
+text/html=google-chrome.desktop
+x-scheme-handler/http=google-chrome.desktop
+x-scheme-handler/https=google-chrome.desktop
+x-scheme-handler/about=google-chrome.desktop
+x-scheme-handler/unknown=google-chrome.desktop
+x-scheme-handler/postman=Postman.desktop
+x-scheme-handler/mailto=google-chrome.desktop
+audio/mpeg=audacious.desktop
+
+[Added Associations]
+audio/vnd.wave=vlc.desktop;audacious.desktop;
+audio/mpeg=audacious.desktop;

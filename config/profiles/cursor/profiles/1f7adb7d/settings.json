@@ -1,0 +1,8 @@
+{
+    "window.commandCenter": true,
+    "workbench.colorTheme": "Cursor Dark",
+    "git.ignoreRebaseWarning": true,
+    "git.confirmSync": false,
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "git.openRepositoryInParentFolders": "always"
+}

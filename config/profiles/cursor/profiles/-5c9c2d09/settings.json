@@ -1,0 +1,5 @@
+{
+    "redhat.telemetry.enabled": true,
+    "workbench.colorTheme": "Cursor Dark",
+    "extensions.ignoreRecommendations": true
+}

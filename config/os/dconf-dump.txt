@@ -1,0 +1,3 @@
+# Dconf dump (desktop/panel/keyboard customizations). Restore with: dconf load / < this file (use with care).
+# Generated: 2026-02-23T13:45:06-05:00
+

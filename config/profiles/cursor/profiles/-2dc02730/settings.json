@@ -1,0 +1,6 @@
+{
+    "redhat.telemetry.enabled": true,
+    "explorer.confirmDragAndDrop": false,
+    "git.autofetch": true,
+    "dart.flutterSdkPath": "/home/x/dev/flutter/0sdk/flutter"
+}
