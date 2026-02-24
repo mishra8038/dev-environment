@@ -20,9 +20,10 @@ Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environ
      - Type `q` to quit the menu without running anything.
 
 3. **Direct group execution (optional)**  
-   - Run an internal group directly:
+   - `--group NAME` accepts **dev group names** (e.g. `jetbrains`, `cursor`, `general`) or **internal group names** (e.g. `jetbrains_toolbox`, `cursor_install`, `prerequisites`). Examples:
 
      ```bash
+     ./restore-environment.sh --group jetbrains
      ./restore-environment.sh --group prerequisites
      ./restore-environment.sh --group containers
      ```
@@ -93,11 +94,11 @@ Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environ
 
 - **cursor**
   - Downloads Cursor `.deb` for Linux x64 from the Cursor update service and installs it.
-  - Applies Cursor profiles (settings/keybindings/snippets) from `config/profiles/cursor/`.\n*** End Patch```} -->
+  - Applies Cursor profiles (settings/keybindings/snippets) from `config/profiles/cursor/`.
 
 ## Notes
 
 - The script assumes **Ubuntu 24.04 LTS** (apt-based) and a Cinnamon desktop (for `cinnamon-core`, autostart paths, etc.).
 - Some steps require `sudo` and may prompt for your password.
 - ML group changes graphics drivers; expect to reboot after running `ml`.
-- For a complete spec (internal groups, verification summary, config expectations), see `docs/REGEN_PROMPT.md`.\n*** End Patch```} -->
+- For a complete spec (internal groups, verification summary, config expectations), see `docs/REGEN_PROMPT.md`.

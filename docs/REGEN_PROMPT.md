@@ -23,16 +23,14 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
        - Uses `exec > >(tee -a "$LOG_FILE") 2>&1` so output is visible and logged.
    - Provides a **group-based restore UI**:
      - Internal groups: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `vscode_install`, `cursor_install`, `chrome_install`, `jetbrains_toolbox`, `editors`, `shell`, `fonts`, `flatpak`, `ml`, `pytorch`, `claude_code`.
-     - Default internal selection: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `editors`, `shell` (others opt-in).
+     - Dev menu groups (high-level; used in interactive menu and with `--group`): `general`, `dev`, `java`, `cpp`, `rust`, `js`, `python`, `kubernetes`, `ml`, `fonts`, `jetbrains`, `cursor`.
      - CLI:
-       - No args: interactive **checkbox UI**:
-         - Renders a list `> [x] group` / `  [ ] group`.
-         - **Space** toggles the current group.
-         - **Up/Down arrows** move the cursor.
-         - **Enter** runs all selected groups.
+       - No args: interactive **numeric dev menu**:
+         - Renders a numbered list of dev groups (general, dev, java, cpp, rust, js, python, kubernetes, ml, fonts, jetbrains, cursor).
+         - User types space-separated numbers (e.g. `1 2 5`), or `0` or `all` to select everything, then **Enter** to run.
          - **q** exits without running.
-       - `--group NAME` (repeatable) runs only the named groups.
-       - `--all` runs all groups non-interactively.
+       - `--group NAME` (repeatable): accepts **dev group names** (e.g. jetbrains, cursor, general) or **internal group names** (e.g. jetbrains_toolbox, cursor_install, prerequisites). If NAME is a dev group, runs the corresponding dev group; otherwise runs the internal group.
+       - `--all` runs all internal groups non-interactively.
        - `--list-groups` prints the group names.
        - `-h/--help` prints a short usage line.
 
@@ -105,9 +103,10 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
 
 3. **Verification summary** (always printed at the end):
    - After all selected groups run, the script prints a concise summary like:
-     - uv, java, sdk, rustc, fnm, node, npm
-     - docker, podman, kubectl, minikube
-     - code, cursor
+     - Core: git
+     - Language/tooling: uv, java, sdk, mvn, gradle, rustc, fnm, node, npm, pnpm, yarn
+     - Containers: docker, podman, kubectl, minikube
+     - Editors: code, cursor, google-chrome; JetBrains Toolbox (installed under ~/dev/tools/jetbrains-toolbox)
      - Fonts: `fonts-firacode`, `fonts-hack-ttf`, `fonts-source-code-pro`, `ttf-mscorefonts-installer` (installed or not)
      - flatpak (+ whether `flathub` is configured)
      - pytorch (installed or not)

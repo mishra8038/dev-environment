@@ -39,7 +39,7 @@ run_prerequisites() {
   fi
   if command -v apt-get &>/dev/null; then
     # Core dev/desktop packages
-    for p in build-essential git cinnamon-core; do
+    for p in build-essential git cinnamon-core systemd-sysv util-linux; do
       dpkg -l "$p" &>/dev/null && continue
       log "Installing $p (sudo)"
       sudo apt-get install -y "$p" 2>/dev/null || true
@@ -51,7 +51,7 @@ run_prerequisites() {
       sudo apt-get install -y "$p" 2>/dev/null || true
     done
   fi
-  skip "Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core, gnome-keyring, libsecret)"
+  skip "Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core, systemd-sysv, util-linux, gnome-keyring, libsecret)"
 }
 
 run_python() {
@@ -409,14 +409,20 @@ verify_cmd() {
 
 verify_summary() {
   log "Verification summary:"
+  # Core / prerequisites
+  verify_cmd git
   # Language/tooling
   verify_cmd uv
   verify_cmd java
   verify_cmd sdk
+  verify_cmd mvn
+  verify_cmd gradle
   verify_cmd rustc
   verify_cmd fnm
   verify_cmd node
   verify_cmd npm
+  verify_cmd pnpm
+  verify_cmd yarn
   # Containers / k8s
   verify_cmd docker
   verify_cmd podman
@@ -425,6 +431,13 @@ verify_summary() {
   # Editors
   verify_cmd code
   verify_cmd cursor
+  verify_cmd google-chrome
+  # JetBrains Toolbox (installed under ~/dev/tools/jetbrains-toolbox)
+  if [ -x "$HOME/dev/tools/jetbrains-toolbox/jetbrains-toolbox" ]; then
+    log "  jetbrains-toolbox: installed"
+  else
+    log "  jetbrains-toolbox: not found"
+  fi
   # Dev fonts (package presence only)
   for fpkg in fonts-firacode fonts-hack-ttf fonts-source-code-pro ttf-mscorefonts-installer; do
     if dpkg -l "$fpkg" 2>/dev/null | grep -q '^ii'; then
@@ -531,7 +544,14 @@ if [ -n "$LIST" ]; then
 fi
 
 if [ ${#GRPS[@]} -gt 0 ]; then
-  for g in "${GRPS[@]}"; do log "=== $g ==="; run_group "$g" || true; done
+  for g in "${GRPS[@]}"; do
+    log "=== $g ==="
+    if printf '%s\n' "${DEV_GROUPS[@]}" | grep -qxF "$g"; then
+      run_dev_group "$g" || true
+    else
+      run_group "$g" || true
+    fi
+  done
 elif [ -n "$ALL" ]; then
   for g in "${RESTORE_GROUPS[@]}"; do log "=== $g ==="; run_group "$g" || true; done
 else
