@@ -1,0 +1,41 @@
+[H[JSelect dev groups to run (space-separated numbers, Enter to run, q to quit):
+
+./restore-environment.sh: line 521: local: can only be used in a function
+  ) general
+  1) dev
+  2) java
+  3) cpp
+  4) rust
+  5) js
+  6) python
+  7) kubernetes
+  8) ml
+  9) fonts
+  10) jetbrains
+  11) cursor
+
+Enter numbers (e.g. 1 2 5), 0 or all for everything, or q: [restore] Verification summary:
+[restore]   uv: uv 0.10.5
+[restore]   java: not found
+[restore]   sdk: not found
+[restore]   rustc: rustc 1.93.1 (01f6ddf75 2026-02-11)
+[restore]   fnm: not found
+[restore]   node: not found
+[restore]   npm: not found
+[restore]   docker: Docker version 28.2.2, build 28.2.2-0ubuntu1~24.04.1
+[restore]   podman: podman version 4.9.3
+[restore]   kubectl: Client Version: v1.35.1
+[restore]   minikube: installed
+[restore]   code: installed
+[restore]   cursor: installed
+[restore]   fonts-firacode: installed
+[restore]   fonts-hack-ttf: installed
+[restore]   fonts-source-code-pro: not installed
+[restore]   ttf-mscorefonts-installer: installed
+[restore]   flatpak: installed (flathub configured)
+[restore]   pytorch: not installed
+[restore]   claude: 2.1.52 (Claude Code)
+[restore]   qemu-guest-agent: installed
+[restore]   nvidia-smi: Tesla K80
+[restore]   graphcore: no device detected
+[restore] Done. PATH: export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"; . $HOME/.cargo/env 2>/dev/null; eval "$(fnm env 2>/dev/null)"; . $HOME/.sdkman/bin/sdkman-init.sh 2>/dev/null
