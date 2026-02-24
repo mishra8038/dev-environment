@@ -48,6 +48,8 @@ Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environ
 
 - **dev**
   - Installs VSCode (latest `.deb` from Microsoft + apt repo).
+  - Installs Cursor editor via its Linux x64 `.deb`.
+  - Installs Google Chrome (stable) via official `.deb`.
   - Applies VSCode and Cursor profiles (settings/keybindings/snippets) from `config/profiles/`.
   - Installs Docker, Podman, kubectl, and minikube.
   - Relaxes AppArmor profiles for VSCode/Cursor if present (disables their profiles).
@@ -90,8 +92,8 @@ Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environ
   - Extracts it to `~/dev/tools/jetbrains-toolbox` and makes the toolbox binary executable.
 
 - **cursor**
-  - Downloads Cursor `.deb` for Linux x64 from the Cursor update service.
-  - Installs it via `dpkg` + `apt-get -f install`.
+  - Downloads Cursor `.deb` for Linux x64 from the Cursor update service and installs it.
+  - Applies Cursor profiles (settings/keybindings/snippets) from `config/profiles/cursor/`.\n*** End Patch```} -->
 
 ## Notes
 

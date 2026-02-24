@@ -22,7 +22,7 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
        - e.g. `results/restore-YYYYMMDD-HHMMSS.log`
        - Uses `exec > >(tee -a "$LOG_FILE") 2>&1` so output is visible and logged.
    - Provides a **group-based restore UI**:
-     - Internal groups: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `vscode_install`, `editors`, `shell`, `fonts`, `flatpak`, `ml`, `pytorch`, `claude_code`.
+     - Internal groups: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `vscode_install`, `cursor_install`, `chrome_install`, `jetbrains_toolbox`, `editors`, `shell`, `fonts`, `flatpak`, `ml`, `pytorch`, `claude_code`.
      - Default internal selection: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `editors`, `shell` (others opt-in).
      - CLI:
        - No args: interactive **checkbox UI**:
@@ -62,12 +62,22 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
      - Downloads the latest VSCode `.deb` from `https://update.code.visualstudio.com/latest/linux-deb-x64/stable`.
      - Installs it via `sudo dpkg -i` + `sudo apt-get -f install -y`.
      - Adds the Microsoft VSCode apt repo `/etc/apt/sources.list.d/vscode.list` and key if missing.
+   - `cursor_install`:
+     - Downloads the Cursor editor `.deb` for Linux x64 from the Cursor update service (current stable URL).
+     - Installs it via `sudo dpkg -i` + `sudo apt-get -f install -y`.
+   - `chrome_install`:
+     - Downloads the Google Chrome stable `.deb` from `https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb`.
+     - Installs it via `sudo dpkg -i` + `sudo apt-get -f install -y`.
+   - `jetbrains_toolbox`:
+     - Downloads the JetBrains Toolbox tarball (current stable URL).
+     - Extracts it under `~/dev/tools/jetbrains-toolbox` and marks the toolbox binary as executable.
    - `editors`:
      - For VSCode:
        - Installs extensions listed in `vscode_extensions` from `installed-tools.json` if not already present.
        - Copies settings/keybindings/snippets/profiles from `config/profiles/vscode/` into `~/.config/Code/User`.
      - For Cursor:
        - Same pattern using `cursor` CLI and `config/profiles/cursor/` into `~/.config/Cursor/User`.
+     - After profiles are applied, runs an AppArmor helper that disables VSCode/Cursor profiles if present (so they are not confined by AppArmor).
    - `shell`:
      - **Backs up existing `~/.bashrc`** once to `~/.bashrc.restore-default` (if not already backed up).
      - Copies shell dotfiles from `config/shell/` (`.bashrc`, `.profile`, `.bash_logout`, `.inputrc`, `fish/`).

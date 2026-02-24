@@ -23,8 +23,8 @@ json_array() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$
 
 [ -f "$JSON" ] || { log "Missing $JSON. Put config/ next to this script (config/installed-tools.json, etc.)."; exit 1; }
 
-RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install jetbrains_toolbox editors shell fonts flatpak ml pytorch claude_code)
-DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 1 0 0 0 0 0)
+RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install chrome_install jetbrains_toolbox editors shell fonts flatpak ml pytorch claude_code)
+DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0 0)
 
 DEV_GROUPS=(general dev java cpp rust js python kubernetes ml fonts jetbrains cursor)
 DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0 0 0)
@@ -145,6 +145,22 @@ run_cursor_install() {
   if ! wget -qO "$deb" "https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/2.5" 2>/dev/null; then
     rm -f "$deb"
     log "Failed to download Cursor .deb; install manually from https://cursor.com/download."
+    return 0
+  fi
+  sudo apt-get update -qq 2>/dev/null || true
+  sudo dpkg -i "$deb" 2>/dev/null || sudo apt-get -f install -y 2>/dev/null || true
+  rm -f "$deb" || true
+}
+
+run_chrome_install() {
+  command -v google-chrome &>/dev/null && { skip "Google Chrome"; return 0; }
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip Chrome install"; return 0; }
+  log "Downloading Google Chrome .deb (stable) and installing (sudo)..."
+  local deb
+  deb=$(mktemp --suffix=.deb)
+  if ! wget -qO "$deb" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" 2>/dev/null; then
+    rm -f "$deb"
+    log "Failed to download Google Chrome .deb; install manually from https://www.google.com/chrome/."
     return 0
   fi
   sudo apt-get update -qq 2>/dev/null || true
@@ -465,6 +481,9 @@ run_group() {
     node)          run_node ;;
     containers)    run_containers ;;
     vscode_install) run_vscode_install ;;
+    cursor_install) run_cursor_install ;;
+    chrome_install) run_chrome_install ;;
+    jetbrains_toolbox) run_jetbrains_toolbox ;;
     editors)       run_editors ;;
     shell)         run_shell ;;
     fonts)         run_fonts ;;
@@ -479,7 +498,7 @@ run_group() {
 run_dev_group() {
   case "$1" in
     general)     run_group prerequisites; run_group shell; run_group flatpak; run_group claude_code ;;
-    dev)         run_group vscode_install; run_group editors; run_group containers ;;
+    dev)         run_group vscode_install; run_group cursor_install; run_group chrome_install; run_group editors; run_group containers ;;
     java)        run_group java ;;
     cpp)         run_group editors ;;
     rust)        run_group rust; run_group editors ;;
@@ -488,6 +507,8 @@ run_dev_group() {
     kubernetes)  run_group containers ;;
     ml)          run_group ml; run_group pytorch ;;
     fonts)       run_group fonts ;;
+    jetbrains)   run_group jetbrains_toolbox ;;
+    cursor)      run_group cursor_install; run_group editors ;;
     *)           log "Unknown dev group $1"; return 1 ;;
   esac
 }
