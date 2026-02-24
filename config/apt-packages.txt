@@ -1,4 +1,0 @@
-# Top-level APT packages (explicitly installed, not deps of other manual packages).
-# Edit this file: remove lines you don't want restored, add # to comment out.
-# Generated from 323 manual →  top-level.
-

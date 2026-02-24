@@ -1,0 +1,421 @@
+#!/usr/bin/env bash
+# Restore dev environment. SCP this file + config/ to Ubuntu Server, then run: ./restore-environment.sh
+# Idempotent: skips tools already installed; safe to re-run.
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG="$ROOT/config"
+PROFILES="$CONFIG/profiles"
+JSON="$CONFIG/installed-tools.json"
+export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:${PATH}"
+
+RESULTS="$ROOT/results"
+mkdir -p "$RESULTS" 2>/dev/null || true
+LOG_FILE="$RESULTS/restore-$(date +%Y%m%d-%H%M%S).log"
+exec > >(tee -a "$LOG_FILE") 2>&1
+
+log() { printf '[restore] %s\n' "$*" >&2; }
+skip() { log "Skip: $*"; }
+json_get() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$k" '.[$k] // empty' "$JSON" 2>/dev/null; else grep -o "\"$k\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$JSON" 2>/dev/null | sed -n 's/.*:[[:space:]]*"\([^"]*\)".*/\1/p'; fi; }
+json_array() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$k" '.[$k][]? // empty' "$JSON" 2>/dev/null; else sed -n "/\"$k\"[[:space:]]*:/,/\]/p" "$JSON" | grep -o '"[^"]*"' | tr -d '"'; fi; }
+
+[ -f "$JSON" ] || { log "Missing $JSON. Put config/ next to this script (config/installed-tools.json, etc.)."; exit 1; }
+
+RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install editors shell fonts flatpak ml pytorch claude_code)
+DEFAULT_SEL=(1 1 1 1 1 1 0 1 1 0 0 0 0 0)
+
+DEV_GROUPS=(general dev java cpp rust js python kubernetes ml fonts)
+DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0)
+
+run_prerequisites() {
+  command -v apt-get &>/dev/null || return 0
+  for p in unzip curl; do command -v "$p" &>/dev/null || { log "Installing unzip curl ca-certificates (sudo)"; sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y unzip curl ca-certificates 2>/dev/null || true; return 0; }; done
+  if ! dpkg -l qemu-guest-agent 2>/dev/null | grep -q '^ii'; then
+    log "Installing qemu-guest-agent (sudo)"
+    sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y qemu-guest-agent 2>/dev/null || true
+    command -v systemctl &>/dev/null && sudo systemctl enable --now qemu-guest-agent 2>/dev/null || true
+  fi
+  if command -v apt-get &>/dev/null; then
+    for p in build-essential git cinnamon-core; do
+      dpkg -l "$p" &>/dev/null && continue
+      log "Installing $p (sudo)"
+      sudo apt-get install -y "$p" 2>/dev/null || true
+    done
+  fi
+  skip "Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core)"
+}
+
+run_python() {
+  command -v uv &>/dev/null && { skip "uv"; return 0; }
+  log "Installing uv"; curl -LsSf https://astral.sh/uv/install.sh | sh || true
+  export PATH="${HOME}/.local/bin:${PATH}"
+}
+
+run_java() {
+  command -v java &>/dev/null && command -v sdk &>/dev/null && { skip "Java"; return 0; }
+  command -v sdk &>/dev/null || { log "Installing SDKMAN"; curl -s "https://get.sdkman.io" | bash || true; export SDKMAN_DIR="${HOME}/.sdkman"; [ -f "${HOME}/.sdkman/bin/sdkman-init.sh" ] && . "${HOME}/.sdkman/bin/sdkman-init.sh" 2>/dev/null || true; }
+  command -v sdk &>/dev/null || return 0
+  local w=$(json_get "java_version"); [[ "$w" == *tem* && "$w" == *21* ]] && w="21.0.8-tem" || w="${w:-21.0.8-tem}"; w=$(echo "$w" | tr -d '[:space:]'); [ -z "$w" ] && w="21.0.8-tem"
+  log "Installing Java $w"; sdk install java "$w" 2>/dev/null || sdk install java 21.0.8-tem 2>/dev/null || true
+  if command -v apt-get &>/dev/null; then
+    for p in maven gradle; do
+      dpkg -l "$p" &>/dev/null && continue
+      log "Installing $p (sudo)"
+      sudo apt-get install -y "$p" 2>/dev/null || true
+    done
+  fi
+}
+
+run_rust() {
+  command -v rustc &>/dev/null && { skip "Rust"; return 0; }
+  log "Installing Rust"; curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -q 2>/dev/null || true
+  [ -f "${HOME}/.cargo/env" ] && . "${HOME}/.cargo/env" 2>/dev/null; export PATH="${HOME}/.cargo/bin:${PATH}"
+}
+
+run_node() {
+  if command -v fnm &>/dev/null && command -v node &>/dev/null; then skip "Node"; return 0; fi
+  command -v fnm &>/dev/null || { log "Installing fnm"; curl -fsSL https://fnm.vercel.app/install | bash 2>/dev/null || true; export PATH="${HOME}/.local/share/fnm:${PATH}"; eval "$(fnm env 2>/dev/null)" || true; }
+  command -v fnm &>/dev/null || return 0
+  local v=$(json_get "node_version"); v=${v#v}
+  [ -n "$v" ] && { fnm install "$v" 2>/dev/null || fnm install --lts 2>/dev/null || true; fnm use "$v" 2>/dev/null || fnm default "$v" 2>/dev/null || true; } || fnm install --lts 2>/dev/null || true
+  eval "$(fnm env 2>/dev/null)" || true
+  while read -r pkg; do [ -z "$pkg" ] && continue; command -v npm &>/dev/null || continue; npm list -g "$pkg" &>/dev/null && continue; log "npm global $pkg"; npm install -g "$pkg" 2>/dev/null || true; done < <(json_array "npm_global_packages")
+}
+
+run_docker() { command -v docker &>/dev/null && { skip "Docker"; return 0; }; log "Installing Docker"; command -v apt-get &>/dev/null && { sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y docker.io 2>/dev/null || true; } || curl -fsSL https://get.docker.com | sh 2>/dev/null || true; }
+run_podman() { command -v podman &>/dev/null && { skip "Podman"; return 0; }; log "Installing Podman"; command -v apt-get &>/dev/null && { sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y podman 2>/dev/null || true; }; }
+run_kubectl() {
+  command -v kubectl &>/dev/null && { skip "kubectl"; return 0; }; log "Installing kubectl"
+  local t=$(mktemp); curl -sSL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o "$t" 2>/dev/null && chmod +x "$t" && (sudo mv "$t" /usr/local/bin/kubectl 2>/dev/null || mv "$t" "$HOME/.local/bin/kubectl" 2>/dev/null) || rm -f "$t"
+}
+run_minikube() {
+  command -v minikube &>/dev/null && { skip "minikube"; return 0; }; log "Installing minikube"
+  command -v apt-get &>/dev/null && sudo apt-get install -y curl conntrack 2>/dev/null || true
+  local t=$(mktemp); curl -Lo "$t" https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 2>/dev/null && chmod +x "$t" && (sudo mv "$t" /usr/local/bin/minikube 2>/dev/null || mv "$t" "$HOME/.local/bin/minikube" 2>/dev/null) || rm -f "$t"
+}
+verify_containers() {
+  log "Verify containers:"
+  for cmd in docker podman kubectl minikube; do
+    if command -v "$cmd" &>/dev/null; then
+      v=$("$cmd" --version 2>/dev/null || "$cmd" version --client --short 2>/dev/null || "$cmd" version --client 2>/dev/null | head -1)
+      log "  $cmd: $v"
+    else
+      log "  $cmd: not found"
+    fi
+  done
+}
+run_containers() { run_docker || true; run_podman || true; run_kubectl || true; run_minikube || true; verify_containers; }
+
+run_vscode_install() {
+  command -v code &>/dev/null && { skip "VSCode"; return 0; }
+  command -v apt-get &>/dev/null || return 0
+  log "Downloading VSCode .deb and installing (sudo)..."
+  local deb
+  deb=$(mktemp --suffix=.deb)
+  wget -qO "$deb" "https://update.code.visualstudio.com/latest/linux-deb-x64/stable" 2>/dev/null || { rm -f "$deb"; log "Failed to download VSCode .deb"; return 0; }
+  sudo apt-get update -qq 2>/dev/null || true
+  sudo dpkg -i "$deb" 2>/dev/null || sudo apt-get -f install -y 2>/dev/null || true
+  rm -f "$deb" || true
+  if [ ! -f /etc/apt/sources.list.d/vscode.list ]; then
+    log "Adding Microsoft VSCode apt repository for automatic updates (sudo)..."
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg >/dev/null 2>&1 || true
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list >/dev/null 2>&1 || true
+    sudo apt-get update -qq 2>/dev/null || true
+  else
+    log "VSCode apt repository already present (/etc/apt/sources.list.d/vscode.list)."
+  fi
+}
+
+run_vscode_profile() {
+  command -v code &>/dev/null || { log "code not in PATH"; return 0; }
+  while read -r ext; do [ -z "$ext" ] && continue; code --list-extensions 2>/dev/null | grep -qxF "$ext" && continue; log "VSCode ext $ext"; code --install-extension "$ext" 2>/dev/null || true; done < <(json_array "vscode_extensions")
+  local d="${XDG_CONFIG_HOME:-$HOME/.config}/Code/User"; [ -d "$PROFILES/vscode" ] || return 0; mkdir -p "$d"
+  [ -f "$PROFILES/vscode/settings.json" ] && cp "$PROFILES/vscode/settings.json" "$d/" 2>/dev/null; [ -f "$PROFILES/vscode/keybindings.json" ] && cp "$PROFILES/vscode/keybindings.json" "$d/" 2>/dev/null
+  [ -d "$PROFILES/vscode/snippets" ] && cp -r "$PROFILES/vscode/snippets" "$d/" 2>/dev/null; [ -f "$PROFILES/vscode/profiles.json" ] && cp "$PROFILES/vscode/profiles.json" "$d/" 2>/dev/null
+}
+
+run_cursor_profile() {
+  command -v cursor &>/dev/null || { log "cursor not in PATH"; return 0; }
+  while read -r ext; do [ -z "$ext" ] && continue; cursor --list-extensions 2>/dev/null | grep -qxF "$ext" && continue; log "Cursor ext $ext"; cursor --install-extension "$ext" 2>/dev/null || true; done < <(json_array "cursor_extensions")
+  local d="${XDG_CONFIG_HOME:-$HOME/.config}/Cursor/User"; [ -d "$PROFILES/cursor" ] || return 0; mkdir -p "$d"
+  [ -f "$PROFILES/cursor/settings.json" ] && cp "$PROFILES/cursor/settings.json" "$d/" 2>/dev/null; [ -f "$PROFILES/cursor/keybindings.json" ] && cp "$PROFILES/cursor/keybindings.json" "$d/" 2>/dev/null
+  [ -d "$PROFILES/cursor/snippets" ] && cp -r "$PROFILES/cursor/snippets" "$d/" 2>/dev/null
+}
+
+run_editors() { run_vscode_profile || true; run_cursor_profile || true; }
+
+run_shell() {
+  local dc="${XDG_CONFIG_HOME:-$HOME/.config}"
+  if [ -f "$HOME/.bashrc" ] && [ ! -f "$HOME/.bashrc.restore-default" ]; then
+    cp "$HOME/.bashrc" "$HOME/.bashrc.restore-default" 2>/dev/null && log "Backed up .bashrc to .bashrc.restore-default" || true
+  fi
+  for f in .bashrc .profile .bash_logout .inputrc; do [ -f "$CONFIG/shell/$f" ] && cp "$CONFIG/shell/$f" "$HOME/$f" 2>/dev/null && log "Restored $f" || true; done
+  [ -d "$CONFIG/shell/fish" ] && cp -r "$CONFIG/shell/fish" "$dc/" 2>/dev/null && log "Restored fish" || true
+  if [ -f "$CONFIG/shell/bash_history" ] && [ ! -f "$HOME/.restore_bash_history_done" ]; then
+    grep -v '^#' "$CONFIG/shell/bash_history" 2>/dev/null | grep -v '^$' | tail -n 5000 >> "$HOME/.bash_history" 2>/dev/null && touch "$HOME/.restore_bash_history_done" && log "Appended bash_history" || true
+  fi
+  [ -f "$CONFIG/git/gitconfig" ] && cp "$CONFIG/git/gitconfig" "$HOME/.gitconfig" 2>/dev/null && log "Restored .gitconfig" || true
+  [ -d "$CONFIG/git/config.d" ] && mkdir -p "$dc/git" && cp -r "$CONFIG/git/config.d"/* "$dc/git/" 2>/dev/null && log "Restored git config.d" || true
+  [ -f "$CONFIG/ssh/config" ] && mkdir -p "$HOME/.ssh" && cp "$CONFIG/ssh/config" "$HOME/.ssh/config" 2>/dev/null && log "Restored .ssh/config" || true
+  [ -f "$CONFIG/os/mimeapps.list" ] && cp "$CONFIG/os/mimeapps.list" "$dc/mimeapps.list" 2>/dev/null && log "Restored mimeapps" || true
+  [ -d "$CONFIG/os/autostart" ] && mkdir -p "$dc/autostart" && for f in "$CONFIG/os/autostart"/*.desktop; do [ -f "$f" ] && cp "$f" "$dc/autostart/" 2>/dev/null; done && log "Restored autostart" || true
+  [ -f "$CONFIG/mcp/vscode-mcp.json" ] && mkdir -p "$dc/Code/User" && cp "$CONFIG/mcp/vscode-mcp.json" "$dc/Code/User/mcp.json" 2>/dev/null; [ -f "$CONFIG/mcp/cursor-mcp.json" ] && mkdir -p "$HOME/.cursor" && cp "$CONFIG/mcp/cursor-mcp.json" "$HOME/.cursor/mcp.json" 2>/dev/null
+  [ -f "$CONFIG/os/dconf-dump.txt" ] && command -v dconf &>/dev/null && log "Desktop: dconf load / < $CONFIG/os/dconf-dump.txt"
+  # Swap CapsLock with Ctrl using setxkbmap and add an autostart entry
+  if command -v setxkbmap &>/dev/null; then
+    if ! setxkbmap -query 2>/dev/null | grep -q 'ctrl:swapcaps'; then
+      log "Setting keyboard option ctrl:swapcaps (swap CapsLock with Ctrl)..."
+      setxkbmap -option ctrl:swapcaps 2>/dev/null || true
+    else
+      skip "setxkbmap ctrl:swapcaps already active"
+    fi
+    local as_dir="$dc/autostart"
+    local as_file="$as_dir/setxkb-swapcaps.desktop"
+    if [ ! -f "$as_file" ]; then
+      mkdir -p "$as_dir" 2>/dev/null || true
+      cat >"$as_file" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Swap CapsLock and Ctrl
+Comment=Swap CapsLock with Ctrl using setxkbmap
+Exec=setxkbmap -option ctrl:swapcaps
+X-GNOME-Autostart-enabled=true
+EOF
+      log "Installed setxkbmap autostart (swap CapsLock and Ctrl)."
+    fi
+  fi
+}
+
+run_flatpak() {
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip flatpak"; return 0; }
+  if ! command -v flatpak &>/dev/null; then
+    log "Installing Flatpak (sudo)..."
+    sudo apt-get update -qq 2>/dev/null || true
+    sudo apt-get install -y flatpak 2>/dev/null || true
+  else
+    skip "Flatpak"
+  fi
+  if command -v flatpak &>/dev/null; then
+    if ! flatpak remote-list 2>/dev/null | grep -q '^flathub'; then
+      log "Adding Flathub remote (user scope)..."
+      flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo 2>/dev/null || true
+    else
+      skip "Flathub remote"
+    fi
+  fi
+}
+
+run_fonts() {
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip fonts"; return 0; }
+  local pkgs=(fonts-firacode fonts-hack-ttf fonts-source-code-pro ttf-mscorefonts-installer)
+  for p in "${pkgs[@]}"; do
+    dpkg -l "$p" &>/dev/null && { skip "$p"; continue; }
+    log "Installing font package $p (sudo)..."
+    sudo apt-get update -qq 2>/dev/null || true
+    # Note: ttf-mscorefonts-installer may require EULA acceptance; this may fail non-interactively.
+    sudo apt-get install -y "$p" 2>/dev/null || log "  install of $p may require manual EULA acceptance or additional setup."
+  done
+}
+
+run_ml() {
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip ml"; return 0; }
+  # Blacklist nouveau to prefer proprietary NVIDIA driver
+  if ! grep -q '^blacklist nouveau' /etc/modprobe.d/blacklist-nouveau.conf 2>/dev/null; then
+    log "Blacklisting nouveau (sudo, requires reboot to fully apply)..."
+    printf 'blacklist nouveau\noptions nouveau modeset=0\n' | sudo tee /etc/modprobe.d/blacklist-nouveau.conf >/dev/null 2>&1 || true
+    sudo update-initramfs -u 2>/dev/null || true
+  else
+    skip "nouveau already blacklisted"
+  fi
+  # NVIDIA Tesla K80: server 470 driver
+  if ! dpkg -l nvidia-driver-470-server 2>/dev/null | grep -q '^ii'; then
+    log "Installing NVIDIA 470 server driver for Tesla K80 (sudo)..."
+    sudo apt-get update -qq 2>/dev/null || true
+    sudo apt-get install -y nvidia-driver-470-server 2>/dev/null || true
+  else
+    skip "nvidia-driver-470-server"
+  fi
+  # Graphcore Colossus GC-02-C2: driver must be installed from Graphcore portal
+  if lspci 2>/dev/null | grep -qi 'Graphcore'; then
+    log "Graphcore hardware detected. Install GC-02-C2 Colossus drivers and SDK manually from https://downloads.graphcore.ai (see vendor docs)."
+  else
+    log "No Graphcore device detected (skip Graphcore driver instructions)."
+  fi
+}
+
+run_pytorch() {
+  command -v uv &>/dev/null || { log "Install python group first"; return 0; }
+  if uv pip show torch &>/dev/null || python3 -c "import torch" 2>/dev/null; then skip "PyTorch"; return 0; fi
+  log "Installing PyTorch (CUDA)"; local cu="${RESTORE_PYTORCH_CUDA:-cu124}"
+  uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/${cu}" 2>/dev/null || uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/cu118" 2>/dev/null || true
+}
+
+run_claude_code() {
+  command -v claude &>/dev/null && { skip "Claude Code"; return 0; }
+  log "Installing Claude Code"; curl -fsSL https://claude.ai/install.sh | bash 2>/dev/null || true
+}
+
+verify_cmd() {
+  local cmd="$1"
+  if command -v "$cmd" &>/dev/null; then
+    local v
+    v=$("$cmd" --version 2>/dev/null || "$cmd" version --client --short 2>/dev/null || "$cmd" version --client 2>/dev/null | head -1)
+    log "  $cmd: ${v:-installed}"
+  else
+    log "  $cmd: not found"
+  fi
+}
+
+verify_summary() {
+  log "Verification summary:"
+  # Language/tooling
+  verify_cmd uv
+  verify_cmd java
+  verify_cmd sdk
+  verify_cmd rustc
+  verify_cmd fnm
+  verify_cmd node
+  verify_cmd npm
+  # Containers / k8s
+  verify_cmd docker
+  verify_cmd podman
+  verify_cmd kubectl
+  verify_cmd minikube
+  # Editors
+  verify_cmd code
+  verify_cmd cursor
+  # Dev fonts (package presence only)
+  for fpkg in fonts-firacode fonts-hack-ttf fonts-source-code-pro ttf-mscorefonts-installer; do
+    if dpkg -l "$fpkg" 2>/dev/null | grep -q '^ii'; then
+      log "  $fpkg: installed"
+    else
+      log "  $fpkg: not installed"
+    fi
+  done
+  # Flatpak / Flathub
+  if command -v flatpak &>/dev/null; then
+    if flatpak remote-list 2>/dev/null | grep -q '^flathub'; then
+      log "  flatpak: installed (flathub configured)"
+    else
+      log "  flatpak: installed (no flathub remote)"
+    fi
+  else
+    log "  flatpak: not found"
+  fi
+  # PyTorch
+  if uv pip show torch &>/dev/null || python3 -c "import torch" 2>/dev/null; then
+    log "  pytorch: installed"
+  else
+    log "  pytorch: not installed"
+  fi
+  # Claude Code
+  verify_cmd claude
+  # QEMU guest agent
+  if dpkg -l qemu-guest-agent 2>/dev/null | grep -q '^ii' || [ -x /usr/sbin/qemu-ga ]; then
+    log "  qemu-guest-agent: installed"
+  else
+    log "  qemu-guest-agent: not found"
+  fi
+  # ML drivers / tools
+  verify_cmd nvidia-smi
+  if lspci 2>/dev/null | grep -qi 'Graphcore'; then
+    log "  graphcore: hardware detected (drivers must be installed from Graphcore portal)"
+  else
+    log "  graphcore: no device detected"
+  fi
+}
+
+run_group() {
+  case "$1" in
+    prerequisites) run_prerequisites ;;
+    python)        run_python ;;
+    java)          run_java ;;
+    rust)          run_rust ;;
+    node)          run_node ;;
+    containers)    run_containers ;;
+    vscode_install) run_vscode_install ;;
+    editors)       run_editors ;;
+    shell)         run_shell ;;
+    fonts)         run_fonts ;;
+    flatpak)       run_flatpak ;;
+    ml)            run_ml ;;
+    pytorch)       run_pytorch ;;
+    claude_code)   run_claude_code ;;
+    *) log "Unknown group $1"; return 1 ;;
+  esac
+}
+
+run_dev_group() {
+  case "$1" in
+    general)     run_group prerequisites; run_group shell; run_group flatpak; run_group claude_code ;;
+    dev)         run_group vscode_install; run_group editors; run_group containers ;;
+    java)        run_group java ;;
+    cpp)         run_group editors ;;
+    rust)        run_group rust; run_group editors ;;
+    js)          run_group node; run_group editors ;;
+    python)      run_group python; run_group pytorch; run_group editors ;;
+    kubernetes)  run_group containers ;;
+    ml)          run_group ml; run_group pytorch ;;
+    fonts)       run_group fonts ;;
+    *)           log "Unknown dev group $1"; return 1 ;;
+  esac
+}
+
+LIST=; ALL=; GRPS=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --list-groups) LIST=1; shift ;;
+    --all)         ALL=1; shift ;;
+    --group)       [ -n "${2:-}" ] && GRPS+=("$2"); shift 2 ;;
+    -h|--help)     echo "Usage: $0 [--list-groups|--all|--group NAME ...]. No args: checklist (Space=toggle, Enter=run)."; exit 0 ;;
+    *) shift ;;
+  esac
+done
+
+if [ -n "$LIST" ]; then
+  echo "Internal groups: ${RESTORE_GROUPS[*]}"
+  echo "Dev menu groups: ${DEV_GROUPS[*]}"
+  exit 0
+fi
+
+if [ ${#GRPS[@]} -gt 0 ]; then
+  for g in "${GRPS[@]}"; do log "=== $g ==="; run_group "$g" || true; done
+elif [ -n "$ALL" ]; then
+  for g in "${RESTORE_GROUPS[@]}"; do log "=== $g ==="; run_group "$g" || true; done
+else
+  # Interactive dev menu
+  SELECTED=("${DEV_DEFAULT_SEL[@]}")
+  CUR=0
+  redraw() {
+    printf '\033[H\033[J'
+    echo "  Select dev groups (Space=toggle, Enter=run, q=quit)"
+    echo ""
+    for i in "${!DEV_GROUPS[@]}"; do
+      local box="[ ]"; [ "${SELECTED[$i]}" = "1" ] && box="[x]"
+      local ptr=" "; [ $i -eq $CUR ] && ptr=">"
+      echo "  $ptr $box ${DEV_GROUPS[$i]}"
+    done
+    echo ""
+    echo "  Space=toggle  Enter=run  q=quit"
+  }
+  while true; do
+    redraw
+    read -rsn 1 key
+    if [ "$key" = "" ]; then break; fi
+    if [ "$key" = "q" ] || [ "$key" = "Q" ]; then exit 0; fi
+    if [ "$key" = " " ]; then
+      [ "${SELECTED[$CUR]}" = "1" ] && SELECTED[$CUR]=0 || SELECTED[$CUR]=1
+      continue
+    fi
+    if [ "$key" = $'\e' ]; then
+      read -rsn 2 key2
+      [ "$key2" = "[A" ] && [ $CUR -gt 0 ] && CUR=$((CUR-1))
+      [ "$key2" = "[B" ] && [ $CUR -lt $((${#DEV_GROUPS[@]}-1)) ] && CUR=$((CUR+1))
+    fi
+  done
+  for i in "${!DEV_GROUPS[@]}"; do
+    [ "${SELECTED[$i]}" = "1" ] && { log "=== dev group: ${DEV_GROUPS[$i]} ==="; run_dev_group "${DEV_GROUPS[$i]}" || true; }
+  done
+fi
+
+verify_summary
+
+log "Done. PATH: export PATH=\"\$HOME/.local/bin:\$HOME/.cargo/bin:\$PATH\"; . \$HOME/.cargo/env 2>/dev/null; eval \"\$(fnm env 2>/dev/null)\"; . \$HOME/.sdkman/bin/sdkman-init.sh 2>/dev/null"
