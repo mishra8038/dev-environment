@@ -7,6 +7,10 @@ PROFILES="$CONFIG/profiles"
 JSON="$CONFIG/installed-tools.json"
 export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:${PATH}"
 
+# Set to 'true' to auto-accept the Microsoft core fonts EULA for ttf-mscorefonts-installer.
+# Change to 'false' if you prefer to skip automatic EULA acceptance and install that package manually.
+export RESTORE_ACCEPT_MS_EULA=${RESTORE_ACCEPT_MS_EULA:-true}
+
 RESULTS="$ROOT/results"
 mkdir -p "$RESULTS" 2>/dev/null || true
 LOG_FILE="$RESULTS/restore-$(date +%Y%m%d-%H%M%S).log"
@@ -294,14 +298,27 @@ run_flatpak() {
 
 run_fonts() {
   command -v apt-get &>/dev/null || { log "apt-get not found; skip fonts"; return 0; }
-  local pkgs=(fonts-firacode fonts-hack-ttf fonts-source-code-pro ttf-mscorefonts-installer)
-  for p in "${pkgs[@]}"; do
+  # Simple fonts that don't require EULA
+  local basic_pkgs=(fonts-firacode fonts-hack-ttf fonts-source-code-pro)
+  for p in "${basic_pkgs[@]}"; do
     dpkg -l "$p" &>/dev/null && { skip "$p"; continue; }
     log "Installing font package $p (sudo)..."
     sudo apt-get update -qq 2>/dev/null || true
-    # Note: ttf-mscorefonts-installer may require EULA acceptance; this may fail non-interactively.
-    sudo apt-get install -y "$p" 2>/dev/null || log "  install of $p may require manual EULA acceptance or additional setup."
+    sudo apt-get install -y "$p" 2>/dev/null || log "  install of $p failed; please install manually."
   done
+  # Microsoft core fonts (EULA)
+  if dpkg -l ttf-mscorefonts-installer &>/dev/null | grep -q '^ii'; then
+    skip "ttf-mscorefonts-installer"
+  else
+    if [ "${RESTORE_ACCEPT_MS_EULA:-false}" = "true" ]; then
+      log "Auto-accepting Microsoft core fonts EULA (RESTORE_ACCEPT_MS_EULA=true) and installing ttf-mscorefonts-installer..."
+      echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections 2>/dev/null || true
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ttf-mscorefonts-installer 2>/dev/null || \
+        log "  noninteractive install of ttf-mscorefonts-installer failed; you may need to install it manually."
+    else
+      log "Skipping automatic EULA acceptance for ttf-mscorefonts-installer (RESTORE_ACCEPT_MS_EULA!=true). Install it manually if desired."
+    fi
+  fi
 }
 
 run_ml() {
@@ -424,8 +441,14 @@ verify_summary() {
   else
     log "  qemu-guest-agent: not found"
   fi
-  # ML drivers / tools
-  verify_cmd nvidia-smi
+  # NVIDIA tools
+  if command -v nvidia-smi &>/dev/null; then
+    nsmi=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -n1)
+    log "  nvidia-smi: ${nsmi:-available}"
+  else
+    log "  nvidia-smi: not found"
+  fi
+  # Graphcore hardware
   if lspci 2>/dev/null | grep -qi 'Graphcore'; then
     log "  graphcore: hardware detected (drivers must be installed from Graphcore portal)"
   else
