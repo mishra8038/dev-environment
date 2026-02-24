@@ -1,0 +1,1167 @@
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+  > [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+  > [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+  > [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+  > [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+  > [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+  > [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+  > [x] python
+    [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+  > [x] kubernetes
+    [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+  > [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+  > [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+  > [ ] ml
+    [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[H[J  Select dev groups (Space=toggle, Enter=run, q=quit)
+
+    [x] general
+    [x] dev
+    [x] java
+    [x] cpp
+    [x] rust
+    [x] js
+    [x] python
+    [x] kubernetes
+    [ ] ml
+  > [ ] fonts
+    [ ] jetbrains
+    [ ] cursor
+
+  Space=toggle  Enter=run  q=quit
+[restore] === dev group: general ===
+[restore] Installing seahorse (sudo)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  cracklib-runtime gcr gcr4 gnome-keyring gnome-keyring-pkcs11 libcrack2
+  libgck-1-0 libgcr-base-3-1 libgcr-ui-3-1 libpam-gnome-keyring
+  libpwquality-common libpwquality1 p11-kit p11-kit-modules pinentry-gnome3
+  wamerican
+Suggested packages:
+  pinentry-doc
+The following NEW packages will be installed:
+  cracklib-runtime gcr gcr4 gnome-keyring gnome-keyring-pkcs11 libcrack2
+  libgck-1-0 libgcr-base-3-1 libgcr-ui-3-1 libpam-gnome-keyring
+  libpwquality-common libpwquality1 p11-kit p11-kit-modules pinentry-gnome3
+  seahorse wamerican
+Preconfiguring packages ...
+0 upgraded, 17 newly installed, 0 to remove and 0 not upgraded.
+Need to get 0 B/2,548 kB of archives.
+After this operation, 12.1 MB of additional disk space will be used.
+Selecting previously unselected package libcrack2:amd64.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 140331 files and directories currently installed.)
+Preparing to unpack .../00-libcrack2_2.9.6-5.1build2_amd64.deb ...
+Unpacking libcrack2:amd64 (2.9.6-5.1build2) ...
+Selecting previously unselected package cracklib-runtime.
+Preparing to unpack .../01-cracklib-runtime_2.9.6-5.1build2_amd64.deb ...
+Unpacking cracklib-runtime (2.9.6-5.1build2) ...
+Selecting previously unselected package gcr4.
+Preparing to unpack .../02-gcr4_4.2.0-5_amd64.deb ...
+Unpacking gcr4 (4.2.0-5) ...
+Selecting previously unselected package libgck-1-0:amd64.
+Preparing to unpack .../03-libgck-1-0_3.41.2-1build3_amd64.deb ...
+Unpacking libgck-1-0:amd64 (3.41.2-1build3) ...
+Selecting previously unselected package libgcr-base-3-1:amd64.
+Preparing to unpack .../04-libgcr-base-3-1_3.41.2-1build3_amd64.deb ...
+Unpacking libgcr-base-3-1:amd64 (3.41.2-1build3) ...
+Selecting previously unselected package libgcr-ui-3-1:amd64.
+Preparing to unpack .../05-libgcr-ui-3-1_3.41.2-1build3_amd64.deb ...
+Unpacking libgcr-ui-3-1:amd64 (3.41.2-1build3) ...
+Selecting previously unselected package gcr.
+Preparing to unpack .../06-gcr_3.41.2-1build3_amd64.deb ...
+Unpacking gcr (3.41.2-1build3) ...
+Selecting previously unselected package p11-kit-modules:amd64.
+Preparing to unpack .../07-p11-kit-modules_0.25.3-4ubuntu2.1_amd64.deb ...
+Unpacking p11-kit-modules:amd64 (0.25.3-4ubuntu2.1) ...
+Selecting previously unselected package p11-kit.
+Preparing to unpack .../08-p11-kit_0.25.3-4ubuntu2.1_amd64.deb ...
+Unpacking p11-kit (0.25.3-4ubuntu2.1) ...
+Selecting previously unselected package pinentry-gnome3.
+Preparing to unpack .../09-pinentry-gnome3_1.2.1-3ubuntu5_amd64.deb ...
+Unpacking pinentry-gnome3 (1.2.1-3ubuntu5) ...
+Selecting previously unselected package gnome-keyring.
+Preparing to unpack .../10-gnome-keyring_46.1-2build1_amd64.deb ...
+Unpacking gnome-keyring (46.1-2build1) ...
+Selecting previously unselected package gnome-keyring-pkcs11:amd64.
+Preparing to unpack .../11-gnome-keyring-pkcs11_46.1-2build1_amd64.deb ...
+Unpacking gnome-keyring-pkcs11:amd64 (46.1-2build1) ...
+Selecting previously unselected package libpam-gnome-keyring:amd64.
+Preparing to unpack .../12-libpam-gnome-keyring_46.1-2build1_amd64.deb ...
+Unpacking libpam-gnome-keyring:amd64 (46.1-2build1) ...
+Selecting previously unselected package libpwquality-common.
+Preparing to unpack .../13-libpwquality-common_1.4.5-3build1_all.deb ...
+Unpacking libpwquality-common (1.4.5-3build1) ...
+Selecting previously unselected package libpwquality1:amd64.
+Preparing to unpack .../14-libpwquality1_1.4.5-3build1_amd64.deb ...
+Unpacking libpwquality1:amd64 (1.4.5-3build1) ...
+Selecting previously unselected package seahorse.
+Preparing to unpack .../15-seahorse_43.0-3build2_amd64.deb ...
+Unpacking seahorse (43.0-3build2) ...
+Selecting previously unselected package wamerican.
+Preparing to unpack .../16-wamerican_2020.12.07-2_all.deb ...
+Unpacking wamerican (2020.12.07-2) ...
+Setting up libpwquality-common (1.4.5-3build1) ...
+Setting up p11-kit-modules:amd64 (0.25.3-4ubuntu2.1) ...
+Setting up wamerican (2020.12.07-2) ...
+Setting up libcrack2:amd64 (2.9.6-5.1build2) ...
+Setting up gnome-keyring-pkcs11:amd64 (46.1-2build1) ...
+Setting up p11-kit (0.25.3-4ubuntu2.1) ...
+Setting up libgck-1-0:amd64 (3.41.2-1build3) ...
+Setting up libgcr-base-3-1:amd64 (3.41.2-1build3) ...
+Setting up libpam-gnome-keyring:amd64 (46.1-2build1) ...
+Setting up libgcr-ui-3-1:amd64 (3.41.2-1build3) ...
+Setting up cracklib-runtime (2.9.6-5.1build2) ...
+Setting up libpwquality1:amd64 (1.4.5-3build1) ...
+Setting up gcr (3.41.2-1build3) ...
+Processing triggers for libglib2.0-0t64:amd64 (2.80.0-6ubuntu3.8) ...
+Setting up pinentry-gnome3 (1.2.1-3ubuntu5) ...
+Processing triggers for shared-mime-info (2.4-4) ...
+Processing triggers for desktop-file-utils (0.27-2build1) ...
+Processing triggers for hicolor-icon-theme (0.17-2) ...
+Setting up gnome-keyring (46.1-2build1) ...
+Created symlink /etc/systemd/user/graphical-session-pre.target.wants/gnome-keyring-daemon.service → /usr/lib/systemd/user/gnome-keyring-daemon.service.
+Created symlink /etc/systemd/user/sockets.target.wants/gnome-keyring-daemon.socket → /usr/lib/systemd/user/gnome-keyring-daemon.socket.
+Setting up gcr4 (4.2.0-5) ...
+Created symlink /etc/systemd/user/graphical-session-pre.target.wants/gcr-ssh-agent.service → /usr/lib/systemd/user/gcr-ssh-agent.service.
+Created symlink /etc/systemd/user/sockets.target.wants/gcr-ssh-agent.socket → /usr/lib/systemd/user/gcr-ssh-agent.socket.
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+Setting up seahorse (43.0-3build2) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+[restore] Installing libsecret-tools (sudo)
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following NEW packages will be installed:
+  libsecret-tools
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 11.5 kB of archives.
+After this operation, 43.0 kB of additional disk space will be used.
+Get:1 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libsecret-tools amd64 0.21.4-1build3 [11.5 kB]
+Fetched 11.5 kB in 0s (127 kB/s)
+Selecting previously unselected package libsecret-tools.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 141351 files and directories currently installed.)
+Preparing to unpack .../libsecret-tools_0.21.4-1build3_amd64.deb ...
+Unpacking libsecret-tools (0.21.4-1build3) ...
+Setting up libsecret-tools (0.21.4-1build3) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+[restore] Skip: Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core, gnome-keyring, libsecret)
+[restore] Backed up .bashrc to .bashrc.restore-default
+[restore] Restored .bashrc
+[restore] Restored .profile
+[restore] Restored .bash_logout
+[restore] Appended bash_history
+[restore] Restored .gitconfig
+[restore] Restored autostart
+[restore] Starting gnome-keyring-daemon (secrets)...
+** Message: 12:20:32.185: couldn't connect to dbus session bus: Failed to execute child process “dbus-launch” (No such file or directory)
+[restore] Installed GNOME Keyring (secrets) autostart.
+[restore] Skip: setxkbmap ctrl:swapcaps already active
+[restore] Installed setxkbmap autostart (swap CapsLock and Ctrl).
+[restore] Installing Flatpak (sudo)...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  bubblewrap libavahi-glib1 libmalcontent-0-0 libostree-1-1
+  libpipewire-0.3-0t64 libpipewire-0.3-common libspa-0.2-modules
+  xdg-dbus-proxy xdg-desktop-portal xdg-desktop-portal-gtk
+Suggested packages:
+  avahi-daemon malcontent-gui pipewire evince xdg-desktop-portal-gnome
+The following NEW packages will be installed:
+  bubblewrap flatpak libavahi-glib1 libmalcontent-0-0 libostree-1-1
+  libpipewire-0.3-0t64 libpipewire-0.3-common libspa-0.2-modules
+  xdg-dbus-proxy xdg-desktop-portal xdg-desktop-portal-gtk
+0 upgraded, 11 newly installed, 0 to remove and 0 not upgraded.
+Need to get 1,723 kB/3,107 kB of archives.
+After this operation, 12.0 MB of additional disk space will be used.
+Get:1 http://us.archive.ubuntu.com/ubuntu noble/universe amd64 libostree-1-1 amd64 2024.5-1build2 [373 kB]
+Get:2 http://us.archive.ubuntu.com/ubuntu noble-updates/universe amd64 flatpak amd64 1.14.6-1ubuntu0.1 [1,350 kB]
+Fetched 1,723 kB in 0s (4,407 kB/s)
+Selecting previously unselected package bubblewrap.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 141356 files and directories currently installed.)
+Preparing to unpack .../00-bubblewrap_0.9.0-1ubuntu0.1_amd64.deb ...
+Unpacking bubblewrap (0.9.0-1ubuntu0.1) ...
+Selecting previously unselected package xdg-dbus-proxy.
+Preparing to unpack .../01-xdg-dbus-proxy_0.1.5-1ubuntu0.1_amd64.deb ...
+Unpacking xdg-dbus-proxy (0.1.5-1ubuntu0.1) ...
+Selecting previously unselected package libmalcontent-0-0:amd64.
+Preparing to unpack .../02-libmalcontent-0-0_0.11.1-1ubuntu1.3_amd64.deb ...
+Unpacking libmalcontent-0-0:amd64 (0.11.1-1ubuntu1.3) ...
+Selecting previously unselected package libavahi-glib1:amd64.
+Preparing to unpack .../03-libavahi-glib1_0.8-13ubuntu6.1_amd64.deb ...
+Unpacking libavahi-glib1:amd64 (0.8-13ubuntu6.1) ...
+Selecting previously unselected package libostree-1-1:amd64.
+Preparing to unpack .../04-libostree-1-1_2024.5-1build2_amd64.deb ...
+Unpacking libostree-1-1:amd64 (2024.5-1build2) ...
+Selecting previously unselected package flatpak.
+Preparing to unpack .../05-flatpak_1.14.6-1ubuntu0.1_amd64.deb ...
+Unpacking flatpak (1.14.6-1ubuntu0.1) ...
+Selecting previously unselected package libspa-0.2-modules:amd64.
+Preparing to unpack .../06-libspa-0.2-modules_1.0.5-1ubuntu3.2_amd64.deb ...
+Unpacking libspa-0.2-modules:amd64 (1.0.5-1ubuntu3.2) ...
+Selecting previously unselected package libpipewire-0.3-0t64:amd64.
+Preparing to unpack .../07-libpipewire-0.3-0t64_1.0.5-1ubuntu3.2_amd64.deb ...
+Unpacking libpipewire-0.3-0t64:amd64 (1.0.5-1ubuntu3.2) ...
+Selecting previously unselected package libpipewire-0.3-common.
+Preparing to unpack .../08-libpipewire-0.3-common_1.0.5-1ubuntu3.2_all.deb ...
+Unpacking libpipewire-0.3-common (1.0.5-1ubuntu3.2) ...
+Selecting previously unselected package xdg-desktop-portal.
+Preparing to unpack .../09-xdg-desktop-portal_1.18.4-1ubuntu2.24.04.1_amd64.deb ...
+Unpacking xdg-desktop-portal (1.18.4-1ubuntu2.24.04.1) ...
+Selecting previously unselected package xdg-desktop-portal-gtk.
+Preparing to unpack .../10-xdg-desktop-portal-gtk_1.15.1-1build2_amd64.deb ...
+Unpacking xdg-desktop-portal-gtk (1.15.1-1build2) ...
+Setting up libpipewire-0.3-common (1.0.5-1ubuntu3.2) ...
+Setting up bubblewrap (0.9.0-1ubuntu0.1) ...
+Setting up libspa-0.2-modules:amd64 (1.0.5-1ubuntu3.2) ...
+Setting up xdg-dbus-proxy (0.1.5-1ubuntu0.1) ...
+Setting up libavahi-glib1:amd64 (0.8-13ubuntu6.1) ...
+Setting up libpipewire-0.3-0t64:amd64 (1.0.5-1ubuntu3.2) ...
+Setting up libmalcontent-0-0:amd64 (0.11.1-1ubuntu1.3) ...
+Setting up xdg-desktop-portal (1.18.4-1ubuntu2.24.04.1) ...
+Created symlink /etc/systemd/user/graphical-session-pre.target.wants/xdg-desktop-portal-rewrite-launchers.service → /usr/lib/systemd/user/xdg-desktop-portal-rewrite-launchers.service.
+Setting up libostree-1-1:amd64 (2024.5-1build2) ...
+Setting up flatpak (1.14.6-1ubuntu0.1) ...
+Setting up xdg-desktop-portal-gtk (1.15.1-1build2) ...
+Processing triggers for libc-bin (2.39-0ubuntu8.7) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+Processing triggers for dbus (1.14.10-4ubuntu4.1) ...
+Processing triggers for desktop-file-utils (0.27-2build1) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+[restore] Adding Flathub remote (user scope)...
+[restore] Installing Claude Code
+Setting up Claude Code...
+[?2026h
+Checking[1Cinstallation[1Cstatus...
+[?2026l[?2026h[1AInstalling Cl[1Cude C[1Cde n[2Cive build[1Clatest...
+[?2026l[?2026h[1ASet[1Cing up[1Clauncher and shell[1Cintegration.[2C 
+[?2026l[?2026h[1A✔ Claude Code successfully installed!       
+
+[2CVersion:[1C2.1.52
+
+[2CLocation:[1C~/.local/bin/claude
+
+
+[2CNext:[1CRun[1Cclaude[1C--help[1Cto[1Cget[1Cstarted
+[?2026l[?2026h
+[?2026l
+✅ Installation complete!
+
+[restore] === dev group: dev ===
+[restore] Skip: VSCode
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] Skip: Docker
+[restore] Skip: Podman
+[restore] Installing kubectl
+[restore] Installing minikube
+Reading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version (8.5.0-2ubuntu10.6).
+The following NEW packages will be installed:
+  conntrack
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 37.9 kB of archives.
+After this operation, 119 kB of additional disk space will be used.
+Get:1 http://us.archive.ubuntu.com/ubuntu noble/main amd64 conntrack amd64 1:1.4.8-1ubuntu1 [37.9 kB]
+Fetched 37.9 kB in 0s (199 kB/s)
+Selecting previously unselected package conntrack.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 141588 files and directories currently installed.)
+Preparing to unpack .../conntrack_1%3a1.4.8-1ubuntu1_amd64.deb ...
+Unpacking conntrack (1:1.4.8-1ubuntu1) ...
+Setting up conntrack (1:1.4.8-1ubuntu1) ...
+Processing triggers for man-db (2.12.0-4build2) ...
+
+Running kernel seems to be up-to-date.
+
+No services need to be restarted.
+
+No containers need to be restarted.
+
+No user sessions are running outdated binaries.
+
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+[restore] Verify containers:
+[restore]   docker: Docker version 28.2.2, build 28.2.2-0ubuntu1~24.04.1
+[restore]   podman: podman version 4.9.3
+[restore]   kubectl: Client Version: v1.35.1
+[restore]   minikube: 
+[restore] === dev group: java ===
+[restore] Installing SDKMAN
+
+                                -+syyyyyyys:
+                            `/yho:`       -yd.
+                         `/yh/`             +m.
+                       .oho.                 hy                          .`
+                     .sh/`                   :N`                `-/o`  `+dyyo:.
+                   .yh:`                     `M-          `-/osysoym  :hs` `-+sys:      hhyssssssssy+
+                 .sh:`                       `N:          ms/-``  yy.yh-      -hy.    `.N-````````+N.
+               `od/`                         `N-       -/oM-      ddd+`     `sd:     hNNm        -N:
+              :do`                           .M.       dMMM-     `ms.      /d+`     `NMMs       `do
+            .yy-                             :N`    ```mMMM.      -      -hy.       /MMM:       yh
+          `+d+`           `:/oo/`       `-/osyh/ossssssdNMM`           .sh:         yMMN`      /m.
+         -dh-           :ymNMMMMy  `-/shmNm-`:N/-.``   `.sN            /N-         `NMMy      .m/
+       `oNs`          -hysosmMMMMydmNmds+-.:ohm           :             sd`        :MMM/      yy
+      .hN+           /d:    -MMMmhs/-.`   .MMMh   .ss+-                 `yy`       sMMN`     :N.
+     :mN/           `N/     `o/-`         :MMMo   +MMMN-         .`      `ds       mMMh      do
+    /NN/            `N+....--:/+oooosooo+:sMMM:   hMMMM:        `my       .m+     -MMM+     :N.
+   /NMo              -+ooooo+/:-....`...:+hNMN.  `NMMMd`        .MM/       -m:    oMMN.     hs
+  -NMd`                                    :mm   -MMMm- .s/     -MMm.       /m-   mMMd     -N.
+ `mMM/                                      .-   /MMh. -dMo     -MMMy        od. .MMMs..---yh
+ +MMM.                                           sNo`.sNMM+     :MMMM/        sh`+MMMNmNm+++-
+ mMMM-                                           /--ohmMMM+     :MMMMm.       `hyymmmdddo
+ MMMMh.                  ````                  `-+yy/`yMMM/     :MMMMMy       -sm:.``..-:-.`
+ dMMMMmo-.``````..-:/osyhddddho.           `+shdh+.   hMMM:     :MmMMMM/   ./yy/` `:sys+/+sh/
+ .dMMMMMMmdddddmmNMMMNNNNNMMMMMs           sNdo-      dMMM-  `-/yd/MMMMm-:sy+.   :hs-      /N`
+  `/ymNNNNNNNmmdys+/::----/dMMm:          +m-         mMMM+ohmo/.` sMMMMdo-    .om:       `sh
+     `.-----+/.`       `.-+hh/`         `od.          NMMNmds/     `mmy:`     +mMy      `:yy.
+           /moyso+//+ossso:.           .yy`          `dy+:`         ..       :MMMN+---/oys:
+         /+m:  `.-:::-`               /d+                                    +MMMMMMMNh:`
+        +MN/                        -yh.                                     `+hddhy+.
+       /MM+                       .sh:
+      :NMo                      -sh/
+     -NMs                    `/yy:
+    .NMy                  `:sh+.
+   `mMm`               ./yds-
+  `dMMMmyo:-.````.-:oymNy:`
+  +NMMMMMMMMMMMMMMMMms:`
+    -+shmNMMMNmdy+:`
+
+
+                                                                 Now attempting installation...
+
+
+Looking for a previous installation of SDKMAN...
+Looking for unzip...
+Looking for zip...
+Not found.
+======================================================================================================
+ Please install zip on your system using your favourite package manager.
+
+ Restart after installing zip.
+======================================================================================================
+
+'exit 1': command failed with exit code 1.
+[restore] === dev group: cpp ===
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] === dev group: rust ===
+[restore] Installing Rust
+
+  stable-x86_64-unknown-linux-gnu installed - rustc 1.93.1 (01f6ddf75 2026-02-11)
+
+
+Rust is installed now. Great!
+
+To get started you may need to restart your current shell.
+This would reload your PATH environment variable to include
+Cargo's bin directory ($HOME/.cargo/bin).
+
+To configure your current shell, you need to source
+the corresponding env file under $HOME/.cargo.
+
+This is usually done by running one of the following (note the leading DOT):
+. "$HOME/.cargo/env"            # For sh/bash/zsh/ash/dash/pdksh
+source "$HOME/.cargo/env.fish"  # For fish
+source $"($nu.home-path)/.cargo/env.nu"  # For nushell
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] === dev group: js ===
+[restore] Installing fnm
+Checking dependencies for the installation script...
+Checking availability of curl... OK!
+Checking availability of unzip... OK!
+Downloading https://github.com/Schniz/fnm/releases/latest/download/fnm-linux.zip...
+Installing for Bash. Appending the following to /root/.bashrc:
+
+# fnm
+FNM_PATH="/root/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
+
+In order to apply the changes, open a new terminal or run the following command:
+
+  source /root/.bashrc
+Installing Node v22.19.0 (x64)
+Using Node v22.19.0
+[restore] npm global pnpm
+
+added 1 package in 2s
+
+1 package is looking for funding
+  run `npm fund` for details
+[restore] npm global yarn
+
+added 1 package in 927ms
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] === dev group: python ===
+[restore] Installing uv
+downloading uv 0.10.5 x86_64-unknown-linux-gnu
+no checksums to verify
+installing to /root/.local/bin
+  uv
+  uvx
+everything's installed!
+[restore] Installing PyTorch (CUDA)
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] === dev group: kubernetes ===
+[restore] Skip: Docker
+[restore] Skip: Podman
+[restore] Skip: kubectl
+[restore] Skip: minikube
+[restore] Verify containers:
+[restore]   docker: Docker version 28.2.2, build 28.2.2-0ubuntu1~24.04.1
+[restore]   podman: podman version 4.9.3
+[restore]   kubectl: Client Version: v1.35.1
+[restore]   minikube: 
+[restore] Verification summary:
+[restore]   uv: uv 0.10.5
+[restore]   java: not found
+[restore]   sdk: not found
+[restore]   rustc: rustc 1.93.1 (01f6ddf75 2026-02-11)
+[restore]   fnm: fnm 1.38.1
+[restore]   node: v22.19.0
+[restore]   npm: 10.9.3
+[restore]   docker: Docker version 28.2.2, build 28.2.2-0ubuntu1~24.04.1
+[restore]   podman: podman version 4.9.3
+[restore]   kubectl: Client Version: v1.35.1
+[restore]   minikube: installed
+[restore]   code: installed
+[restore]   cursor: installed
+[restore]   fonts-firacode: not installed
+[restore]   fonts-hack-ttf: not installed
+[restore]   fonts-source-code-pro: not installed
+[restore]   ttf-mscorefonts-installer: not installed
+[restore]   flatpak: installed (flathub configured)
+[restore]   pytorch: not installed
+[restore]   claude: 2.1.52 (Claude Code)
+[restore]   qemu-guest-agent: installed
+[restore]   nvidia-smi: Invalid combination of input arguments. Please run 'nvidia-smi -h' for help.
+
+Invalid combination of input arguments. Please run 'nvidia-smi -h' for help.
+
+Invalid combination of input arguments. Please run 'nvidia-smi -h' for help.
+[restore]   graphcore: no device detected
+[restore] Done. PATH: export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"; . $HOME/.cargo/env 2>/dev/null; eval "$(fnm env 2>/dev/null)"; . $HOME/.sdkman/bin/sdkman-init.sh 2>/dev/null

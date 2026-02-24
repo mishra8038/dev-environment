@@ -19,11 +19,11 @@ json_array() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$
 
 [ -f "$JSON" ] || { log "Missing $JSON. Put config/ next to this script (config/installed-tools.json, etc.)."; exit 1; }
 
-RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install editors shell fonts flatpak ml pytorch claude_code)
-DEFAULT_SEL=(1 1 1 1 1 1 0 1 1 0 0 0 0 0)
+RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install jetbrains_toolbox editors shell fonts flatpak ml pytorch claude_code)
+DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 1 0 0 0 0 0)
 
-DEV_GROUPS=(general dev java cpp rust js python kubernetes ml fonts)
-DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0)
+DEV_GROUPS=(general dev java cpp rust js python kubernetes ml fonts jetbrains cursor)
+DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0 0 0)
 
 run_prerequisites() {
   command -v apt-get &>/dev/null || return 0
@@ -34,13 +34,20 @@ run_prerequisites() {
     command -v systemctl &>/dev/null && sudo systemctl enable --now qemu-guest-agent 2>/dev/null || true
   fi
   if command -v apt-get &>/dev/null; then
+    # Core dev/desktop packages
     for p in build-essential git cinnamon-core; do
       dpkg -l "$p" &>/dev/null && continue
       log "Installing $p (sudo)"
       sudo apt-get install -y "$p" 2>/dev/null || true
     done
+    # Secret Service / keyring support for VSCode, Cursor, JetBrains, etc.
+    for p in gnome-keyring seahorse libsecret-1-0 libsecret-tools; do
+      dpkg -l "$p" &>/dev/null && continue
+      log "Installing $p (sudo)"
+      sudo apt-get install -y "$p" 2>/dev/null || true
+    done
   fi
-  skip "Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core)"
+  skip "Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core, gnome-keyring, libsecret)"
 }
 
 run_python() {
@@ -124,6 +131,59 @@ run_vscode_install() {
   fi
 }
 
+run_cursor_install() {
+  command -v cursor &>/dev/null && { skip "Cursor editor"; return 0; }
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip Cursor install"; return 0; }
+  log "Downloading Cursor .deb (x64) and installing (sudo)..."
+  local deb
+  deb=$(mktemp --suffix=.deb)
+  # Versioned URL – may need update in future if Cursor changes the path.
+  if ! wget -qO "$deb" "https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/2.5" 2>/dev/null; then
+    rm -f "$deb"
+    log "Failed to download Cursor .deb; install manually from https://cursor.com/download."
+    return 0
+  fi
+  sudo apt-get update -qq 2>/dev/null || true
+  sudo dpkg -i "$deb" 2>/dev/null || sudo apt-get -f install -y 2>/dev/null || true
+  rm -f "$deb" || true
+}
+
+run_jetbrains_toolbox() {
+  local tools_root="$HOME/dev/tools"
+  local toolbox_dir="$tools_root/jetbrains-toolbox"
+  local toolbox_bin="$toolbox_dir/jetbrains-toolbox"
+  if [ -x "$toolbox_bin" ]; then
+    skip "JetBrains Toolbox"
+    return 0
+  fi
+  command -v tar &>/dev/null || { log "tar not available; skip JetBrains Toolbox"; return 0; }
+  mkdir -p "$tools_root" 2>/dev/null || true
+  log "Downloading JetBrains Toolbox tarball..."
+  local tarball tmpdir
+  tarball=$(mktemp --suffix=.tar.gz)
+  # Versioned URL from JetBrains; may need update over time.
+  if ! wget -qO "$tarball" "https://download.jetbrains.com/toolbox/jetbrains-toolbox-2.4.0.32175.tar.gz" 2>/dev/null; then
+    rm -f "$tarball"
+    log "Failed to download JetBrains Toolbox; install manually from https://www.jetbrains.com/toolbox-app/."
+    return 0
+  fi
+  tmpdir=$(mktemp -d)
+  tar -xzf "$tarball" -C "$tmpdir" 2>/dev/null || { rm -f "$tarball"; rm -rf "$tmpdir"; log "Failed to extract JetBrains Toolbox tarball."; return 0; }
+  rm -f "$tarball"
+  # Move extracted folder into tools_root
+  local extracted
+  extracted=$(find "$tmpdir" -maxdepth 1 -type d -name "jetbrains-toolbox-*" | head -n1)
+  if [ -z "$extracted" ]; then
+    rm -rf "$tmpdir"
+    log "Could not find extracted JetBrains Toolbox directory."
+    return 0
+  fi
+  mv "$extracted" "$toolbox_dir" 2>/dev/null || { rm -rf "$tmpdir"; log "Failed to move JetBrains Toolbox into $toolbox_dir"; return 0; }
+  rm -rf "$tmpdir"
+  chmod +x "$toolbox_bin" 2>/dev/null || true
+  log "JetBrains Toolbox installed under $toolbox_dir"
+}
+
 run_vscode_profile() {
   command -v code &>/dev/null || { log "code not in PATH"; return 0; }
   while read -r ext; do [ -z "$ext" ] && continue; code --list-extensions 2>/dev/null | grep -qxF "$ext" && continue; log "VSCode ext $ext"; code --install-extension "$ext" 2>/dev/null || true; done < <(json_array "vscode_extensions")
@@ -140,7 +200,11 @@ run_cursor_profile() {
   [ -d "$PROFILES/cursor/snippets" ] && cp -r "$PROFILES/cursor/snippets" "$d/" 2>/dev/null
 }
 
-run_editors() { run_vscode_profile || true; run_cursor_profile || true; }
+run_editors() {
+  run_vscode_profile || true
+  run_cursor_profile || true
+  run_apparmor_editors || true
+}
 
 run_shell() {
   local dc="${XDG_CONFIG_HOME:-$HOME/.config}"
@@ -159,6 +223,31 @@ run_shell() {
   [ -d "$CONFIG/os/autostart" ] && mkdir -p "$dc/autostart" && for f in "$CONFIG/os/autostart"/*.desktop; do [ -f "$f" ] && cp "$f" "$dc/autostart/" 2>/dev/null; done && log "Restored autostart" || true
   [ -f "$CONFIG/mcp/vscode-mcp.json" ] && mkdir -p "$dc/Code/User" && cp "$CONFIG/mcp/vscode-mcp.json" "$dc/Code/User/mcp.json" 2>/dev/null; [ -f "$CONFIG/mcp/cursor-mcp.json" ] && mkdir -p "$HOME/.cursor" && cp "$CONFIG/mcp/cursor-mcp.json" "$HOME/.cursor/mcp.json" 2>/dev/null
   [ -f "$CONFIG/os/dconf-dump.txt" ] && command -v dconf &>/dev/null && log "Desktop: dconf load / < $CONFIG/os/dconf-dump.txt"
+  # Start GNOME keyring (Secret Service) for editors if available
+  if command -v gnome-keyring-daemon &>/dev/null; then
+    if ! dbus-send --session --dest=org.freedesktop.secrets --type=method_call --print-reply /org/freedesktop/secrets org.freedesktop.DBus.Peer.Ping &>/dev/null; then
+      log "Starting gnome-keyring-daemon (secrets)..."
+      eval "$(gnome-keyring-daemon --start --components=secrets)" 2>/dev/null || true
+      [ -n "${SSH_AUTH_SOCK:-}" ] && export SSH_AUTH_SOCK
+    else
+      skip "Secret Service (gnome-keyring) already running"
+    fi
+    # Autostart for future sessions
+    local as_dir="$dc/autostart"
+    local as_file="$as_dir/gnome-keyring-secrets.desktop"
+    if [ ! -f "$as_file" ]; then
+      mkdir -p "$as_dir" 2>/dev/null || true
+      cat >"$as_file" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=GNOME Keyring (Secrets)
+Comment=Start gnome-keyring-daemon for Secret Service API
+Exec=/usr/bin/gnome-keyring-daemon --start --components=secrets
+X-GNOME-Autostart-enabled=true
+EOF
+      log "Installed GNOME Keyring (secrets) autostart."
+    fi
+  fi
   # Swap CapsLock with Ctrl using setxkbmap and add an autostart entry
   if command -v setxkbmap &>/dev/null; then
     if ! setxkbmap -query 2>/dev/null | grep -q 'ctrl:swapcaps'; then
@@ -251,6 +340,27 @@ run_pytorch() {
 run_claude_code() {
   command -v claude &>/dev/null && { skip "Claude Code"; return 0; }
   log "Installing Claude Code"; curl -fsSL https://claude.ai/install.sh | bash 2>/dev/null || true
+}
+
+run_apparmor_editors() {
+  # Disable AppArmor confinement for VSCode/Cursor if profiles exist
+  if ! command -v aa-status &>/dev/null || [ ! -d /etc/apparmor.d ]; then
+    skip "AppArmor (aa-status) not available"
+    return 0
+  fi
+  log "Adjusting AppArmor for editors (VSCode/Cursor) if needed..."
+  # Known profile names to try; some systems won't have them.
+  local profiles=(usr.bin.code cursor)
+  for prof in "${profiles[@]}"; do
+    local path="/etc/apparmor.d/$prof"
+    [ -f "$path" ] || continue
+    if aa-status 2>/dev/null | grep -q "$prof"; then
+      log "Disabling AppArmor profile $prof (sudo aa-disable)..."
+      sudo aa-disable "$prof" 2>/dev/null || true
+    else
+      skip "AppArmor profile $prof already disabled or not loaded"
+    fi
+  done
 }
 
 verify_cmd() {
