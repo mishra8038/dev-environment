@@ -15,10 +15,9 @@ Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environ
    - Shows a list of **dev groups** (high-level stacks) such as:
      - `general`, `dev`, `java`, `cpp`, `rust`, `js`, `python`, `kubernetes`, `ml`, `fonts`, `jetbrains`, `cursor`
    - Controls:
-     - **Up/Down** arrows: move selection.
-     - **Space**: toggle `[ ]` ↔ `[x]` on the current line.
-     - **Enter**: run all selected dev groups.
-     - **q**: quit the menu without running.
+     - Type one or more **numbers** (e.g. `1 2 5`) and press **Enter** to run those dev groups.
+     - Type `0` or `all` to run **all** dev groups.
+     - Type `q` to quit the menu without running anything.
 
 3. **Direct group execution (optional)**  
    - Run an internal group directly:

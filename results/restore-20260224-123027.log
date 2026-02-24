@@ -1,0 +1,441 @@
+[H[JSelect dev groups to run (space-separated numbers, Enter to run, q to quit):
+
+./restore-environment.sh: line 498: local: can only be used in a function
+  ) general
+  1) dev
+  2) java
+  3) cpp
+  4) rust
+  5) js
+  6) python
+  7) kubernetes
+  8) ml
+  9) fonts
+  10) jetbrains
+  11) cursor
+
+Enter numbers (e.g. 1 2 5), 0 or all for everything, or q: [restore] === dev group: general ===
+[restore] Skip: Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core, gnome-keyring, libsecret)
+[restore] Restored .bashrc
+[restore] Restored .profile
+[restore] Restored .bash_logout
+[restore] Restored .gitconfig
+[restore] Restored mimeapps
+[restore] Restored autostart
+[restore] Starting gnome-keyring-daemon (secrets)...
+** Message: 12:30:32.280: couldn't connect to dbus session bus: Failed to execute child process “dbus-launch” (No such file or directory)
+[restore] Skip: setxkbmap ctrl:swapcaps already active
+[restore] Skip: Flatpak
+[restore] Skip: Flathub remote
+[restore] Skip: Claude Code
+[restore] === dev group: dev ===
+[restore] Skip: VSCode
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] Skip: Docker
+[restore] Skip: Podman
+[restore] Skip: kubectl
+[restore] Skip: minikube
+[restore] Verify containers:
+[restore]   docker: Docker version 28.2.2, build 28.2.2-0ubuntu1~24.04.1
+[restore]   podman: podman version 4.9.3
+[restore]   kubectl: Client Version: v1.35.1
+[restore]   minikube: 
+[restore] === dev group: java ===
+[restore] Installing SDKMAN
+
+                                -+syyyyyyys:
+                            `/yho:`       -yd.
+                         `/yh/`             +m.
+                       .oho.                 hy                          .`
+                     .sh/`                   :N`                `-/o`  `+dyyo:.
+                   .yh:`                     `M-          `-/osysoym  :hs` `-+sys:      hhyssssssssy+
+                 .sh:`                       `N:          ms/-``  yy.yh-      -hy.    `.N-````````+N.
+               `od/`                         `N-       -/oM-      ddd+`     `sd:     hNNm        -N:
+              :do`                           .M.       dMMM-     `ms.      /d+`     `NMMs       `do
+            .yy-                             :N`    ```mMMM.      -      -hy.       /MMM:       yh
+          `+d+`           `:/oo/`       `-/osyh/ossssssdNMM`           .sh:         yMMN`      /m.
+         -dh-           :ymNMMMMy  `-/shmNm-`:N/-.``   `.sN            /N-         `NMMy      .m/
+       `oNs`          -hysosmMMMMydmNmds+-.:ohm           :             sd`        :MMM/      yy
+      .hN+           /d:    -MMMmhs/-.`   .MMMh   .ss+-                 `yy`       sMMN`     :N.
+     :mN/           `N/     `o/-`         :MMMo   +MMMN-         .`      `ds       mMMh      do
+    /NN/            `N+....--:/+oooosooo+:sMMM:   hMMMM:        `my       .m+     -MMM+     :N.
+   /NMo              -+ooooo+/:-....`...:+hNMN.  `NMMMd`        .MM/       -m:    oMMN.     hs
+  -NMd`                                    :mm   -MMMm- .s/     -MMm.       /m-   mMMd     -N.
+ `mMM/                                      .-   /MMh. -dMo     -MMMy        od. .MMMs..---yh
+ +MMM.                                           sNo`.sNMM+     :MMMM/        sh`+MMMNmNm+++-
+ mMMM-                                           /--ohmMMM+     :MMMMm.       `hyymmmdddo
+ MMMMh.                  ````                  `-+yy/`yMMM/     :MMMMMy       -sm:.``..-:-.`
+ dMMMMmo-.``````..-:/osyhddddho.           `+shdh+.   hMMM:     :MmMMMM/   ./yy/` `:sys+/+sh/
+ .dMMMMMMmdddddmmNMMMNNNNNMMMMMs           sNdo-      dMMM-  `-/yd/MMMMm-:sy+.   :hs-      /N`
+  `/ymNNNNNNNmmdys+/::----/dMMm:          +m-         mMMM+ohmo/.` sMMMMdo-    .om:       `sh
+     `.-----+/.`       `.-+hh/`         `od.          NMMNmds/     `mmy:`     +mMy      `:yy.
+           /moyso+//+ossso:.           .yy`          `dy+:`         ..       :MMMN+---/oys:
+         /+m:  `.-:::-`               /d+                                    +MMMMMMMNh:`
+        +MN/                        -yh.                                     `+hddhy+.
+       /MM+                       .sh:
+      :NMo                      -sh/
+     -NMs                    `/yy:
+    .NMy                  `:sh+.
+   `mMm`               ./yds-
+  `dMMMmyo:-.````.-:oymNy:`
+  +NMMMMMMMMMMMMMMMMms:`
+    -+shmNMMMNmdy+:`
+
+
+                                                                 Now attempting installation...
+
+
+Looking for a previous installation of SDKMAN...
+Looking for unzip...
+Looking for zip...
+Not found.
+======================================================================================================
+ Please install zip on your system using your favourite package manager.
+
+ Restart after installing zip.
+======================================================================================================
+
+'exit 1': command failed with exit code 1.
+[restore] === dev group: cpp ===
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] === dev group: rust ===
+[restore] Skip: Rust
+[restore] VSCode ext christian-kohler.npm-intellisense
+[restore] VSCode ext christian-kohler.path-intellisense
+[restore] VSCode ext davidanson.vscode-markdownlint
+[restore] VSCode ext dbaeumer.vscode-eslint
+[restore] VSCode ext eamodio.gitlens
+[restore] VSCode ext esbenp.prettier-vscode
+[restore] VSCode ext firsttris.vscode-jest-runner
+[restore] VSCode ext flowtype.flow-for-vscode
+[restore] VSCode ext jasonnutter.search-node-modules
+[restore] VSCode ext jawandarajbir.react-vscode-extension-pack
+[restore] VSCode ext kelset.rn-full-pack
+[restore] VSCode ext mathiasfrohlich.kotlin
+[restore] VSCode ext mgmcdermott.vscode-language-babel
+[restore] VSCode ext mhutchie.git-graph
+[restore] VSCode ext naumovs.color-highlight
+[restore] VSCode ext noctarya.terminals
+[restore] VSCode ext noctarya.typescript-web-development-extension-pack
+[restore] VSCode ext orta.vscode-jest
+[restore] VSCode ext pnp.polacode
+[restore] VSCode ext streetsidesoftware.code-spell-checker
+[restore] VSCode ext waderyan.gitblame
+[restore] VSCode ext wayou.vscode-todo-highlight
+[restore] VSCode ext wmaurer.change-case
+[restore] VSCode ext xabikos.javascriptsnippets
+[restore] VSCode ext xabikos.reactsnippets
+[restore] VSCode ext yzhang.markdown-all-in-one
+[restore] Cursor ext github.github-vscode-theme
+[restore] Cursor ext irongeek.vscode-darklight
+[restore] Cursor ext akamud.vscode-theme-onelight
+[restore] Cursor ext imgildev.vscode-angular-generator
+[restore] Cursor ext johnpapa.angular2
+[restore] Cursor ext vscodevim.vim
+[restore] Cursor ext cyrilletuzi.angular-schematics
+[restore] Cursor ext angular.ng-template
+[restore] Cursor ext shd101wyy.markdown-preview-enhanced
+[restore] Cursor ext typescriptteam.native-preview
+[restore] Cursor ext nrwl.angular-console
+[restore] Cursor ext openai.chatgpt
+[restore] Cursor ext ms-azuretools.vscode-docker
+[restore] Cursor ext anysphere.remote-containers
+[restore] Cursor ext dart-code.flutter
+[restore] Cursor ext dart-code.dart-code
+[restore] Cursor ext vscjava.vscode-gradle
+[restore] Cursor ext ms-azuretools.vscode-containers
+[restore] Cursor ext a5hk.paper
+[restore] Cursor ext anysphere.cursorpyright
+[restore] Cursor ext ms-python.python
+[restore] Cursor ext ms-python.black-formatter
+[restore] Cursor ext kevinrose.vsc-python-indent
+[restore] Cursor ext tomoki1207.pdf
+[restore] Cursor ext auxislabs.python-uv-toolkit
+[restore] Cursor ext tamasfe.even-better-toml
+[restore] Cursor ext the0807.uv-toolkit
+[restore] Cursor ext mhutchie.git-graph
+[restore] Cursor ext xabikos.javascriptsnippets
+[restore] Cursor ext waderyan.gitblame
+[restore] Cursor ext mathiasfrohlich.kotlin
+[restore] Cursor ext christian-kohler.npm-intellisense
+[restore] Cursor ext orta.vscode-jest
+[restore] Cursor ext wayou.vscode-todo-highlight
+[restore] Cursor ext mgmcdermott.vscode-language-babel
+[restore] Cursor ext wmaurer.change-case
+[restore] Cursor ext yzhang.markdown-all-in-one
+[restore] Cursor ext christian-kohler.path-intellisense
+[restore] Cursor ext naumovs.color-highlight
+[restore] Cursor ext flowtype.flow-for-vscode
+[restore] Cursor ext ms-vscode.cmake-tools
+[restore] Cursor ext zaaack.markdown-editor
+[restore] Cursor ext davidanson.vscode-markdownlint
+[restore] Cursor ext dbaeumer.vscode-eslint
+[restore] Cursor ext vscjava.vscode-java-dependency
+[restore] Cursor ext vscjava.vscode-java-debug
+[restore] Cursor ext vscjava.vscode-java-test
+[restore] Cursor ext vscjava.vscode-java-pack
+[restore] Cursor ext vscjava.vscode-maven
+[restore] Cursor ext ms-python.debugpy
+[restore] Cursor ext redhat.java
+[restore] Cursor ext esbenp.prettier-vscode
+[restore] Cursor ext streetsidesoftware.code-spell-checker
+[restore] Cursor ext moshfeu.compare-folders
+[restore] Cursor ext firsttris.vscode-jest-runner
+[restore] Cursor ext eamodio.gitlens
+[restore] Cursor ext oracle.oracle-java
+[restore] Cursor ext redhat.vscode-yaml
+[restore] Cursor ext ms-kubernetes-tools.vscode-kubernetes-tools
+[restore] Cursor ext redhat.vscode-redhat-account
+[restore] Cursor ext redhat.vscode-openshift-connector
+[restore] Cursor ext vscjava.vscode-spring-initializr
+[restore] Cursor ext vscjava.vscode-spring-boot-dashboard
+[restore] Cursor ext vmware.vscode-boot-dev-pack
+[restore] Cursor ext vmware.vscode-spring-cli
+[restore] Cursor ext vmware.vscode-spring-boot
+[restore] Cursor ext mechatroner.rainbow-csv
+[restore] Cursor ext franneck94.vscode-c-cpp-dev-extension-pack
+[restore] Cursor ext 13xforever.language-x86-64-assembly
+[restore] Cursor ext bbenoist.doxygen
+[restore] Cursor ext jeff-hykin.better-cpp-syntax
+[restore] Cursor ext cheshirekow.cmake-format
+[restore] Cursor ext franneck94.vscode-c-cpp-config
+[restore] Cursor ext franneck94.c-cpp-runner
+[restore] Cursor ext twxs.cmake
+[restore] Cursor ext cschlosser.doxdocgen
+[restore] Cursor ext vadimcn.vscode-lldb
+[restore] Cursor ext ms-vscode.makefile-tools
+[restore] Cursor ext scala-lang.scala
+[restore] Cursor ext scalameta.metals
+[restore] Adjusting AppArmor for editors (VSCode/Cursor) if needed...
+[restore] === dev group: js ===
+[restore] Installing fnm
+Checking dependencies for the installation script...
+Checking availability of curl... OK!
+Checking availability of unzip... OK!
+Downloading https://github.com/Schniz/fnm/releases/latest/download/fnm-linux.zip...
+Installing for Bash. Appending the following to /root/.bashrc:
+
+# fnm
+FNM_PATH="/root/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "`fnm env`"
+fi
+
+In order to apply the changes, open a new terminal or run the following command:
+
+  source /root/.bashrc
+Installing Node v22.19.0 (x64)
+Using Node v22.19.0

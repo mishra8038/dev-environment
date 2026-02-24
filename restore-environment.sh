@@ -491,38 +491,52 @@ if [ ${#GRPS[@]} -gt 0 ]; then
 elif [ -n "$ALL" ]; then
   for g in "${RESTORE_GROUPS[@]}"; do log "=== $g ==="; run_group "$g" || true; done
 else
-  # Interactive dev menu
-  SELECTED=("${DEV_DEFAULT_SEL[@]}")
-  CUR=0
-  redraw() {
-    printf '\033[H\033[J'
-    echo "  Select dev groups (Space=toggle, Enter=run, q=quit)"
-    echo ""
-    for i in "${!DEV_GROUPS[@]}"; do
-      local box="[ ]"; [ "${SELECTED[$i]}" = "1" ] && box="[x]"
-      local ptr=" "; [ $i -eq $CUR ] && ptr=">"
-      echo "  $ptr $box ${DEV_GROUPS[$i]}"
-    done
-    echo ""
-    echo "  Space=toggle  Enter=run  q=quit"
-  }
-  while true; do
-    redraw
-    read -rsn 1 key
-    if [ "$key" = "" ]; then break; fi
-    if [ "$key" = "q" ] || [ "$key" = "Q" ]; then exit 0; fi
-    if [ "$key" = " " ]; then
-      [ "${SELECTED[$CUR]}" = "1" ] && SELECTED[$CUR]=0 || SELECTED[$CUR]=1
-      continue
-    fi
-    if [ "$key" = $'\e' ]; then
-      read -rsn 2 key2
-      [ "$key2" = "[A" ] && [ $CUR -gt 0 ] && CUR=$((CUR-1))
-      [ "$key2" = "[B" ] && [ $CUR -lt $((${#DEV_GROUPS[@]}-1)) ] && CUR=$((CUR+1))
-    fi
+  # Simple numeric dev menu (multi-select)
+  printf '\033[H\033[J'
+  echo "Select dev groups to run (space-separated numbers, Enter to run, q to quit):"
+  echo ""
+  local idx=1
+  for name in "${DEV_GROUPS[@]}"; do
+    echo "  $idx) $name"
+    idx=$((idx+1))
   done
-  for i in "${!DEV_GROUPS[@]}"; do
-    [ "${SELECTED[$i]}" = "1" ] && { log "=== dev group: ${DEV_GROUPS[$i]} ==="; run_dev_group "${DEV_GROUPS[$i]}" || true; }
+  echo ""
+  printf "Enter numbers (e.g. 1 2 5), 0 or all for everything, or q: "
+  read -r line
+  [ -z "$line" ] && exit 0
+  if printf '%s\n' "$line" | grep -qiE '(^|[[:space:]])q([[:space:]]|$)'; then
+    exit 0
+  fi
+  # Parse selections
+  declare -A seen
+  # Special: select all dev groups if user typed 'all' or '0'
+  if printf '%s\n' "$line" | grep -qiE '(^|[[:space:]])all([[:space:]]|$)'; then
+    for ((i=1; i<=${#DEV_GROUPS[@]}; i++)); do
+      seen["$i"]=1
+    done
+  elif printf '%s\n' "$line" | grep -qiE '(^|[[:space:]])0([[:space:]]|$)'; then
+    for ((i=1; i<=${#DEV_GROUPS[@]}; i++)); do
+      seen["$i"]=1
+    done
+  else
+    for token in $line; do
+      case "$token" in
+        '' ) continue ;;
+        *[!0-9]* ) continue ;;
+        * )
+          n=$token
+          [ "$n" -ge 1 ] 2>/dev/null && [ "$n" -le "${#DEV_GROUPS[@]}" ] 2>/dev/null || continue
+          seen["$n"]=1
+          ;;
+      esac
+    done
+  fi
+  for ((i=1; i<=${#DEV_GROUPS[@]}; i++)); do
+    if [ "${seen[$i]+set}" ]; then
+      name="${DEV_GROUPS[$((i-1))]}"
+      log "=== dev group: $name ==="
+      run_dev_group "$name" || true
+    fi
   done
 fi
 
