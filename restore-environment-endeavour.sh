@@ -3,6 +3,7 @@
 # SCP this file + config/ to the machine, then run: ./restore-environment-endeavour.sh
 # Idempotent: skips tools already installed; safe to re-run.
 # Requires: pacman. Optional: yay or paru for AUR (Cursor, Chrome, ttf-ms-fonts).
+# Does not install any desktop environment (no Cinnamon, GNOME, etc.); use with XFCE, KDE, or any other desktop.
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG="$ROOT/config"
 PROFILES="$CONFIG/profiles"
@@ -86,7 +87,7 @@ run_prerequisites() {
     pacman_install qemu-guest-agent
     command -v systemctl &>/dev/null && sudo systemctl enable --now qemu-guest-agent 2>/dev/null || true
   fi
-  # Secret Service / keyring for VSCode, Cursor, JetBrains
+  # Secret Service / keyring for VSCode, Cursor, JetBrains (works on any desktop; not a DE)
   for p in gnome-keyring libsecret; do
     pacman -Qq "$p" &>/dev/null && continue
     log "Installing $p (sudo pacman)"
@@ -96,7 +97,7 @@ run_prerequisites() {
   if ! pacman -Qq seahorse &>/dev/null 2>/dev/null; then
     pacman_install seahorse 2>/dev/null || true
   fi
-  skip "Prerequisites (base-devel, git, unzip, curl, ca-certificates, qemu-guest-agent, gnome-keyring, libsecret)"
+  skip "Prerequisites (base-devel, git, unzip, zip, curl, ca-certificates, qemu-guest-agent, gnome-keyring, libsecret)"
 }
 
 run_python() {
@@ -107,6 +108,15 @@ run_python() {
 
 run_java() {
   command -v java &>/dev/null && command -v sdk &>/dev/null && { skip "Java"; return 0; }
+  # SDKMAN requires zip, unzip, curl; ensure they are installed (e.g. if --group java was run without prerequisites)
+  if command -v pacman &>/dev/null; then
+    for p in zip unzip curl; do
+      if ! command -v "$p" &>/dev/null; then
+        log "Installing $p for SDKMAN (sudo pacman)"
+        pacman_install "$p"
+      fi
+    done
+  fi
   command -v sdk &>/dev/null || { log "Installing SDKMAN"; curl -s "https://get.sdkman.io" | bash || true; export SDKMAN_DIR="${HOME}/.sdkman"; [ -f "${HOME}/.sdkman/bin/sdkman-init.sh" ] && . "${HOME}/.sdkman/bin/sdkman-init.sh" 2>/dev/null || true; }
   command -v sdk &>/dev/null || return 0
   local w=$(json_get "java_version"); [[ "$w" == *tem* && "$w" == *21* ]] && w="21.0.8-tem" || w="${w:-21.0.8-tem}"; w=$(echo "$w" | tr -d '[:space:]'); [ -z "$w" ] && w="21.0.8-tem"
@@ -169,14 +179,55 @@ run_vscode_install() {
 
 run_cursor_install() {
   command -v cursor &>/dev/null && { skip "Cursor editor"; return 0; }
-  log "Installing Cursor (AUR cursor-app-bin or cursor-bin)..."
-  aur_install cursor-app-bin 2>/dev/null || aur_install cursor-bin 2>/dev/null || log "Install Cursor manually from AUR (cursor-app-bin) or https://cursor.com/download."
+  # Try pacman first, then AUR (yay/paru)
+  log "Installing Cursor via pacman or AUR..."
+  pacman_install cursor 2>/dev/null || true
+  if command -v cursor &>/dev/null; then return 0; fi
+  if [ -n "$AUR_HELPER" ]; then
+    aur_install cursor-app-bin 2>/dev/null || aur_install cursor-bin 2>/dev/null || true
+  fi
+  if command -v cursor &>/dev/null; then return 0; fi
+  # Fallback: download official Cursor .deb and extract (no AUR required)
+  log "Downloading Cursor .deb and installing to /opt/Cursor..."
+  local deb tmpdir
+  deb=$(mktemp --suffix=.deb 2>/dev/null || mktemp -t cursor.XXXXXX.deb)
+  tmpdir=$(mktemp -d)
+  if ! curl -sSL -o "$deb" "https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/2.5" 2>/dev/null; then
+    rm -f "$deb"; rm -rf "$tmpdir"
+    log "Failed to download Cursor; install from AUR (cursor-app-bin) or https://cursor.com/download."
+    return 0
+  fi
+  (cd "$tmpdir" && ar x "$deb" 2>/dev/null) || { rm -f "$deb"; rm -rf "$tmpdir"; log "ar not found or failed; install binutils."; return 0; }
+  rm -f "$deb"
+  local data_tar
+  data_tar=$(find "$tmpdir" -maxdepth 1 -name 'data.tar*' | head -n1)
+  if [ -z "$data_tar" ] || ! (cd "$tmpdir" && tar xf "$data_tar" 2>/dev/null); then
+    rm -rf "$tmpdir"; log "Failed to extract Cursor .deb."
+    return 0
+  fi
+  if [ -d "$tmpdir/opt/Cursor" ]; then
+    sudo cp -r "$tmpdir/opt/Cursor" /opt/ 2>/dev/null || true
+    [ -f "$tmpdir/usr/share/applications/"*.desktop ] && sudo cp "$tmpdir/usr/share/applications/"*.desktop /usr/share/applications/ 2>/dev/null || true
+    [ -x /opt/Cursor/cursor ] && sudo ln -sf /opt/Cursor/cursor /usr/local/bin/cursor 2>/dev/null || true
+    log "Cursor installed to /opt/Cursor."
+  else
+    log "Unexpected Cursor .deb layout; install from https://cursor.com/download."
+  fi
+  rm -rf "$tmpdir"
 }
 
 run_chrome_install() {
-  command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null && { skip "Google Chrome"; return 0; }
-  log "Installing Google Chrome (AUR google-chrome)..."
-  aur_install google-chrome 2>/dev/null || log "Install Google Chrome from AUR (google-chrome) or use chromium: pacman -S chromium."
+  command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null || command -v chromium &>/dev/null && { skip "Chrome/Chromium"; return 0; }
+  # Prefer Google Chrome via AUR (yay/paru) when available
+  if [ -n "$AUR_HELPER" ]; then
+    log "Installing Google Chrome via AUR ($AUR_HELPER)..."
+    aur_install google-chrome 2>/dev/null || true
+  fi
+  if command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null; then
+    return 0
+  fi
+  log "Installing Chromium via pacman (fallback)..."
+  pacman_install chromium 2>/dev/null || log "Install Chromium manually: pacman -S chromium. For Google Chrome use AUR: yay -S google-chrome."
 }
 
 run_jetbrains_toolbox() {
@@ -323,13 +374,21 @@ run_flatpak() {
 }
 
 run_fonts() {
-  # Arch package names for dev fonts
-  local basic_pkgs=(ttf-fira-code ttf-hack adobe-source-code-pro-fonts)
-  for p in "${basic_pkgs[@]}"; do
-    pacman -Qq "$p" &>/dev/null && { skip "$p"; continue; }
-    log "Installing font package $p (sudo pacman)..."
-    pacman_install "$p" || log "  install of $p failed; please install manually."
-  done
+  # Pacman font packages: nerd-fonts group (complete set, official Extra repo) and JetBrains Mono
+  # nerd-fonts group includes ttf-jetbrains-mono-nerd, ttf-firacode-nerd, ttf-nerd-fonts-symbols, etc.
+  if ! pacman -Qg nerd-fonts &>/dev/null 2>/dev/null; then
+    log "Installing nerd-fonts group (complete) via pacman..."
+    pacman_install nerd-fonts || log "  install of nerd-fonts group failed; please install manually."
+  else
+    skip "nerd-fonts group"
+  fi
+  # JetBrains Mono (base font; nerd-patched variant is in nerd-fonts group)
+  if ! pacman -Qq ttf-jetbrains-mono &>/dev/null 2>/dev/null; then
+    log "Installing ttf-jetbrains-mono via pacman..."
+    pacman_install ttf-jetbrains-mono || log "  install of ttf-jetbrains-mono failed; please install manually."
+  else
+    skip "ttf-jetbrains-mono"
+  fi
   # Microsoft core fonts (AUR, EULA)
   if pacman -Qq ttf-ms-fonts &>/dev/null 2>/dev/null; then
     skip "ttf-ms-fonts"
@@ -409,13 +468,13 @@ verify_summary() {
   verify_cmd minikube
   verify_cmd code
   verify_cmd cursor
-  if command -v google-chrome-stable &>/dev/null; then log "  google-chrome: installed"; elif command -v google-chrome &>/dev/null; then log "  google-chrome: installed"; else log "  google-chrome: not found"; fi
+  if command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null; then log "  chrome: installed (Google Chrome)"; elif command -v chromium &>/dev/null; then log "  chrome: installed (Chromium)"; else log "  chrome: not found"; fi
   if [ -x "$HOME/dev/tools/jetbrains-toolbox/jetbrains-toolbox" ]; then
     log "  jetbrains-toolbox: installed"
   else
     log "  jetbrains-toolbox: not found"
   fi
-  for fpkg in ttf-fira-code ttf-hack adobe-source-code-pro-fonts ttf-ms-fonts; do
+  for fpkg in ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-ms-fonts; do
     if pacman -Qq "$fpkg" &>/dev/null 2>/dev/null; then
       log "  $fpkg: installed"
     else
