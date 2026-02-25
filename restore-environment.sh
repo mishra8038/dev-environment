@@ -210,6 +210,13 @@ run_vscode_profile() {
   local d="${XDG_CONFIG_HOME:-$HOME/.config}/Code/User"; [ -d "$PROFILES/vscode" ] || return 0; mkdir -p "$d"
   [ -f "$PROFILES/vscode/settings.json" ] && cp "$PROFILES/vscode/settings.json" "$d/" 2>/dev/null; [ -f "$PROFILES/vscode/keybindings.json" ] && cp "$PROFILES/vscode/keybindings.json" "$d/" 2>/dev/null
   [ -d "$PROFILES/vscode/snippets" ] && cp -r "$PROFILES/vscode/snippets" "$d/" 2>/dev/null; [ -f "$PROFILES/vscode/profiles.json" ] && cp "$PROFILES/vscode/profiles.json" "$d/" 2>/dev/null
+  # Also export VSCode profile bundle to ~/dev/tools/profiles/vscode for manual import on other installs
+  local tools_profiles_vscode="$HOME/dev/tools/profiles/vscode"
+  mkdir -p "$tools_profiles_vscode" 2>/dev/null || true
+  [ -f "$PROFILES/vscode/settings.json" ] && cp "$PROFILES/vscode/settings.json" "$tools_profiles_vscode/settings.json" 2>/dev/null
+  [ -f "$PROFILES/vscode/keybindings.json" ] && cp "$PROFILES/vscode/keybindings.json" "$tools_profiles_vscode/keybindings.json" 2>/dev/null
+  [ -d "$PROFILES/vscode/snippets" ] && cp -r "$PROFILES/vscode/snippets" "$tools_profiles_vscode/" 2>/dev/null
+  [ -f "$PROFILES/vscode/profiles.json" ] && cp "$PROFILES/vscode/profiles.json" "$tools_profiles_vscode/profiles.json" 2>/dev/null
 }
 
 run_cursor_profile() {
@@ -218,6 +225,12 @@ run_cursor_profile() {
   local d="${XDG_CONFIG_HOME:-$HOME/.config}/Cursor/User"; [ -d "$PROFILES/cursor" ] || return 0; mkdir -p "$d"
   [ -f "$PROFILES/cursor/settings.json" ] && cp "$PROFILES/cursor/settings.json" "$d/" 2>/dev/null; [ -f "$PROFILES/cursor/keybindings.json" ] && cp "$PROFILES/cursor/keybindings.json" "$d/" 2>/dev/null
   [ -d "$PROFILES/cursor/snippets" ] && cp -r "$PROFILES/cursor/snippets" "$d/" 2>/dev/null
+  # Also export Cursor profile bundle to ~/dev/tools/profiles/cursor for manual import on other installs
+  local tools_profiles_cursor="$HOME/dev/tools/profiles/cursor"
+  mkdir -p "$tools_profiles_cursor" 2>/dev/null || true
+  [ -f "$PROFILES/cursor/settings.json" ] && cp "$PROFILES/cursor/settings.json" "$tools_profiles_cursor/settings.json" 2>/dev/null
+  [ -f "$PROFILES/cursor/keybindings.json" ] && cp "$PROFILES/cursor/keybindings.json" "$tools_profiles_cursor/keybindings.json" 2>/dev/null
+  [ -d "$PROFILES/cursor/snippets" ] && cp -r "$PROFILES/cursor/snippets" "$tools_profiles_cursor/" 2>/dev/null
 }
 
 run_editors() {
