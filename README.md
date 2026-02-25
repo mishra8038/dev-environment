@@ -1,15 +1,26 @@
 # Dev environment restore
 
-Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environment (editors, languages, containers, ML, fonts, shell, keyring, etc.). It is idempotent and safe to re-run.
+Single-file scripts to restore a development environment (editors, languages, containers, ML, fonts, shell, keyring, etc.). Idempotent and safe to re-run.
+
+- **`restore-environment.sh`** — Ubuntu 24.04 LTS + Cinnamon (apt/dpkg).
+- **`restore-environment-endeavour.sh`** — Endeavour Linux / Arch-based (pacman + optional AUR via yay or paru).
 
 ## Usage
 
-1. Copy the repo (or at minimum `restore-environment.sh` and the `config/` folder) to the target machine:
+1. Copy the repo (or at minimum the chosen script and the `config/` folder) to the target machine.
 
+   **Ubuntu:**
    ```bash
    chmod +x restore-environment.sh
    ./restore-environment.sh
    ```
+
+   **Endeavour / Arch-based:**
+   ```bash
+   chmod +x restore-environment-endeavour.sh
+   ./restore-environment-endeavour.sh
+   ```
+   For Cursor, Chrome, and optional MS fonts, install an AUR helper first (e.g. `yay` or `paru`). Set `RESTORE_NO_AUR=1` to skip AUR and use only pacman.
 
 2. **Interactive dev menu (no args)**  
    - Shows a list of **dev groups** (high-level stacks) such as:
@@ -98,7 +109,8 @@ Single-file script to restore my Ubuntu 24.04 LTS + Cinnamon development environ
 
 ## Notes
 
-- The script assumes **Ubuntu 24.04 LTS** (apt-based) and a Cinnamon desktop (for `cinnamon-core`, autostart paths, etc.).
+- **Ubuntu script** assumes Ubuntu 24.04 LTS (apt-based) and a Cinnamon desktop (for `cinnamon-core`, autostart paths, etc.).
+- **Endeavour script** assumes Endeavour or another Arch-based system (pacman). It uses official repos for most packages; Cursor, Google Chrome, and optional `ttf-ms-fonts` come from the AUR (install `yay` or `paru` first, or set `RESTORE_NO_AUR=1` to skip AUR). AppArmor is not used on Arch, so editor confinement steps are no-ops.
 - Some steps require `sudo` and may prompt for your password.
 - ML group changes graphics drivers; expect to reboot after running `ml`.
 - For a complete spec (internal groups, verification summary, config expectations), see `docs/REGEN_PROMPT.md`.
