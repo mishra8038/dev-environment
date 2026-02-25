@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Restore dev environment on Endeavour Linux (Arch-based, pacman).
-# SCP this file + config/ to the machine, then run: ./restore-environment-endeavour.sh
+# Restore dev environment on CachyOS (Arch-based, pacman).
+# SCP this file + config/ to the machine, then run: ./restore-environment-cachyos.sh
 # Idempotent: skips tools already installed; safe to re-run.
 # Requires: pacman. Optional: yay or paru for AUR (Cursor, Chrome, ttf-ms-fonts).
 # Does not install any desktop environment (no Cinnamon, GNOME, etc.); use with XFCE, KDE, or any other desktop.
@@ -18,17 +18,17 @@ export RESTORE_NO_AUR=${RESTORE_NO_AUR:-}
 
 RESULTS="$ROOT/results"
 mkdir -p "$RESULTS" 2>/dev/null || true
-LOG_FILE="$RESULTS/restore-endeavour-$(date +%Y%m%d-%H%M%S).log"
+LOG_FILE="$RESULTS/restore-cachyos-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
-log() { printf '[restore-endeavour] %s\n' "$*" >&2; }
+log() { printf '[restore-cachyos] %s\n' "$*" >&2; }
 skip() { log "Skip: $*"; }
 json_get() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$k" '.[$k] // empty' "$JSON" 2>/dev/null; else grep -o "\"$k\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$JSON" 2>/dev/null | sed -n 's/.*:[[:space:]]*"\([^"]*\)".*/\1/p'; fi; }
 json_array() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$k" '.[$k][]? // empty' "$JSON" 2>/dev/null; else sed -n "/\"$k\"[[:space:]]*:/,/\]/p" "$JSON" | grep -o '"[^"]*"' | tr -d '"'; fi; }
 
 [ -f "$JSON" ] || { log "Missing $JSON. Put config/ next to this script (config/installed-tools.json, etc.)."; exit 1; }
 
-command -v pacman &>/dev/null || { log "pacman not found. This script is for Endeavour/Arch-based systems."; exit 1; }
+command -v pacman &>/dev/null || { log "pacman not found. This script is for CachyOS/Arch-based systems."; exit 1; }
 
 # Resolve AUR helper (yay or paru)
 aur_helper() {
@@ -447,7 +447,7 @@ while [ $# -gt 0 ]; do
     --list-groups) LIST=1; shift ;;
     --all)         ALL=1; shift ;;
     --group)       [ -n "${2:-}" ] && GRPS+=("$2"); shift 2 ;;
-    -h|--help)     echo "Usage: $0 [--list-groups|--all|--group NAME ...]. No args: checklist (Space=toggle, Enter=run). For Endeavour/Arch (pacman)."; exit 0 ;;
+    -h|--help)     echo "Usage: $0 [--list-groups|--all|--group NAME ...]. No args: checklist (Space=toggle, Enter=run). For CachyOS/Arch (pacman)."; exit 0 ;;
     *) shift ;;
   esac
 done
@@ -519,3 +519,4 @@ fi
 verify_summary
 
 log "Done. PATH: export PATH=\"\$HOME/.local/bin:\$HOME/.cargo/bin:\$PATH\"; . \$HOME/.cargo/env 2>/dev/null; eval \"\$(fnm env 2>/dev/null)\"; . \$HOME/.sdkman/bin/sdkman-init.sh 2>/dev/null"
+
