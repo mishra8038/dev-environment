@@ -97,7 +97,7 @@ run_prerequisites() {
   if ! pacman -Qq seahorse &>/dev/null 2>/dev/null; then
     pacman_install seahorse 2>/dev/null || true
   fi
-  skip "Prerequisites (base-devel, git, unzip, zip, curl, ca-certificates, qemu-guest-agent, gnome-keyring, libsecret)"
+  skip "Prerequisites (base-devel, git, unzip, zip, curl, ca-certificates, qemu-guest-agent, keyring, libsecret)"
 }
 
 run_python() {
@@ -179,41 +179,14 @@ run_vscode_install() {
 
 run_cursor_install() {
   command -v cursor &>/dev/null && { skip "Cursor editor"; return 0; }
-  # Try pacman first, then AUR (yay/paru)
-  log "Installing Cursor via pacman or AUR..."
-  pacman_install cursor 2>/dev/null || true
-  if command -v cursor &>/dev/null; then return 0; fi
-  if [ -n "$AUR_HELPER" ]; then
-    aur_install cursor-app-bin 2>/dev/null || aur_install cursor-bin 2>/dev/null || true
-  fi
-  if command -v cursor &>/dev/null; then return 0; fi
-  # Fallback: download official Cursor .deb and extract (no AUR required)
-  log "Downloading Cursor .deb and installing to /opt/Cursor..."
-  local deb tmpdir
-  deb=$(mktemp --suffix=.deb 2>/dev/null || mktemp -t cursor.XXXXXX.deb)
-  tmpdir=$(mktemp -d)
-  if ! curl -sSL -o "$deb" "https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/2.5" 2>/dev/null; then
-    rm -f "$deb"; rm -rf "$tmpdir"
-    log "Failed to download Cursor; install from AUR (cursor-app-bin) or https://cursor.com/download."
+  if [ -z "$AUR_HELPER" ]; then
+    log "AUR helper (yay/paru) required for Cursor. Install yay then: yay -S cursor-bin"
     return 0
   fi
-  (cd "$tmpdir" && ar x "$deb" 2>/dev/null) || { rm -f "$deb"; rm -rf "$tmpdir"; log "ar not found or failed; install binutils."; return 0; }
-  rm -f "$deb"
-  local data_tar
-  data_tar=$(find "$tmpdir" -maxdepth 1 -name 'data.tar*' | head -n1)
-  if [ -z "$data_tar" ] || ! (cd "$tmpdir" && tar xf "$data_tar" 2>/dev/null); then
-    rm -rf "$tmpdir"; log "Failed to extract Cursor .deb."
-    return 0
-  fi
-  if [ -d "$tmpdir/opt/Cursor" ]; then
-    sudo cp -r "$tmpdir/opt/Cursor" /opt/ 2>/dev/null || true
-    [ -f "$tmpdir/usr/share/applications/"*.desktop ] && sudo cp "$tmpdir/usr/share/applications/"*.desktop /usr/share/applications/ 2>/dev/null || true
-    [ -x /opt/Cursor/cursor ] && sudo ln -sf /opt/Cursor/cursor /usr/local/bin/cursor 2>/dev/null || true
-    log "Cursor installed to /opt/Cursor."
-  else
-    log "Unexpected Cursor .deb layout; install from https://cursor.com/download."
-  fi
-  rm -rf "$tmpdir"
+  log "Installing Cursor via AUR ($AUR_HELPER)..."
+  aur_install cursor-bin 2>/dev/null || true
+  if command -v cursor &>/dev/null; then return 0; fi
+  log "Cursor install failed. Install manually: $AUR_HELPER -S cursor-bin (or cursor-app-bin)"
 }
 
 run_chrome_install() {
@@ -280,15 +253,9 @@ run_cursor_profile() {
   [ -d "$PROFILES/cursor/snippets" ] && cp -r "$PROFILES/cursor/snippets" "$d/" 2>/dev/null
 }
 
-run_apparmor_editors() {
-  # Arch/Endeavour typically do not use AppArmor; no-op.
-  skip "AppArmor (not used on Arch)"
-}
-
 run_editors() {
   run_vscode_profile || true
   run_cursor_profile || true
-  run_apparmor_editors || true
 }
 
 run_shell() {
@@ -308,28 +275,28 @@ run_shell() {
   [ -d "$CONFIG/os/autostart" ] && mkdir -p "$dc/autostart" && for f in "$CONFIG/os/autostart"/*.desktop; do [ -f "$f" ] && cp "$f" "$dc/autostart/" 2>/dev/null; done && log "Restored autostart" || true
   [ -f "$CONFIG/mcp/vscode-mcp.json" ] && mkdir -p "$dc/Code/User" && cp "$CONFIG/mcp/vscode-mcp.json" "$dc/Code/User/mcp.json" 2>/dev/null; [ -f "$CONFIG/mcp/cursor-mcp.json" ] && mkdir -p "$HOME/.cursor" && cp "$CONFIG/mcp/cursor-mcp.json" "$HOME/.cursor/mcp.json" 2>/dev/null
   [ -f "$CONFIG/os/dconf-dump.txt" ] && command -v dconf &>/dev/null && log "Desktop: dconf load / < $CONFIG/os/dconf-dump.txt"
-  # Start GNOME keyring (Secret Service) for editors if available
+  # Start Secret Service keyring for editors (VSCode, Cursor, JetBrains) if available
   if command -v gnome-keyring-daemon &>/dev/null; then
     if ! dbus-send --session --dest=org.freedesktop.secrets --type=method_call --print-reply /org/freedesktop/secrets org.freedesktop.DBus.Peer.Ping &>/dev/null; then
-      log "Starting gnome-keyring-daemon (secrets)..."
+      log "Starting keyring daemon (secrets)..."
       eval "$(gnome-keyring-daemon --start --components=secrets)" 2>/dev/null || true
       [ -n "${SSH_AUTH_SOCK:-}" ] && export SSH_AUTH_SOCK
     else
-      skip "Secret Service (gnome-keyring) already running"
+      skip "Secret Service (keyring) already running"
     fi
     local as_dir="$dc/autostart"
-    local as_file="$as_dir/gnome-keyring-secrets.desktop"
+    local as_file="$as_dir/secret-service-keyring.desktop"
     if [ ! -f "$as_file" ]; then
       mkdir -p "$as_dir" 2>/dev/null || true
       cat >"$as_file" <<'EOF'
 [Desktop Entry]
 Type=Application
-Name=GNOME Keyring (Secrets)
-Comment=Start gnome-keyring-daemon for Secret Service API
+Name=Keyring (Secrets)
+Comment=Start keyring daemon for Secret Service API
 Exec=/usr/bin/gnome-keyring-daemon --start --components=secrets
 X-GNOME-Autostart-enabled=true
 EOF
-      log "Installed GNOME Keyring (secrets) autostart."
+      log "Installed Keyring (secrets) autostart."
     fi
   fi
   if command -v setxkbmap &>/dev/null; then
