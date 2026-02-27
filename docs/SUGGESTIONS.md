@@ -5,7 +5,7 @@
 **Worked**
 - **uv** — Install to `~/.local/bin` succeeded. Needs `~/.local/bin` on PATH.
 - **Rust (rustup)** — Installed; needs `source ~/.cargo/env` or new shell.
-- **Cursor** — Extensions and profile applied when `cursor` was on PATH.
+- **Cursor** — Extensions installed when `cursor` was on PATH. (Profiles are now imported manually.)
 - **Idempotency** — Skip-if-present kept script re-runnable.
 
 **Failed or skipped**

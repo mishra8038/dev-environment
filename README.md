@@ -1,9 +1,18 @@
 # Dev environment restore
 
-Single-file scripts to restore a development environment (editors, languages, containers, ML, fonts, shell, keyring, etc.). Idempotent and safe to re-run.
+Single-file scripts to restore a development environment (editors, languages, containers, ML, fonts, shell, etc.). Idempotent and safe to re-run.
 
-- **`restore-environment.sh`** — Ubuntu 24.04 LTS + Cinnamon (apt/dpkg).
-- **`restore-environment-endeavour.sh`** — Endeavour Linux / Arch-based (pacman + optional AUR via yay or paru).
+## Scripts
+
+| Script | Target | Package manager |
+|--------|--------|-----------------|
+| `restore-environment.sh` | Ubuntu 24.04 LTS + Cinnamon | apt/dpkg |
+| `restore-environment-endeavour.sh` | Endeavour Linux (Arch-based) | pacman + AUR (yay/paru) |
+| `restore-environment-cachyos.sh` | CachyOS (Arch-based) | pacman + AUR (yay/paru) |
+| `restore-environment-endeavour-ml.sh` | Endeavour — GPU/ML drivers only | pacman + AUR |
+| `restore-environment-cachyos-ml.sh` | CachyOS — GPU/ML drivers only | pacman + AUR |
+
+**Ubuntu** and **Arch** scripts differ: Ubuntu uses apt, gnome-keyring, setxkbmap, and AppArmor; Arch scripts (Endeavour, CachyOS) use pacman/AUR, no GNOME packages, no keyring setup, no setxkbmap, no AppArmor. Endeavour and CachyOS assume Plasma or another DE (no Cinnamon/GNOME).
 
 ## Usage
 
@@ -20,97 +29,56 @@ Single-file scripts to restore a development environment (editors, languages, co
    chmod +x restore-environment-endeavour.sh
    ./restore-environment-endeavour.sh
    ```
-   For Cursor, Chrome, and optional MS fonts, install an AUR helper first (e.g. `yay` or `paru`). Set `RESTORE_NO_AUR=1` to skip AUR and use only pacman.
+
+   **CachyOS:**
+   ```bash
+   chmod +x restore-environment-cachyos.sh
+   ./restore-environment-cachyos.sh
+   ```
+
+   For Cursor, Chrome, and optional MS fonts on Arch, install an AUR helper first (e.g. `yay` or `paru`). Set `RESTORE_NO_AUR=1` to skip AUR.
+
+   **GPU/ML drivers (Arch only):** Run the ML script separately after the main restore:
+   ```bash
+   ./restore-environment-endeavour-ml.sh   # Endeavour
+   ./restore-environment-cachyos-ml.sh    # CachyOS
+   ```
 
 2. **Interactive dev menu (no args)**  
-   - Shows a list of **dev groups** (high-level stacks) such as:
-     - `general`, `dev`, `java`, `cpp`, `rust`, `js`, `python`, `kubernetes`, `ml`, `fonts`, `jetbrains`, `cursor`
-   - Controls:
-     - Type one or more **numbers** (e.g. `1 2 5`) and press **Enter** to run those dev groups.
-     - Type `0` or `all` to run **all** dev groups.
-     - Type `q` to quit the menu without running anything.
+   Shows a list of **dev groups** (high-level stacks). Type one or more numbers (e.g. `1 2 5`) and press Enter to run. Type `0` or `all` for everything, `q` to quit.
 
-3. **Direct group execution (optional)**  
-   - `--group NAME` accepts **dev group names** (e.g. `jetbrains`, `cursor`, `general`) or **internal group names** (e.g. `jetbrains_toolbox`, `cursor_install`, `prerequisites`). Examples:
-
-     ```bash
-     ./restore-environment.sh --group jetbrains
-     ./restore-environment.sh --group prerequisites
-     ./restore-environment.sh --group containers
-     ```
-
-   - Run all internal groups non-interactively:
-
-     ```bash
-     ./restore-environment.sh --all
-     ```
+3. **Direct group execution**  
+   ```bash
+   ./restore-environment.sh --group jetbrains
+   ./restore-environment.sh --group prerequisites
+   ./restore-environment.sh --all
+   ```
 
 4. **Logs**  
-   - Every run logs to `results/restore-YYYYMMDD-HHMMSS.log` while also printing to the terminal.
+   Every run logs to `results/restore-*-YYYYMMDD-HHMMSS.log` while also printing to the terminal.
 
-## What dev groups do (high level)
+## Dev groups (high level)
 
-- **general**
-  - Core apt stack: `unzip`, `curl`, `ca-certificates`, `qemu-guest-agent`, `build-essential`, `git`, `cinnamon-core`, `gnome-keyring`, `seahorse`, `libsecret`.
-  - Restores shell/git/SSH/desktop config from `config/`.
-  - Backs up existing `~/.bashrc` once to `~/.bashrc.restore-default`.
-  - Appends bash history from `config/shell/bash_history` once.
-  - Swaps CapsLock and Ctrl using `setxkbmap -option ctrl:swapcaps` and installs an autostart `.desktop` for it.
-  - Starts GNOME keyring (Secret Service) for editors and adds a keyring-autostart `.desktop`.
+| Group | Ubuntu | Endeavour / CachyOS |
+|-------|--------|---------------------|
+| **general** | Core apt, cinnamon-core, gnome-keyring, shell/git/SSH/desktop restore, setxkbmap swap | Core pacman, shell/git/SSH/desktop restore (no keyring, no setxkbmap) |
+| **dev** | VSCode (.deb), Cursor (.deb), Chrome (.deb), extensions, Docker/Podman/kubectl/minikube, AppArmor relax | VSCode (pacman/AUR), Cursor (AUR only), Chrome (AUR or Chromium), extensions, containers |
+| **java** | SDKMAN, JDK, maven, gradle | Same |
+| **cpp** | build-essential, editor extensions | Same |
+| **rust** | rustup | Same |
+| **js** | fnm, Node, npm globals | Same |
+| **python** | uv, PyTorch (optional) | Same |
+| **kubernetes** | Docker, Podman, kubectl, minikube | Same |
+| **ml** | nouveau blacklist, nvidia driver, Graphcore notice, PyTorch | **Use separate ML script** (`*-ml.sh`) |
+| **fonts** | apt: firacode, hack, source-code-pro, ttf-mscorefonts | pacman: nerd-fonts group, JetBrains Mono, ttf-ms-fonts (AUR) |
+| **jetbrains** | JetBrains Toolbox to `~/dev/tools/jetbrains-toolbox` | Same |
+| **cursor** | Cursor .deb + extensions | Cursor via AUR + extensions |
 
-- **dev**
-  - Installs VSCode (latest `.deb` from Microsoft + apt repo).
-  - Installs Cursor editor via its Linux x64 `.deb`.
-  - Installs Google Chrome (stable) via official `.deb`.
-  - Applies VSCode and Cursor profiles (settings/keybindings/snippets) from `config/profiles/`.
-  - Installs Docker, Podman, kubectl, and minikube.
-  - Relaxes AppArmor profiles for VSCode/Cursor if present (disables their profiles).
-
-- **java**
-  - Installs SDKMAN, JDK (from `config/installed-tools.json` or default `21.0.8-tem`).
-  - Installs `maven` and `gradle` via apt.
-
-- **cpp**
-  - Relies on `build-essential` from `general` and applies editor profiles.
-
-- **rust**
-  - Installs Rust via `rustup` (stable toolchain) and applies editor profiles.
-
-- **js**
-  - Installs Node via `fnm` (version from `installed-tools.json` or LTS).
-  - Installs npm globals (corepack, npm, pnpm, yarn, etc.) from `installed-tools.json`.
-  - Applies editor profiles.
-
-- **python**
-  - Installs `uv` (Python toolchain).
-  - Installs CUDA-enabled PyTorch (`torch`, `torchvision`, `torchaudio`) via `uv pip` if not already present.
-  - Applies editor profiles.
-
-- **kubernetes**
-  - Runs the containers stack: Docker, Podman, kubectl, minikube.
-
-- **ml**
-  - Blacklists `nouveau` and updates initramfs (requires reboot).
-  - Installs `nvidia-driver-470-server` for Tesla K80 (if missing).
-  - Detects Graphcore Colossus hardware and logs manual driver/SDK install instructions.
-  - Also runs the PyTorch group (CUDA PyTorch install) as part of the ML dev group flow.
-
-- **fonts**
-  - Installs dev fonts via apt:
-    - `fonts-firacode`, `fonts-hack-ttf`, `fonts-source-code-pro`, `ttf-mscorefonts-installer`.
-
-- **jetbrains**
-  - Downloads JetBrains Toolbox tarball.
-  - Extracts it to `~/dev/tools/jetbrains-toolbox` and makes the toolbox binary executable.
-
-- **cursor**
-  - Downloads Cursor `.deb` for Linux x64 from the Cursor update service and installs it.
-  - Applies Cursor profiles (settings/keybindings/snippets) from `config/profiles/cursor/`.
+**Editors (VSCode, Cursor):** Scripts only install extensions from `config/installed-tools.json`. Settings, keybindings, and profiles must be imported manually inside each IDE. The `config/profiles/` folder (if present) is for manual export/import only.
 
 ## Notes
 
-- **Ubuntu script** assumes Ubuntu 24.04 LTS (apt-based) and a Cinnamon desktop (for `cinnamon-core`, autostart paths, etc.).
-- **Endeavour script** assumes Endeavour or another Arch-based system (pacman). It uses official repos for most packages; Cursor, Google Chrome, and optional `ttf-ms-fonts` come from the AUR (install `yay` or `paru` first, or set `RESTORE_NO_AUR=1` to skip AUR). AppArmor is not used on Arch, so editor confinement steps are no-ops.
 - Some steps require `sudo` and may prompt for your password.
-- ML group changes graphics drivers; expect to reboot after running `ml`.
+- ML/GPU changes (blacklist nouveau, nvidia driver) require a reboot to fully apply.
+- **groups/** wrappers (`groups/general.sh`, `groups/ml.sh`, etc.) call `restore-environment.sh` (Ubuntu only). Use the main scripts directly for Endeavour or CachyOS.
 - For a complete spec (internal groups, verification summary, config expectations), see `docs/REGEN_PROMPT.md`.

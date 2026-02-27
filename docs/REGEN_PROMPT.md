@@ -6,15 +6,25 @@ Use this prompt to recreate the repo structure and behavior of my dev-environmen
 
 You are an AI coding assistant. Recreate a small Git repo that contains:
 
-1. A **single entrypoint script** at repo root:
+### Script layout (multiple entrypoints)
+
+- **`restore-environment.sh`** — Ubuntu 24.04 LTS + Cinnamon (apt/dpkg). Full restore including ML group.
+- **`restore-environment-endeavour.sh`** — Endeavour Linux (Arch, pacman + AUR). No GNOME, no keyring, no setxkbmap, no AppArmor. No ML group (use separate ML script).
+- **`restore-environment-cachyos.sh`** — CachyOS (Arch, pacman + AUR). Same as Endeavour.
+- **`restore-environment-endeavour-ml.sh`** — Endeavour: NVIDIA driver + nouveau blacklist + Graphcore detection only.
+- **`restore-environment-cachyos-ml.sh`** — CachyOS: same GPU/ML logic as endeavour-ml.
+
+All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` for AUR (Cursor, Chrome, ttf-ms-fonts). Set `RESTORE_NO_AUR=1` to skip AUR.
+
+### 1. Ubuntu entrypoint script
    - File: `restore-environment.sh`
    - Shebang: `#!/usr/bin/env bash`
    - Assumes **Ubuntu Server LTS** (apt-based) and runs under **bash**.
    - Behavior:
      - Treats its own directory as `ROOT`.
      - Expects a `config/` folder next to it, with:
-       - `config/installed-tools.json` (tool versions + lists).
-       - `config/profiles/vscode/` and `config/profiles/cursor/` (settings/keybindings/snippets).
+       - `config/installed-tools.json` (tool versions + extension lists).
+       - `config/profiles/vscode/` and `config/profiles/cursor/` (optional; for manual IDE import only — scripts do not copy profiles).
        - `config/shell/` (dotfiles + bash history seed).
        - `config/git/`, `config/ssh/`, `config/os/`, `config/mcp/`.
      - Exports `PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"` at startup.
@@ -70,12 +80,9 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
      - Downloads the JetBrains Toolbox tarball (current stable URL).
      - Extracts it under `~/dev/tools/jetbrains-toolbox` and marks the toolbox binary as executable.
    - `editors`:
-     - For VSCode:
-       - Installs extensions listed in `vscode_extensions` from `installed-tools.json` if not already present.
-       - Copies settings/keybindings/snippets/profiles from `config/profiles/vscode/` into `~/.config/Code/User`.
-     - For Cursor:
-       - Same pattern using `cursor` CLI and `config/profiles/cursor/` into `~/.config/Cursor/User`.
-     - After profiles are applied, runs an AppArmor helper that disables VSCode/Cursor profiles if present (so they are not confined by AppArmor).
+     - For VSCode: Installs extensions listed in `vscode_extensions` from `installed-tools.json` if not already present. Does **not** copy settings/keybindings/profiles — those must be imported manually inside the IDE.
+     - For Cursor: Same pattern (extensions only). No profile copy.
+     - On Ubuntu only: runs an AppArmor helper that disables VSCode/Cursor profiles if present (so they are not confined by AppArmor).
    - `shell`:
      - **Backs up existing `~/.bashrc`** once to `~/.bashrc.restore-default` (if not already backed up).
      - Copies shell dotfiles from `config/shell/` (`.bashrc`, `.profile`, `.bash_logout`, `.inputrc`, `fish/`).
@@ -115,26 +122,30 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
      - `nvidia-smi` (NVIDIA driver), and whether Graphcore hardware was detected
 
 4. **Config layout**:
-   - `config/profiles/vscode/` and `config/profiles/cursor/`:
-     - Global settings/keybindings/snippets at the root.
-     - Subfolders for group-specific profiles (each contains a README placeholder):
-       - `general/`, `dev/`, `java/`, `cpp/`, `rust/`, `js/`, `python/`, `kubernetes/`
+   - `config/profiles/vscode/` and `config/profiles/cursor/` (optional):
+     - Used for **manual** export/import of settings, keybindings, and profiles inside each IDE. Scripts do not copy these; they only install extensions.
 
 5. **Shell backup behavior**:
    - On first run of `shell` group, if `~/.bashrc` exists and `~/.bashrc.restore-default` does not, copy the existing file to that backup path and log it.
    - Future runs don’t re-backup; they simply restore the tracked config from `config/shell/`.
 
-6. **Wrapper scripts (optional, but present)**:
-   - A `groups/` directory at repo root with simple helper scripts:
+6. **Wrapper scripts (optional, Ubuntu only)**:
+   - A `groups/` directory at repo root with helper scripts that call `restore-environment.sh` (Ubuntu):
      - `groups/general.sh`, `groups/dev.sh`, `groups/java.sh`, `groups/cpp.sh`, `groups/rust.sh`, `groups/js.sh`, `groups/python.sh`, `groups/kubernetes.sh`, `groups/ml.sh`
-   - Each wrapper:
-     - Uses `ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"`.
-     - Delegates to `"$ROOT/restore-environment.sh"` with `--group` flags appropriate for that conceptual group (e.g. `java` group calls `--group java`, `kubernetes` calls `--group containers`, etc.).
+   - Each wrapper uses `ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"` and delegates to `"$ROOT/restore-environment.sh"` with appropriate `--group` flags. These wrappers work with Ubuntu only; for Endeavour/CachyOS, run the main scripts directly.
 
 7. **Idempotency & safety**:
-   - Every installer checks for an existing install first (via `command -v`, `dpkg -l`, or equivalent) and logs `Skip: ...` instead of re-installing.
-   - Copy-style “restore” steps (VSCode/Cursor settings, shell dotfiles, keyboard layout/autostart entries) are safe to run multiple times and converge on the same state.
+   - Every installer checks for an existing install first (via `command -v`, `dpkg -l`, `pacman -Qq`, or equivalent) and logs `Skip: ...` instead of re-installing.
+   - Copy-style “restore” steps (shell dotfiles, git/SSH config, keyboard layout/autostart on Ubuntu) are safe to run multiple times and converge on the same state.
    - The script never fails hard on individual install errors; it logs and continues.
 
-Recreate this project with clean, readable bash (no external dependencies beyond standard Ubuntu packages and the network installers above), matching this behavior as closely as possible.
+8. **Arch script specifics** (Endeavour, CachyOS):
+   - Use pacman for official packages; yay or paru for AUR.
+   - No gnome-keyring, libsecret, seahorse, setxkbmap, or AppArmor.
+   - Cursor: AUR only (`cursor-bin`); no .deb fallback.
+   - Chrome: AUR `google-chrome` preferred; fallback to `chromium` via pacman.
+   - Fonts: `nerd-fonts` group, `ttf-jetbrains-mono`, optional `ttf-ms-fonts` (AUR).
+   - ML: Separate `*-ml.sh` scripts handle nouveau blacklist, nvidia (or nvidia-470xx-dkms from AUR), Graphcore detection. Main restore scripts do not include ML group.
+
+Recreate this project with clean, readable bash (no external dependencies beyond standard system packages and the network installers above), matching this behavior as closely as possible.
 

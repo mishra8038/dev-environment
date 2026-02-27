@@ -1,6 +1,8 @@
 ## Dev environment restore – chat notes (2026-02-24)
 
-This file summarizes the long AI-assisted setup chat used to build and evolve this `restore-environment.sh` script and its config. It is **not** a verbatim transcript, but it captures the key decisions and groups.
+This file summarizes the long AI-assisted setup chat used to build and evolve this project. It is **not** a verbatim transcript, but it captures the key decisions and groups.
+
+**Note:** The project has since been extended with Arch scripts (Endeavour, CachyOS), separate ML scripts for GPU drivers, and removal of automatic profile copy — editors now install extensions only; settings/profiles are imported manually. See `README.md` and `docs/REGEN_PROMPT.md` for current behavior.
 
 ### Goals discussed
 
