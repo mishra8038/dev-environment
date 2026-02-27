@@ -9,6 +9,7 @@ Single-file scripts to restore a development environment (editors, languages, co
 | `restore-environment.sh` | Ubuntu 24.04 LTS + Cinnamon | apt/dpkg |
 | `restore-environment-endeavour.sh` | Endeavour Linux (Arch-based) | pacman + AUR (yay/paru) |
 | `restore-environment-cachyos.sh` | CachyOS (Arch-based) | pacman + AUR (yay/paru) |
+| `restore-environment-manjaro.sh` | Manjaro Linux (Arch-based) | pacman + AUR (yay/paru) |
 | `restore-environment-endeavour-ml.sh` | Endeavour — GPU/ML drivers only | pacman + AUR |
 | `restore-environment-cachyos-ml.sh` | CachyOS — GPU/ML drivers only | pacman + AUR |
 
@@ -36,6 +37,12 @@ Single-file scripts to restore a development environment (editors, languages, co
    ./restore-environment-cachyos.sh
    ```
 
+   **Manjaro:**
+   ```bash
+   chmod +x restore-environment-manjaro.sh
+   ./restore-environment-manjaro.sh
+   ```
+
    For Cursor, Chrome, and optional MS fonts on Arch, install an AUR helper first (e.g. `yay` or `paru`). Set `RESTORE_NO_AUR=1` to skip AUR.
 
    **GPU/ML drivers (Arch only):** Run the ML script separately after the main restore:
@@ -59,7 +66,7 @@ Single-file scripts to restore a development environment (editors, languages, co
 
 ## Dev groups (high level)
 
-| Group | Ubuntu | Endeavour / CachyOS |
+| Group | Ubuntu | Endeavour / CachyOS / Manjaro |
 |-------|--------|---------------------|
 | **general** | Core apt, cinnamon-core, gnome-keyring, shell/git/SSH/desktop restore, setxkbmap swap | Core pacman, shell/git/SSH/desktop restore (no keyring, no setxkbmap) |
 | **dev** | VSCode (.deb), Cursor (.deb), Chrome (.deb), extensions, Docker/Podman/kubectl/minikube, AppArmor relax | VSCode (pacman/AUR), Cursor (AUR only), Chrome (AUR or Chromium), extensions, containers |
@@ -80,5 +87,5 @@ Single-file scripts to restore a development environment (editors, languages, co
 
 - Some steps require `sudo` and may prompt for your password.
 - ML/GPU changes (blacklist nouveau, nvidia driver) require a reboot to fully apply.
-- **groups/** wrappers (`groups/general.sh`, `groups/ml.sh`, etc.) call `restore-environment.sh` (Ubuntu only). Use the main scripts directly for Endeavour or CachyOS.
+- **groups/** wrappers (`groups/general.sh`, `groups/ml.sh`, etc.) call `restore-environment.sh` (Ubuntu only). Use the main scripts directly for Endeavour, CachyOS, or Manjaro.
 - For a complete spec (internal groups, verification summary, config expectations), see `docs/REGEN_PROMPT.md`.
