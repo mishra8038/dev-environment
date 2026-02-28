@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # GPU/ML driver setup on CachyOS (Arch-based, pacman).
-# Handles NVIDIA driver install and Graphcore detection separately from the main restore script.
+# Handles NVIDIA driver install, Graphcore detection, and PyTorch separately from the main restore script.
 # Usage: ./restore-environment-cachyos-ml.sh
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -73,7 +73,15 @@ run_ml() {
   fi
 }
 
-run_ml
+run_pytorch() {
+  command -v uv &>/dev/null || { log "Install python/uv first (run main restore --group python)"; return 0; }
+  if uv pip show torch &>/dev/null || python3 -c "import torch" 2>/dev/null; then skip "PyTorch"; return 0; fi
+  log "Installing PyTorch (CUDA)"; local cu="${RESTORE_PYTORCH_CUDA:-cu124}"
+  uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/${cu}" 2>/dev/null || uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/cu118" 2>/dev/null || true
+}
 
-log "Done. NVIDIA / Graphcore ML setup complete (see log above for details)."
+run_ml
+run_pytorch
+
+log "Done. NVIDIA / Graphcore / PyTorch ML setup complete (see log above for details)."
 

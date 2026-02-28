@@ -7,11 +7,18 @@ Single-file scripts to restore a development environment (editors, languages, co
 | Script | Target | Package manager |
 |--------|--------|-----------------|
 | `restore-environment.sh` | Ubuntu 24.04 LTS + Cinnamon | apt/dpkg |
+| `restore-environment-mxlinux.sh` | MX Linux (Debian-based) | apt/dpkg |
 | `restore-environment-endeavour.sh` | Endeavour Linux (Arch-based) | pacman + AUR (yay/paru) |
 | `restore-environment-cachyos.sh` | CachyOS (Arch-based) | pacman + AUR (yay/paru) |
 | `restore-environment-manjaro.sh` | Manjaro Linux (Arch-based) | pacman + AUR (yay/paru) |
-| `restore-environment-endeavour-ml.sh` | Endeavour — GPU/ML drivers only | pacman + AUR |
-| `restore-environment-cachyos-ml.sh` | CachyOS — GPU/ML drivers only | pacman + AUR |
+| `restore-environment-ubuntu-ml.sh` | Ubuntu — GPU/ML drivers + PyTorch | apt |
+| `restore-environment-mxlinux-ml.sh` | MX Linux — GPU/ML drivers + PyTorch | apt |
+| `restore-environment-endeavour-ml.sh` | Endeavour — GPU/ML drivers + PyTorch | pacman + AUR |
+| `restore-environment-cachyos-ml.sh` | CachyOS — GPU/ML drivers + PyTorch | pacman + AUR |
+
+**Universal shell scripts** (OS-independent; no package manager):
+| `collect-shell-config.sh` | Collect/backup .bashrc, .profile, .bash_logout, .inputrc, .bash_history, fish/ from $HOME to config/shell |
+| `restore-shell-config.sh` | Restore shell config from config/shell to $HOME |
 
 **Ubuntu** and **Arch** scripts differ: Ubuntu uses apt, gnome-keyring, setxkbmap, and AppArmor; Arch scripts (Endeavour, CachyOS) use pacman/AUR, no GNOME packages, no keyring setup, no setxkbmap, no AppArmor. Endeavour and CachyOS assume Plasma or another DE (no Cinnamon/GNOME).
 
@@ -37,6 +44,12 @@ Single-file scripts to restore a development environment (editors, languages, co
    ./restore-environment-cachyos.sh
    ```
 
+   **MX Linux:**
+   ```bash
+   chmod +x restore-environment-mxlinux.sh
+   ./restore-environment-mxlinux.sh
+   ```
+
    **Manjaro:**
    ```bash
    chmod +x restore-environment-manjaro.sh
@@ -45,10 +58,21 @@ Single-file scripts to restore a development environment (editors, languages, co
 
    For Cursor, Chrome, and optional MS fonts on Arch, install an AUR helper first (e.g. `yay` or `paru`). Set `RESTORE_NO_AUR=1` to skip AUR.
 
-   **GPU/ML drivers (Arch only):** Run the ML script separately after the main restore:
+   **GPU/ML drivers + PyTorch:** Run the appropriate ML script separately after the main restore (and after `--group python` for PyTorch):
    ```bash
-   ./restore-environment-endeavour-ml.sh   # Endeavour
+   ./restore-environment-ubuntu-ml.sh     # Ubuntu
+   ./restore-environment-mxlinux-ml.sh    # MX Linux
+   ./restore-environment-endeavour-ml.sh  # Endeavour
    ./restore-environment-cachyos-ml.sh    # CachyOS
+   ```
+
+   **Shell config (any OS):** To backup your current shell config into config/shell, run from the repo root:
+   ```bash
+   ./collect-shell-config.sh
+   ```
+   To restore shell config only (without running a full restore):
+   ```bash
+   ./restore-shell-config.sh
    ```
 
 2. **Interactive dev menu (no args)**  
@@ -66,17 +90,16 @@ Single-file scripts to restore a development environment (editors, languages, co
 
 ## Dev groups (high level)
 
-| Group | Ubuntu | Endeavour / CachyOS / Manjaro |
+| Group | Ubuntu / MX Linux | Endeavour / CachyOS / Manjaro |
 |-------|--------|---------------------|
-| **general** | Core apt, cinnamon-core, gnome-keyring, shell/git/SSH/desktop restore, setxkbmap swap | Core pacman, shell/git/SSH/desktop restore (no keyring, no setxkbmap) |
+| **general** | Core apt, gnome-keyring, config (git/SSH/desktop), setxkbmap swap. Ubuntu: cinnamon-core; MX Linux: no desktop package (uses existing XFCE) | Core pacman, config (git/SSH/desktop) (no keyring, no setxkbmap) |
 | **dev** | VSCode (.deb), Cursor (.deb), Chrome (.deb), extensions, Docker/Podman/kubectl/minikube, AppArmor relax | VSCode (pacman/AUR), Cursor (AUR only), Chrome (AUR or Chromium), extensions, containers |
 | **java** | SDKMAN, JDK, maven, gradle | Same |
 | **cpp** | build-essential, editor extensions | Same |
 | **rust** | rustup | Same |
 | **js** | fnm, Node, npm globals | Same |
-| **python** | uv, PyTorch (optional) | Same |
+| **python** | uv | Same |
 | **kubernetes** | Docker, Podman, kubectl, minikube | Same |
-| **ml** | nouveau blacklist, nvidia driver, Graphcore notice, PyTorch | **Use separate ML script** (`*-ml.sh`) |
 | **fonts** | apt: firacode, hack, source-code-pro, ttf-mscorefonts | pacman: nerd-fonts group, JetBrains Mono, ttf-ms-fonts (AUR) |
 | **jetbrains** | JetBrains Toolbox to `~/dev/tools/jetbrains-toolbox` | Same |
 | **cursor** | Cursor .deb + extensions | Cursor via AUR + extensions |
@@ -87,5 +110,5 @@ Single-file scripts to restore a development environment (editors, languages, co
 
 - Some steps require `sudo` and may prompt for your password.
 - ML/GPU changes (blacklist nouveau, nvidia driver) require a reboot to fully apply.
-- **groups/** wrappers (`groups/general.sh`, `groups/ml.sh`, etc.) call `restore-environment.sh` (Ubuntu only). Use the main scripts directly for Endeavour, CachyOS, or Manjaro.
+- **groups/** wrappers (`groups/general.sh`, `groups/ml.sh`, etc.) call `restore-environment.sh` (Ubuntu only). Use the main scripts directly for MX Linux, Endeavour, CachyOS, or Manjaro.
 - For a complete spec (internal groups, verification summary, config expectations), see `docs/REGEN_PROMPT.md`.

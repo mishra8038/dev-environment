@@ -39,8 +39,8 @@ aur_helper() {
 
 AUR_HELPER=$(aur_helper)
 
-RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install chrome_install jetbrains_toolbox editors shell fonts flatpak pytorch claude_code)
-DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0 0)
+RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install chrome_install jetbrains_toolbox editors config fonts flatpak claude_code)
+DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0)
 
 DEV_GROUPS=(general dev java cpp rust js python kubernetes fonts jetbrains cursor)
 DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0 0 0)
@@ -80,13 +80,7 @@ run_prerequisites() {
     log "Installing ca-certificates (sudo pacman)"
     pacman_install ca-certificates
   fi
-  # QEMU guest agent (for VMs)
-  if ! pacman -Qq qemu-guest-agent &>/dev/null 2>/dev/null; then
-    log "Installing qemu-guest-agent (sudo pacman)"
-    pacman_install qemu-guest-agent
-    command -v systemctl &>/dev/null && sudo systemctl enable --now qemu-guest-agent 2>/dev/null || true
-  fi
-  skip "Prerequisites (base-devel, git, unzip, zip, curl, ca-certificates, qemu-guest-agent)"
+  skip "Prerequisites (base-devel, git, unzip, zip, curl, ca-certificates)"
 }
 
 run_python() {
@@ -241,16 +235,8 @@ run_editors() {
   run_cursor_profile || true
 }
 
-run_shell() {
+run_config() {
   local dc="${XDG_CONFIG_HOME:-$HOME/.config}"
-  if [ -f "$HOME/.bashrc" ] && [ ! -f "$HOME/.bashrc.restore-default" ]; then
-    cp "$HOME/.bashrc" "$HOME/.bashrc.restore-default" 2>/dev/null && log "Backed up .bashrc to .bashrc.restore-default" || true
-  fi
-  for f in .bashrc .profile .bash_logout .inputrc; do [ -f "$CONFIG/shell/$f" ] && cp "$CONFIG/shell/$f" "$HOME/$f" 2>/dev/null && log "Restored $f" || true; done
-  [ -d "$CONFIG/shell/fish" ] && cp -r "$CONFIG/shell/fish" "$dc/" 2>/dev/null && log "Restored fish" || true
-  if [ -f "$CONFIG/shell/bash_history" ] && [ ! -f "$HOME/.restore_bash_history_done" ]; then
-    grep -v '^#' "$CONFIG/shell/bash_history" 2>/dev/null | grep -v '^$' | tail -n 5000 >> "$HOME/.bash_history" 2>/dev/null && touch "$HOME/.restore_bash_history_done" && log "Appended bash_history" || true
-  fi
   [ -f "$CONFIG/git/gitconfig" ] && cp "$CONFIG/git/gitconfig" "$HOME/.gitconfig" 2>/dev/null && log "Restored .gitconfig" || true
   [ -d "$CONFIG/git/config.d" ] && mkdir -p "$dc/git" && cp -r "$CONFIG/git/config.d"/* "$dc/git/" 2>/dev/null && log "Restored git config.d" || true
   [ -f "$CONFIG/ssh/config" ] && mkdir -p "$HOME/.ssh" && cp "$CONFIG/ssh/config" "$HOME/.ssh/config" 2>/dev/null && log "Restored .ssh/config" || true
@@ -304,13 +290,6 @@ run_fonts() {
       log "Skipping ttf-ms-fonts (RESTORE_ACCEPT_MS_EULA!=true). Install from AUR manually if desired."
     fi
   fi
-}
-
-run_pytorch() {
-  command -v uv &>/dev/null || { log "Install python group first"; return 0; }
-  if uv pip show torch &>/dev/null || python3 -c "import torch" 2>/dev/null; then skip "PyTorch"; return 0; fi
-  log "Installing PyTorch (CUDA)"; local cu="${RESTORE_PYTORCH_CUDA:-cu124}"
-  uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/${cu}" 2>/dev/null || uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/cu118" 2>/dev/null || true
 }
 
 run_claude_code() {
@@ -371,17 +350,7 @@ verify_summary() {
   else
     log "  flatpak: not found"
   fi
-  if uv pip show torch &>/dev/null 2>/dev/null || python3 -c "import torch" 2>/dev/null; then
-    log "  pytorch: installed"
-  else
-    log "  pytorch: not installed"
-  fi
   verify_cmd claude
-  if pacman -Qq qemu-guest-agent &>/dev/null 2>/dev/null || [ -x /usr/sbin/qemu-ga ]; then
-    log "  qemu-guest-agent: installed"
-  else
-    log "  qemu-guest-agent: not found"
-  fi
   if command -v nvidia-smi &>/dev/null; then
     nsmi=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -n1)
     log "  nvidia-smi: ${nsmi:-available}"
@@ -408,10 +377,9 @@ run_group() {
     chrome_install) run_chrome_install ;;
     jetbrains_toolbox) run_jetbrains_toolbox ;;
     editors)       run_editors ;;
-    shell)         run_shell ;;
+    config)        run_config ;;
     fonts)         run_fonts ;;
     flatpak)       run_flatpak ;;
-    pytorch)       run_pytorch ;;
     claude_code)   run_claude_code ;;
     *) log "Unknown group $1"; return 1 ;;
   esac
@@ -419,13 +387,13 @@ run_group() {
 
 run_dev_group() {
   case "$1" in
-    general)     run_group prerequisites; run_group shell; run_group flatpak; run_group claude_code ;;
+    general)     run_group prerequisites; run_group config; run_group flatpak; run_group claude_code ;;
     dev)         run_group vscode_install; run_group cursor_install; run_group chrome_install; run_group editors; run_group containers ;;
     java)        run_group java ;;
     cpp)         run_group editors ;;
     rust)        run_group rust; run_group editors ;;
     js)          run_group node; run_group editors ;;
-    python)      run_group python; run_group pytorch; run_group editors ;;
+    python)      run_group python; run_group editors ;;
     kubernetes)  run_group containers ;;
     fonts)       run_group fonts ;;
     jetbrains)   run_group jetbrains_toolbox ;;

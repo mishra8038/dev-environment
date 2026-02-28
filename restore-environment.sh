@@ -22,20 +22,15 @@ json_array() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$
 
 [ -f "$JSON" ] || { log "Missing $JSON. Put config/ next to this script (config/installed-tools.json, etc.)."; exit 1; }
 
-RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install chrome_install jetbrains_toolbox editors shell fonts flatpak ml pytorch claude_code)
-DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0 0)
+RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install chrome_install jetbrains_toolbox editors config fonts flatpak claude_code)
+DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0)
 
-DEV_GROUPS=(general dev java cpp rust js python kubernetes ml fonts jetbrains cursor)
+DEV_GROUPS=(general dev java cpp rust js python kubernetes fonts jetbrains cursor)
 DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0 0 0)
 
 run_prerequisites() {
   command -v apt-get &>/dev/null || return 0
   for p in unzip curl; do command -v "$p" &>/dev/null || { log "Installing unzip curl ca-certificates (sudo)"; sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y unzip curl ca-certificates 2>/dev/null || true; return 0; }; done
-  if ! dpkg -l qemu-guest-agent 2>/dev/null | grep -q '^ii'; then
-    log "Installing qemu-guest-agent (sudo)"
-    sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y qemu-guest-agent 2>/dev/null || true
-    command -v systemctl &>/dev/null && sudo systemctl enable --now qemu-guest-agent 2>/dev/null || true
-  fi
   if command -v apt-get &>/dev/null; then
     # Core dev/desktop packages
     for p in build-essential git cinnamon-core systemd-sysv util-linux; do
@@ -50,7 +45,7 @@ run_prerequisites() {
       sudo apt-get install -y "$p" 2>/dev/null || true
     done
   fi
-  skip "Prerequisites (unzip, curl, ca-certificates, qemu-guest-agent, build-essential, git, cinnamon-core, systemd-sysv, util-linux, gnome-keyring, libsecret)"
+  skip "Prerequisites (unzip, curl, ca-certificates, build-essential, git, cinnamon-core, systemd-sysv, util-linux, gnome-keyring, libsecret)"
 }
 
 run_python() {
@@ -219,16 +214,8 @@ run_editors() {
   run_apparmor_editors || true
 }
 
-run_shell() {
+run_config() {
   local dc="${XDG_CONFIG_HOME:-$HOME/.config}"
-  if [ -f "$HOME/.bashrc" ] && [ ! -f "$HOME/.bashrc.restore-default" ]; then
-    cp "$HOME/.bashrc" "$HOME/.bashrc.restore-default" 2>/dev/null && log "Backed up .bashrc to .bashrc.restore-default" || true
-  fi
-  for f in .bashrc .profile .bash_logout .inputrc; do [ -f "$CONFIG/shell/$f" ] && cp "$CONFIG/shell/$f" "$HOME/$f" 2>/dev/null && log "Restored $f" || true; done
-  [ -d "$CONFIG/shell/fish" ] && cp -r "$CONFIG/shell/fish" "$dc/" 2>/dev/null && log "Restored fish" || true
-  if [ -f "$CONFIG/shell/bash_history" ] && [ ! -f "$HOME/.restore_bash_history_done" ]; then
-    grep -v '^#' "$CONFIG/shell/bash_history" 2>/dev/null | grep -v '^$' | tail -n 5000 >> "$HOME/.bash_history" 2>/dev/null && touch "$HOME/.restore_bash_history_done" && log "Appended bash_history" || true
-  fi
   [ -f "$CONFIG/git/gitconfig" ] && cp "$CONFIG/git/gitconfig" "$HOME/.gitconfig" 2>/dev/null && log "Restored .gitconfig" || true
   [ -d "$CONFIG/git/config.d" ] && mkdir -p "$dc/git" && cp -r "$CONFIG/git/config.d"/* "$dc/git/" 2>/dev/null && log "Restored git config.d" || true
   [ -f "$CONFIG/ssh/config" ] && mkdir -p "$HOME/.ssh" && cp "$CONFIG/ssh/config" "$HOME/.ssh/config" 2>/dev/null && log "Restored .ssh/config" || true
@@ -330,39 +317,6 @@ run_fonts() {
   fi
 }
 
-run_ml() {
-  command -v apt-get &>/dev/null || { log "apt-get not found; skip ml"; return 0; }
-  # Blacklist nouveau to prefer proprietary NVIDIA driver
-  if ! grep -q '^blacklist nouveau' /etc/modprobe.d/blacklist-nouveau.conf 2>/dev/null; then
-    log "Blacklisting nouveau (sudo, requires reboot to fully apply)..."
-    printf 'blacklist nouveau\noptions nouveau modeset=0\n' | sudo tee /etc/modprobe.d/blacklist-nouveau.conf >/dev/null 2>&1 || true
-    sudo update-initramfs -u 2>/dev/null || true
-  else
-    skip "nouveau already blacklisted"
-  fi
-  # NVIDIA Tesla K80: server 470 driver
-  if ! dpkg -l nvidia-driver-470-server 2>/dev/null | grep -q '^ii'; then
-    log "Installing NVIDIA 470 server driver for Tesla K80 (sudo)..."
-    sudo apt-get update -qq 2>/dev/null || true
-    sudo apt-get install -y nvidia-driver-470-server 2>/dev/null || true
-  else
-    skip "nvidia-driver-470-server"
-  fi
-  # Graphcore Colossus GC-02-C2: driver must be installed from Graphcore portal
-  if lspci 2>/dev/null | grep -qi 'Graphcore'; then
-    log "Graphcore hardware detected. Install GC-02-C2 Colossus drivers and SDK manually from https://downloads.graphcore.ai (see vendor docs)."
-  else
-    log "No Graphcore device detected (skip Graphcore driver instructions)."
-  fi
-}
-
-run_pytorch() {
-  command -v uv &>/dev/null || { log "Install python group first"; return 0; }
-  if uv pip show torch &>/dev/null || python3 -c "import torch" 2>/dev/null; then skip "PyTorch"; return 0; fi
-  log "Installing PyTorch (CUDA)"; local cu="${RESTORE_PYTORCH_CUDA:-cu124}"
-  uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/${cu}" 2>/dev/null || uv pip install --system torch torchvision torchaudio --index-url "https://download.pytorch.org/whl/cu118" 2>/dev/null || true
-}
-
 run_claude_code() {
   command -v claude &>/dev/null && { skip "Claude Code"; return 0; }
   log "Installing Claude Code"; curl -fsSL https://claude.ai/install.sh | bash 2>/dev/null || true
@@ -449,20 +403,8 @@ verify_summary() {
   else
     log "  flatpak: not found"
   fi
-  # PyTorch
-  if uv pip show torch &>/dev/null || python3 -c "import torch" 2>/dev/null; then
-    log "  pytorch: installed"
-  else
-    log "  pytorch: not installed"
-  fi
   # Claude Code
   verify_cmd claude
-  # QEMU guest agent
-  if dpkg -l qemu-guest-agent 2>/dev/null | grep -q '^ii' || [ -x /usr/sbin/qemu-ga ]; then
-    log "  qemu-guest-agent: installed"
-  else
-    log "  qemu-guest-agent: not found"
-  fi
   # NVIDIA tools
   if command -v nvidia-smi &>/dev/null; then
     nsmi=$(nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null | head -n1)
@@ -491,11 +433,9 @@ run_group() {
     chrome_install) run_chrome_install ;;
     jetbrains_toolbox) run_jetbrains_toolbox ;;
     editors)       run_editors ;;
-    shell)         run_shell ;;
+    config)        run_config ;;
     fonts)         run_fonts ;;
     flatpak)       run_flatpak ;;
-    ml)            run_ml ;;
-    pytorch)       run_pytorch ;;
     claude_code)   run_claude_code ;;
     *) log "Unknown group $1"; return 1 ;;
   esac
@@ -503,15 +443,14 @@ run_group() {
 
 run_dev_group() {
   case "$1" in
-    general)     run_group prerequisites; run_group shell; run_group flatpak; run_group claude_code ;;
+    general)     run_group prerequisites; run_group config; run_group flatpak; run_group claude_code ;;
     dev)         run_group vscode_install; run_group cursor_install; run_group chrome_install; run_group editors; run_group containers ;;
     java)        run_group java ;;
     cpp)         run_group editors ;;
     rust)        run_group rust; run_group editors ;;
     js)          run_group node; run_group editors ;;
-    python)      run_group python; run_group pytorch; run_group editors ;;
+    python)      run_group python; run_group editors ;;
     kubernetes)  run_group containers ;;
-    ml)          run_group ml; run_group pytorch ;;
     fonts)       run_group fonts ;;
     jetbrains)   run_group jetbrains_toolbox ;;
     cursor)      run_group cursor_install; run_group editors ;;

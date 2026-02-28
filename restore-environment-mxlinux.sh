@@ -1,43 +1,29 @@
 #!/usr/bin/env bash
-# Restore dev environment on Manjaro Linux (Arch-based, pacman).
-# SCP this file + config/ to the machine, then run: ./restore-environment-manjaro.sh
+# Restore dev environment on MX Linux (Debian-based, apt).
+# SCP this file + config/ to the machine, then run: ./restore-environment-mxlinux.sh
 # Idempotent: skips tools already installed; safe to re-run.
-# Requires: pacman. Optional: yay or paru for AUR (Cursor, Chrome, ttf-ms-fonts).
-# Does not install any desktop environment (no Cinnamon, GNOME, etc.); use with XFCE, KDE, or any other desktop.
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG="$ROOT/config"
 JSON="$CONFIG/installed-tools.json"
 export PATH="${HOME}/.local/bin:${HOME}/.cargo/bin:${PATH}"
 
-# Set to 'true' to auto-accept the Microsoft core fonts EULA (AUR ttf-ms-fonts).
+# Set to 'true' to auto-accept the Microsoft core fonts EULA for ttf-mscorefonts-installer.
+# Change to 'false' if you prefer to skip automatic EULA acceptance and install that package manually.
 export RESTORE_ACCEPT_MS_EULA=${RESTORE_ACCEPT_MS_EULA:-true}
-
-# AUR helper: script tries yay, then paru. Set to skip AUR entirely: RESTORE_NO_AUR=1
-export RESTORE_NO_AUR=${RESTORE_NO_AUR:-}
 
 RESULTS="$ROOT/results"
 mkdir -p "$RESULTS" 2>/dev/null || true
-LOG_FILE="$RESULTS/restore-manjaro-$(date +%Y%m%d-%H%M%S).log"
+LOG_FILE="$RESULTS/restore-mxlinux-$(date +%Y%m%d-%H%M%S).log"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
-log() { printf '[restore-manjaro] %s\n' "$*" >&2; }
+log() { printf '[restore-mxlinux] %s\n' "$*" >&2; }
 skip() { log "Skip: $*"; }
 json_get() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$k" '.[$k] // empty' "$JSON" 2>/dev/null; else grep -o "\"$k\"[[:space:]]*:[[:space:]]*\"[^\"]*\"" "$JSON" 2>/dev/null | sed -n 's/.*:[[:space:]]*"\([^"]*\)".*/\1/p'; fi; }
 json_array() { local k="$1"; if command -v jq &>/dev/null; then jq -r --arg k "$k" '.[$k][]? // empty' "$JSON" 2>/dev/null; else sed -n "/\"$k\"[[:space:]]*:/,/\]/p" "$JSON" | grep -o '"[^"]*"' | tr -d '"'; fi; }
 
 [ -f "$JSON" ] || { log "Missing $JSON. Put config/ next to this script (config/installed-tools.json, etc.)."; exit 1; }
 
-command -v pacman &>/dev/null || { log "pacman not found. This script is for Manjaro/Arch-based systems."; exit 1; }
-
-# Resolve AUR helper (yay or paru)
-aur_helper() {
-  if [ -n "${RESTORE_NO_AUR:-}" ]; then echo ""; return; fi
-  command -v yay &>/dev/null && { echo "yay"; return; }
-  command -v paru &>/dev/null && { echo "paru"; return; }
-  echo ""
-}
-
-AUR_HELPER=$(aur_helper)
+command -v apt-get &>/dev/null || { log "apt-get not found. This script is for MX Linux/Debian-based systems."; exit 1; }
 
 RESTORE_GROUPS=(prerequisites python java rust node containers vscode_install cursor_install chrome_install jetbrains_toolbox editors config fonts flatpak claude_code)
 DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0)
@@ -45,42 +31,24 @@ DEFAULT_SEL=(1 1 1 1 1 1 0 0 0 0 1 0 0 0 0)
 DEV_GROUPS=(general dev java cpp rust js python kubernetes fonts jetbrains cursor)
 DEV_DEFAULT_SEL=(1 1 1 1 1 1 1 1 0 0 0 0)
 
-pacman_install() {
-  sudo pacman -S --noconfirm --needed "$@" 2>/dev/null || true
-}
-
-aur_install() {
-  local pkg="$1"
-  if [ -z "$AUR_HELPER" ]; then
-    log "AUR helper (yay/paru) not found; skip AUR package: $pkg"
-    return 1
-  fi
-  if pacman -Qq "$pkg" &>/dev/null; then
-    skip "$pkg (AUR)"
-    return 0
-  fi
-  log "Installing $pkg via $AUR_HELPER (AUR)..."
-  if [ "$AUR_HELPER" = "yay" ]; then
-    yay -S --noconfirm --needed "$pkg" 2>/dev/null || true
-  else
-    paru -S --noconfirm --needed "$pkg" 2>/dev/null || true
-  fi
-}
-
 run_prerequisites() {
-  command -v pacman &>/dev/null || return 0
-  # Core build and network
-  for p in base-devel git unzip curl; do
-    pacman -Qq "$p" &>/dev/null && continue
-    log "Installing $p (sudo pacman)"
-    pacman_install "$p"
-  done
-  # CA certs (Arch core)
-  if ! pacman -Qq ca-certificates &>/dev/null 2>/dev/null; then
-    log "Installing ca-certificates (sudo pacman)"
-    pacman_install ca-certificates
+  command -v apt-get &>/dev/null || return 0
+  for p in unzip curl; do command -v "$p" &>/dev/null || { log "Installing unzip curl ca-certificates (sudo)"; sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y unzip curl ca-certificates 2>/dev/null || true; return 0; }; done
+  if command -v apt-get &>/dev/null; then
+    # Core dev packages (MX Linux already has a desktop; no cinnamon-core)
+    for p in build-essential git systemd-sysv util-linux; do
+      dpkg -l "$p" &>/dev/null && continue
+      log "Installing $p (sudo)"
+      sudo apt-get install -y "$p" 2>/dev/null || true
+    done
+    # Secret Service / keyring support for VSCode, Cursor, JetBrains, etc.
+    for p in gnome-keyring seahorse libsecret-1-0 libsecret-tools; do
+      dpkg -l "$p" &>/dev/null && continue
+      log "Installing $p (sudo)"
+      sudo apt-get install -y "$p" 2>/dev/null || true
+    done
   fi
-  skip "Prerequisites (base-devel, git, unzip, zip, curl, ca-certificates)"
+  skip "Prerequisites (unzip, curl, ca-certificates, build-essential, git, systemd-sysv, util-linux, gnome-keyring, libsecret)"
 }
 
 run_python() {
@@ -91,24 +59,17 @@ run_python() {
 
 run_java() {
   command -v java &>/dev/null && command -v sdk &>/dev/null && { skip "Java"; return 0; }
-  # SDKMAN requires zip, unzip, curl; ensure they are installed (e.g. if --group java was run without prerequisites)
-  if command -v pacman &>/dev/null; then
-    for p in zip unzip curl; do
-      if ! command -v "$p" &>/dev/null; then
-        log "Installing $p for SDKMAN (sudo pacman)"
-        pacman_install "$p"
-      fi
-    done
-  fi
   command -v sdk &>/dev/null || { log "Installing SDKMAN"; curl -s "https://get.sdkman.io" | bash || true; export SDKMAN_DIR="${HOME}/.sdkman"; [ -f "${HOME}/.sdkman/bin/sdkman-init.sh" ] && . "${HOME}/.sdkman/bin/sdkman-init.sh" 2>/dev/null || true; }
   command -v sdk &>/dev/null || return 0
   local w=$(json_get "java_version"); [[ "$w" == *tem* && "$w" == *21* ]] && w="21.0.8-tem" || w="${w:-21.0.8-tem}"; w=$(echo "$w" | tr -d '[:space:]'); [ -z "$w" ] && w="21.0.8-tem"
   log "Installing Java $w"; sdk install java "$w" 2>/dev/null || sdk install java 21.0.8-tem 2>/dev/null || true
-  for p in maven gradle; do
-    pacman -Qq "$p" &>/dev/null && continue
-    log "Installing $p (sudo pacman)"
-    pacman_install "$p"
-  done
+  if command -v apt-get &>/dev/null; then
+    for p in maven gradle; do
+      dpkg -l "$p" &>/dev/null && continue
+      log "Installing $p (sudo)"
+      sudo apt-get install -y "$p" 2>/dev/null || true
+    done
+  fi
 }
 
 run_rust() {
@@ -127,19 +88,16 @@ run_node() {
   while read -r pkg; do [ -z "$pkg" ] && continue; command -v npm &>/dev/null || continue; npm list -g "$pkg" &>/dev/null && continue; log "npm global $pkg"; npm install -g "$pkg" 2>/dev/null || true; done < <(json_array "npm_global_packages")
 }
 
-run_docker() { command -v docker &>/dev/null && { skip "Docker"; return 0; }; log "Installing Docker"; pacman_install docker; command -v systemctl &>/dev/null && sudo systemctl enable --now docker 2>/dev/null || true; }
-run_podman() { command -v podman &>/dev/null && { skip "Podman"; return 0; }; log "Installing Podman"; pacman_install podman; }
+run_docker() { command -v docker &>/dev/null && { skip "Docker"; return 0; }; log "Installing Docker"; command -v apt-get &>/dev/null && { sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y docker.io 2>/dev/null || true; } || curl -fsSL https://get.docker.com | sh 2>/dev/null || true; }
+run_podman() { command -v podman &>/dev/null && { skip "Podman"; return 0; }; log "Installing Podman"; command -v apt-get &>/dev/null && { sudo apt-get update -qq 2>/dev/null; sudo apt-get install -y podman 2>/dev/null || true; }; }
 run_kubectl() {
   command -v kubectl &>/dev/null && { skip "kubectl"; return 0; }; log "Installing kubectl"
-  pacman_install kubectl 2>/dev/null || {
-    local t=$(mktemp); curl -sSL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o "$t" 2>/dev/null && chmod +x "$t" && (sudo mv "$t" /usr/local/bin/kubectl 2>/dev/null || mv "$t" "$HOME/.local/bin/kubectl" 2>/dev/null) || rm -f "$t"
-  }
+  local t=$(mktemp); curl -sSL "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o "$t" 2>/dev/null && chmod +x "$t" && (sudo mv "$t" /usr/local/bin/kubectl 2>/dev/null || mv "$t" "$HOME/.local/bin/kubectl" 2>/dev/null) || rm -f "$t"
 }
 run_minikube() {
   command -v minikube &>/dev/null && { skip "minikube"; return 0; }; log "Installing minikube"
-  pacman_install minikube 2>/dev/null || {
-    local t=$(mktemp); curl -Lo "$t" https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 2>/dev/null && chmod +x "$t" && (sudo mv "$t" /usr/local/bin/minikube 2>/dev/null || mv "$t" "$HOME/.local/bin/minikube" 2>/dev/null) || rm -f "$t"
-  }
+  command -v apt-get &>/dev/null && sudo apt-get install -y curl conntrack 2>/dev/null || true
+  local t=$(mktemp); curl -Lo "$t" https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 2>/dev/null && chmod +x "$t" && (sudo mv "$t" /usr/local/bin/minikube 2>/dev/null || mv "$t" "$HOME/.local/bin/minikube" 2>/dev/null) || rm -f "$t"
 }
 verify_containers() {
   log "Verify containers:"
@@ -156,34 +114,54 @@ run_containers() { run_docker || true; run_podman || true; run_kubectl || true; 
 
 run_vscode_install() {
   command -v code &>/dev/null && { skip "VSCode"; return 0; }
-  log "Installing VSCode (code) via pacman..."
-  pacman_install code 2>/dev/null || aur_install code 2>/dev/null || log "Install code manually (pacman or AUR)."
+  command -v apt-get &>/dev/null || return 0
+  log "Downloading VSCode .deb and installing (sudo)..."
+  local deb
+  deb=$(mktemp --suffix=.deb)
+  wget -qO "$deb" "https://update.code.visualstudio.com/latest/linux-deb-x64/stable" 2>/dev/null || { rm -f "$deb"; log "Failed to download VSCode .deb"; return 0; }
+  sudo apt-get update -qq 2>/dev/null || true
+  sudo dpkg -i "$deb" 2>/dev/null || sudo apt-get -f install -y 2>/dev/null || true
+  rm -f "$deb" || true
+  if [ ! -f /etc/apt/sources.list.d/vscode.list ]; then
+    log "Adding Microsoft VSCode apt repository for automatic updates (sudo)..."
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg >/dev/null 2>&1 || true
+    echo "deb [arch=amd64] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list >/dev/null 2>&1 || true
+    sudo apt-get update -qq 2>/dev/null || true
+  else
+    log "VSCode apt repository already present (/etc/apt/sources.list.d/vscode.list)."
+  fi
 }
 
 run_cursor_install() {
   command -v cursor &>/dev/null && { skip "Cursor editor"; return 0; }
-  if [ -z "$AUR_HELPER" ]; then
-    log "AUR helper (yay/paru) required for Cursor. Install yay then: yay -S cursor-bin"
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip Cursor install"; return 0; }
+  log "Downloading Cursor .deb (x64) and installing (sudo)..."
+  local deb
+  deb=$(mktemp --suffix=.deb)
+  if ! wget -qO "$deb" "https://api2.cursor.sh/updates/download/golden/linux-x64-deb/cursor/2.5" 2>/dev/null; then
+    rm -f "$deb"
+    log "Failed to download Cursor .deb; install manually from https://cursor.com/download."
     return 0
   fi
-  log "Installing Cursor via AUR ($AUR_HELPER)..."
-  aur_install cursor-bin 2>/dev/null || true
-  if command -v cursor &>/dev/null; then return 0; fi
-  log "Cursor install failed. Install manually: $AUR_HELPER -S cursor-bin (or cursor-app-bin)"
+  sudo apt-get update -qq 2>/dev/null || true
+  sudo dpkg -i "$deb" 2>/dev/null || sudo apt-get -f install -y 2>/dev/null || true
+  rm -f "$deb" || true
 }
 
 run_chrome_install() {
-  command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null || command -v chromium &>/dev/null && { skip "Chrome/Chromium"; return 0; }
-  # Prefer Google Chrome via AUR (yay/paru) when available
-  if [ -n "$AUR_HELPER" ]; then
-    log "Installing Google Chrome via AUR ($AUR_HELPER)..."
-    aur_install google-chrome 2>/dev/null || true
-  fi
-  if command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null; then
+  command -v google-chrome &>/dev/null && { skip "Google Chrome"; return 0; }
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip Chrome install"; return 0; }
+  log "Downloading Google Chrome .deb (stable) and installing (sudo)..."
+  local deb
+  deb=$(mktemp --suffix=.deb)
+  if ! wget -qO "$deb" "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" 2>/dev/null; then
+    rm -f "$deb"
+    log "Failed to download Google Chrome .deb; install manually from https://www.google.com/chrome/."
     return 0
   fi
-  log "Installing Chromium via pacman (fallback)..."
-  pacman_install chromium 2>/dev/null || log "Install Chromium manually: pacman -S chromium. For Google Chrome use AUR: yay -S google-chrome."
+  sudo apt-get update -qq 2>/dev/null || true
+  sudo dpkg -i "$deb" 2>/dev/null || sudo apt-get -f install -y 2>/dev/null || true
+  rm -f "$deb" || true
 }
 
 run_jetbrains_toolbox() {
@@ -198,8 +176,8 @@ run_jetbrains_toolbox() {
   mkdir -p "$tools_root" 2>/dev/null || true
   log "Downloading JetBrains Toolbox tarball..."
   local tarball tmpdir
-  tarball=$(mktemp --suffix=.tar.gz 2>/dev/null || mktemp -t toolbox.XXXXXX.tar.gz)
-  if ! curl -sSL -o "$tarball" "https://download.jetbrains.com/toolbox/jetbrains-toolbox-2.4.0.32175.tar.gz" 2>/dev/null; then
+  tarball=$(mktemp --suffix=.tar.gz)
+  if ! wget -qO "$tarball" "https://download.jetbrains.com/toolbox/jetbrains-toolbox-2.4.0.32175.tar.gz" 2>/dev/null; then
     rm -f "$tarball"
     log "Failed to download JetBrains Toolbox; install manually from https://www.jetbrains.com/toolbox-app/."
     return 0
@@ -233,6 +211,7 @@ run_cursor_profile() {
 run_editors() {
   run_vscode_profile || true
   run_cursor_profile || true
+  run_apparmor_editors || true
 }
 
 run_config() {
@@ -244,12 +223,59 @@ run_config() {
   [ -d "$CONFIG/os/autostart" ] && mkdir -p "$dc/autostart" && for f in "$CONFIG/os/autostart"/*.desktop; do [ -f "$f" ] && cp "$f" "$dc/autostart/" 2>/dev/null; done && log "Restored autostart" || true
   [ -f "$CONFIG/mcp/vscode-mcp.json" ] && mkdir -p "$dc/Code/User" && cp "$CONFIG/mcp/vscode-mcp.json" "$dc/Code/User/mcp.json" 2>/dev/null; [ -f "$CONFIG/mcp/cursor-mcp.json" ] && mkdir -p "$HOME/.cursor" && cp "$CONFIG/mcp/cursor-mcp.json" "$HOME/.cursor/mcp.json" 2>/dev/null
   [ -f "$CONFIG/os/dconf-dump.txt" ] && command -v dconf &>/dev/null && log "Desktop: dconf load / < $CONFIG/os/dconf-dump.txt"
+  if command -v gnome-keyring-daemon &>/dev/null; then
+    if ! dbus-send --session --dest=org.freedesktop.secrets --type=method_call --print-reply /org/freedesktop/secrets org.freedesktop.DBus.Peer.Ping &>/dev/null; then
+      log "Starting gnome-keyring-daemon (secrets)..."
+      eval "$(gnome-keyring-daemon --start --components=secrets)" 2>/dev/null || true
+      [ -n "${SSH_AUTH_SOCK:-}" ] && export SSH_AUTH_SOCK
+    else
+      skip "Secret Service (gnome-keyring) already running"
+    fi
+    local as_dir="$dc/autostart"
+    local as_file="$as_dir/gnome-keyring-secrets.desktop"
+    if [ ! -f "$as_file" ]; then
+      mkdir -p "$as_dir" 2>/dev/null || true
+      cat >"$as_file" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=GNOME Keyring (Secrets)
+Comment=Start gnome-keyring-daemon for Secret Service API
+Exec=/usr/bin/gnome-keyring-daemon --start --components=secrets
+X-GNOME-Autostart-enabled=true
+EOF
+      log "Installed GNOME Keyring (secrets) autostart."
+    fi
+  fi
+  if command -v setxkbmap &>/dev/null; then
+    if ! setxkbmap -query 2>/dev/null | grep -q 'ctrl:swapcaps'; then
+      log "Setting keyboard option ctrl:swapcaps (swap CapsLock with Ctrl)..."
+      setxkbmap -option ctrl:swapcaps 2>/dev/null || true
+    else
+      skip "setxkbmap ctrl:swapcaps already active"
+    fi
+    local as_dir="$dc/autostart"
+    local as_file="$as_dir/setxkb-swapcaps.desktop"
+    if [ ! -f "$as_file" ]; then
+      mkdir -p "$as_dir" 2>/dev/null || true
+      cat >"$as_file" <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=Swap CapsLock and Ctrl
+Comment=Swap CapsLock with Ctrl using setxkbmap
+Exec=setxkbmap -option ctrl:swapcaps
+X-GNOME-Autostart-enabled=true
+EOF
+      log "Installed setxkbmap autostart (swap CapsLock and Ctrl)."
+    fi
+  fi
 }
 
 run_flatpak() {
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip flatpak"; return 0; }
   if ! command -v flatpak &>/dev/null; then
-    log "Installing Flatpak (sudo pacman)..."
-    pacman_install flatpak
+    log "Installing Flatpak (sudo)..."
+    sudo apt-get update -qq 2>/dev/null || true
+    sudo apt-get install -y flatpak 2>/dev/null || true
   else
     skip "Flatpak"
   fi
@@ -264,30 +290,24 @@ run_flatpak() {
 }
 
 run_fonts() {
-  # Pacman font packages: nerd-fonts group (complete set, official Extra repo) and JetBrains Mono
-  # nerd-fonts group includes ttf-jetbrains-mono-nerd, ttf-firacode-nerd, ttf-nerd-fonts-symbols, etc.
-  if ! pacman -Qg nerd-fonts &>/dev/null 2>/dev/null; then
-    log "Installing nerd-fonts group (complete) via pacman..."
-    pacman_install nerd-fonts || log "  install of nerd-fonts group failed; please install manually."
-  else
-    skip "nerd-fonts group"
-  fi
-  # JetBrains Mono (base font; nerd-patched variant is in nerd-fonts group)
-  if ! pacman -Qq ttf-jetbrains-mono &>/dev/null 2>/dev/null; then
-    log "Installing ttf-jetbrains-mono via pacman..."
-    pacman_install ttf-jetbrains-mono || log "  install of ttf-jetbrains-mono failed; please install manually."
-  else
-    skip "ttf-jetbrains-mono"
-  fi
-  # Microsoft core fonts (AUR, EULA)
-  if pacman -Qq ttf-ms-fonts &>/dev/null 2>/dev/null; then
-    skip "ttf-ms-fonts"
+  command -v apt-get &>/dev/null || { log "apt-get not found; skip fonts"; return 0; }
+  local basic_pkgs=(fonts-firacode fonts-hack-ttf fonts-source-code-pro)
+  for p in "${basic_pkgs[@]}"; do
+    dpkg -l "$p" &>/dev/null && { skip "$p"; continue; }
+    log "Installing font package $p (sudo)..."
+    sudo apt-get update -qq 2>/dev/null || true
+    sudo apt-get install -y "$p" 2>/dev/null || log "  install of $p failed; please install manually."
+  done
+  if dpkg -l ttf-mscorefonts-installer &>/dev/null | grep -q '^ii'; then
+    skip "ttf-mscorefonts-installer"
   else
     if [ "${RESTORE_ACCEPT_MS_EULA:-false}" = "true" ]; then
-      log "Installing ttf-ms-fonts from AUR (EULA accepted via RESTORE_ACCEPT_MS_EULA=true)..."
-      aur_install ttf-ms-fonts || log "  install of ttf-ms-fonts failed or AUR disabled; install manually if desired."
+      log "Auto-accepting Microsoft core fonts EULA (RESTORE_ACCEPT_MS_EULA=true) and installing ttf-mscorefonts-installer..."
+      echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections 2>/dev/null || true
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ttf-mscorefonts-installer 2>/dev/null || \
+        log "  noninteractive install of ttf-mscorefonts-installer failed; you may need to install it manually."
     else
-      log "Skipping ttf-ms-fonts (RESTORE_ACCEPT_MS_EULA!=true). Install from AUR manually if desired."
+      log "Skipping automatic EULA acceptance for ttf-mscorefonts-installer (RESTORE_ACCEPT_MS_EULA!=true). Install it manually if desired."
     fi
   fi
 }
@@ -295,6 +315,25 @@ run_fonts() {
 run_claude_code() {
   command -v claude &>/dev/null && { skip "Claude Code"; return 0; }
   log "Installing Claude Code"; curl -fsSL https://claude.ai/install.sh | bash 2>/dev/null || true
+}
+
+run_apparmor_editors() {
+  if ! command -v aa-status &>/dev/null || [ ! -d /etc/apparmor.d ]; then
+    skip "AppArmor (aa-status) not available"
+    return 0
+  fi
+  log "Adjusting AppArmor for editors (VSCode/Cursor) if needed..."
+  local profiles=(usr.bin.code cursor)
+  for prof in "${profiles[@]}"; do
+    local path="/etc/apparmor.d/$prof"
+    [ -f "$path" ] || continue
+    if aa-status 2>/dev/null | grep -q "$prof"; then
+      log "Disabling AppArmor profile $prof (sudo aa-disable)..."
+      sudo aa-disable "$prof" 2>/dev/null || true
+    else
+      skip "AppArmor profile $prof already disabled or not loaded"
+    fi
+  done
 }
 
 verify_cmd() {
@@ -328,14 +367,14 @@ verify_summary() {
   verify_cmd minikube
   verify_cmd code
   verify_cmd cursor
-  if command -v google-chrome-stable &>/dev/null || command -v google-chrome &>/dev/null; then log "  chrome: installed (Google Chrome)"; elif command -v chromium &>/dev/null; then log "  chrome: installed (Chromium)"; else log "  chrome: not found"; fi
+  verify_cmd google-chrome
   if [ -x "$HOME/dev/tools/jetbrains-toolbox/jetbrains-toolbox" ]; then
     log "  jetbrains-toolbox: installed"
   else
     log "  jetbrains-toolbox: not found"
   fi
-  for fpkg in ttf-nerd-fonts-symbols ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-ms-fonts; do
-    if pacman -Qq "$fpkg" &>/dev/null 2>/dev/null; then
+  for fpkg in fonts-firacode fonts-hack-ttf fonts-source-code-pro ttf-mscorefonts-installer; do
+    if dpkg -l "$fpkg" 2>/dev/null | grep -q '^ii'; then
       log "  $fpkg: installed"
     else
       log "  $fpkg: not installed"
@@ -408,7 +447,7 @@ while [ $# -gt 0 ]; do
     --list-groups) LIST=1; shift ;;
     --all)         ALL=1; shift ;;
     --group)       [ -n "${2:-}" ] && GRPS+=("$2"); shift 2 ;;
-    -h|--help)     echo "Usage: $0 [--list-groups|--all|--group NAME ...]. No args: checklist (Space=toggle, Enter=run). For Manjaro/Arch (pacman)."; exit 0 ;;
+    -h|--help)     echo "Usage: $0 [--list-groups|--all|--group NAME ...]. No args: checklist (Space=toggle, Enter=run). For MX Linux (apt)."; exit 0 ;;
     *) shift ;;
   esac
 done

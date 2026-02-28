@@ -8,11 +8,15 @@ You are an AI coding assistant. Recreate a small Git repo that contains:
 
 ### Script layout (multiple entrypoints)
 
-- **`restore-environment.sh`** — Ubuntu 24.04 LTS + Cinnamon (apt/dpkg). Full restore including ML group.
-- **`restore-environment-endeavour.sh`** — Endeavour Linux (Arch, pacman + AUR). No GNOME, no keyring, no setxkbmap, no AppArmor. No ML group (use separate ML script).
+- **`restore-environment.sh`** — Ubuntu 24.04 LTS + Cinnamon (apt/dpkg). Full restore; no shell, ml, or pytorch groups (use separate scripts).
+- **`restore-environment-mxlinux.sh`** — MX Linux (apt/dpkg). Same as Ubuntu; no cinnamon-core.
+- **`restore-environment-endeavour.sh`** — Endeavour Linux (Arch, pacman + AUR). No GNOME, no keyring, no setxkbmap, no AppArmor.
 - **`restore-environment-cachyos.sh`** — CachyOS (Arch, pacman + AUR). Same as Endeavour.
-- **`restore-environment-endeavour-ml.sh`** — Endeavour: NVIDIA driver + nouveau blacklist + Graphcore detection only.
-- **`restore-environment-cachyos-ml.sh`** — CachyOS: same GPU/ML logic as endeavour-ml.
+- **`restore-environment-manjaro.sh`** — Manjaro (Arch, pacman + AUR). Same as Endeavour.
+- **`restore-environment-ubuntu-ml.sh`** — Ubuntu: NVIDIA driver + nouveau blacklist + Graphcore detection + PyTorch.
+- **`restore-environment-mxlinux-ml.sh`** — MX Linux: same as ubuntu-ml.
+- **`restore-environment-endeavour-ml.sh`** — Endeavour: NVIDIA driver + nouveau blacklist + Graphcore detection + PyTorch.
+- **`restore-environment-cachyos-ml.sh`** — CachyOS: same as endeavour-ml.
 
 All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` for AUR (Cursor, Chrome, ttf-ms-fonts). Set `RESTORE_NO_AUR=1` to skip AUR.
 
@@ -32,11 +36,11 @@ All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` fo
        - e.g. `results/restore-YYYYMMDD-HHMMSS.log`
        - Uses `exec > >(tee -a "$LOG_FILE") 2>&1` so output is visible and logged.
    - Provides a **group-based restore UI**:
-     - Internal groups: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `vscode_install`, `cursor_install`, `chrome_install`, `jetbrains_toolbox`, `editors`, `shell`, `fonts`, `flatpak`, `ml`, `pytorch`, `claude_code`.
-     - Dev menu groups (high-level; used in interactive menu and with `--group`): `general`, `dev`, `java`, `cpp`, `rust`, `js`, `python`, `kubernetes`, `ml`, `fonts`, `jetbrains`, `cursor`.
+     - Internal groups: `prerequisites`, `python`, `java`, `rust`, `node`, `containers`, `vscode_install`, `cursor_install`, `chrome_install`, `jetbrains_toolbox`, `editors`, `config`, `fonts`, `flatpak`, `claude_code`.
+     - Dev menu groups (high-level; used in interactive menu and with `--group`): `general`, `dev`, `java`, `cpp`, `rust`, `js`, `python`, `kubernetes`, `fonts`, `jetbrains`, `cursor`.
      - CLI:
        - No args: interactive **numeric dev menu**:
-         - Renders a numbered list of dev groups (general, dev, java, cpp, rust, js, python, kubernetes, ml, fonts, jetbrains, cursor).
+         - Renders a numbered list of dev groups (general, dev, java, cpp, rust, js, python, kubernetes, fonts, jetbrains, cursor).
          - User types space-separated numbers (e.g. `1 2 5`), or `0` or `all` to select everything, then **Enter** to run.
          - **q** exits without running.
        - `--group NAME` (repeatable): accepts **dev group names** (e.g. jetbrains, cursor, general) or **internal group names** (e.g. jetbrains_toolbox, cursor_install, prerequisites). If NAME is a dev group, runs the corresponding dev group; otherwise runs the internal group.
@@ -49,7 +53,6 @@ All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` fo
      - If `apt-get` unavailable: skip.
      - Installs, when missing:
        - `unzip`, `curl`, `ca-certificates`.
-       - `qemu-guest-agent` (and `systemctl enable --now qemu-guest-agent` when available).
        - `build-essential`, `git`, `cinnamon-core` (hard-coded minimal dev/desktop stack; no apt config files).
    - `python`:
      - Installs **uv** from `https://astral.sh/uv/install.sh` if not already on PATH.
@@ -83,11 +86,9 @@ All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` fo
      - For VSCode: Installs extensions listed in `vscode_extensions` from `installed-tools.json` if not already present. Does **not** copy settings/keybindings/profiles — those must be imported manually inside the IDE.
      - For Cursor: Same pattern (extensions only). No profile copy.
      - On Ubuntu only: runs an AppArmor helper that disables VSCode/Cursor profiles if present (so they are not confined by AppArmor).
-   - `shell`:
-     - **Backs up existing `~/.bashrc`** once to `~/.bashrc.restore-default` (if not already backed up).
-     - Copies shell dotfiles from `config/shell/` (`.bashrc`, `.profile`, `.bash_logout`, `.inputrc`, `fish/`).
-     - Appends the last N lines from `config/shell/bash_history` into `~/.bash_history` **only once**, tracking with a marker file.
+   - `config`:
      - Restores Git config, SSH config, `mimeapps.list`, `autostart/`, and MCP config.
+     - Does **not** restore shell dotfiles (use `restore-shell-config.sh` separately).
    - `fonts`:
      - Installs common dev fonts via apt, when missing:
        - `fonts-firacode` (Fira Code)
@@ -97,14 +98,6 @@ All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` fo
    - `flatpak`:
      - Installs `flatpak` via apt if missing.
      - Adds the **Flathub** remote when absent.
-   - `pytorch`:
-     - If `torch` is already installed (via `uv pip show` or `python3 -c "import torch"`), skips.
-     - Otherwise uses `uv pip install --system` to install `torch`, `torchvision`, `torchaudio` from the CUDA index URL (default `cu124`, fallback `cu118`).
-   - `ml`:
-     - Focused on ML hardware setup (NVIDIA + Graphcore):
-       - Blacklists `nouveau` via `/etc/modprobe.d/blacklist-nouveau.conf` and `update-initramfs -u` (requires reboot to fully apply).
-       - Installs `nvidia-driver-470-server` (server driver appropriate for Tesla K80) via apt when missing.
-       - Detects Graphcore Colossus hardware via `lspci` and logs instructions to install the GC-02-C2 Colossus drivers and SDK manually from the official Graphcore downloads portal (`https://downloads.graphcore.ai`), since no apt repo is available.
    - `claude_code`:
      - Installs the Claude Code CLI via `curl -fsSL https://claude.ai/install.sh | bash` if `claude` is not already on PATH.
 
@@ -116,23 +109,22 @@ All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` fo
      - Editors: code, cursor, google-chrome; JetBrains Toolbox (installed under ~/dev/tools/jetbrains-toolbox)
      - Fonts: `fonts-firacode`, `fonts-hack-ttf`, `fonts-source-code-pro`, `ttf-mscorefonts-installer` (installed or not)
      - flatpak (+ whether `flathub` is configured)
-     - pytorch (installed or not)
      - claude
-     - qemu-guest-agent (installed or not)
      - `nvidia-smi` (NVIDIA driver), and whether Graphcore hardware was detected
 
 4. **Config layout**:
    - `config/profiles/vscode/` and `config/profiles/cursor/` (optional):
      - Used for **manual** export/import of settings, keybindings, and profiles inside each IDE. Scripts do not copy these; they only install extensions.
 
-5. **Shell backup behavior**:
-   - On first run of `shell` group, if `~/.bashrc` exists and `~/.bashrc.restore-default` does not, copy the existing file to that backup path and log it.
-   - Future runs don’t re-backup; they simply restore the tracked config from `config/shell/`.
+5. **Universal shell scripts** (OS-independent; no apt/pacman):
+   - `collect-shell-config.sh`: Copies .bashrc, .profile, .bash_logout, .inputrc, .bash_history, and fish/ from $HOME to config/shell (or DEST argument). Run to capture current shell config before restore.
+   - `restore-shell-config.sh`: Restores from config/shell (or SOURCE argument) to $HOME. Backs up existing ~/.bashrc to ~/.bashrc.restore-default once before overwriting. Appends bash_history only once (tracks with .restore_bash_history_done).
 
 6. **Wrapper scripts (optional, Ubuntu only)**:
    - A `groups/` directory at repo root with helper scripts that call `restore-environment.sh` (Ubuntu):
      - `groups/general.sh`, `groups/dev.sh`, `groups/java.sh`, `groups/cpp.sh`, `groups/rust.sh`, `groups/js.sh`, `groups/python.sh`, `groups/kubernetes.sh`, `groups/ml.sh`
-   - Each wrapper uses `ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"` and delegates to `"$ROOT/restore-environment.sh"` with appropriate `--group` flags. These wrappers work with Ubuntu only; for Endeavour/CachyOS, run the main scripts directly.
+   - `groups/ml.sh` calls `restore-environment-ubuntu-ml.sh` (Ubuntu); for Arch, run `restore-environment-endeavour-ml.sh` or `restore-environment-cachyos-ml.sh` directly.
+   - Each wrapper uses `ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"` and delegates to `"$ROOT/restore-environment.sh"` with appropriate `--group` flags. These wrappers work with Ubuntu only; for Endeavour/CachyOS/Manjaro, run the main scripts directly.
 
 7. **Idempotency & safety**:
    - Every installer checks for an existing install first (via `command -v`, `dpkg -l`, `pacman -Qq`, or equivalent) and logs `Skip: ...` instead of re-installing.
@@ -145,7 +137,7 @@ All scripts share the same `config/` layout. Arch scripts use `yay` or `paru` fo
    - Cursor: AUR only (`cursor-bin`); no .deb fallback.
    - Chrome: AUR `google-chrome` preferred; fallback to `chromium` via pacman.
    - Fonts: `nerd-fonts` group, `ttf-jetbrains-mono`, optional `ttf-ms-fonts` (AUR).
-   - ML: Separate `*-ml.sh` scripts handle nouveau blacklist, nvidia (or nvidia-470xx-dkms from AUR), Graphcore detection. Main restore scripts do not include ML group.
+   - ML: Separate `*-ml.sh` scripts (ubuntu-ml, mxlinux-ml, endeavour-ml, cachyos-ml) handle nouveau blacklist, nvidia (or nvidia-470xx-dkms from AUR for Arch), Graphcore detection, and PyTorch. Main restore scripts do not include shell, ml, or pytorch groups.
 
 Recreate this project with clean, readable bash (no external dependencies beyond standard system packages and the network installers above), matching this behavior as closely as possible.
 
